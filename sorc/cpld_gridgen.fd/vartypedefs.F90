@@ -2,8 +2,7 @@
 !! @brief Define the variables for output
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module defines the attributes for variables
-!! written to the tripole, cice and scrip grid files
+!> This module defines the attributes for variables written to the tripole, cice and scrip grid files
 !! @author Denise.Worthen@noaa.gov
 
 module vartypedefs
@@ -12,7 +11,7 @@ module vartypedefs
 
   implicit none
 
-  integer, parameter :: maxvars = 20
+  integer, parameter :: maxvars = 20    !< the maximum number of variables written to a file
 
   type :: vardefs
     character(len=CM)   ::  var_name

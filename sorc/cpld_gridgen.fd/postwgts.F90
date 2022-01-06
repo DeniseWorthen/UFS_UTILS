@@ -2,8 +2,7 @@
 !! @brief Create the ESMF weights for post
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module creates the ESMF weights used to remap from
-!! the tripole grid to a rectilinear grid
+!> This module creates the ESMF weights used to remap from the tripole grid to a rectilinear grid
 !! @author Denise.Worthen@noaa.gov
 module postwgts
 
@@ -21,10 +20,8 @@ module postwgts
        __FILE__
 
   contains
-!> Create the ESMF weights files to remap velocity
-!! points from their native stagger location to the tracer
-!! (Ct) location. Create the ESMF weights file to remap
-!! from the Ct location to a rectilinear grid
+!> Create the ESMF weights files to remap velocity points from their native stagger location to the tracer
+!! (Ct) location. Create the ESMF weights file to remap from the Ct location to a rectilinear grid
 !!
 !! @author Denise.Worthen@noaa.gov
   

@@ -3,8 +3,7 @@
 !! corner points
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module finds the rotation angle for at both center
-!! and corner points
+!> This module finds the rotation angle for at both center and corner points
 !! It utilizes the MOM6 function modulo_around_point
 !! @author Denise.Worthen@noaa.gov
 
@@ -20,8 +19,7 @@ module angles
   implicit none
 
   contains
-!> Find the rotation angle on corner grid (Bu) points using
-!! the full MOM6 supergrid
+!> Find the rotation angle on corner grid (Bu) points using the full MOM6 supergrid
 !!
 !! @author Denise.Worthen@noaa.gov
   
@@ -188,6 +186,11 @@ end module angles
 ! -----------------------------------------------------------------------------
 !> Return the modulo value of x in an interval [xc-(Lx/2) xc+(Lx/2)]
 !! If Lx<=0, then it returns x without applying modulo arithmetic.
+!!
+!! From src/initialization/MOM_shared_initialization.F90:
+!! @param[in] x Value to which to apply modulo arithmetic
+!! @param[in] xc Center of modulo range
+!! @return x_mod x shifted by an integer multiple of Lx to be close to xc
 function modulo_around_point(x, xc, Lx) result(x_mod)
   use gengrid_kinds, only : dbl_kind
 

@@ -2,8 +2,8 @@
 !! @brief Add required topo-edits to adjust the run-time MOM6 land mask
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module adds the required topo edits to a file for use by
-!! MOM6 at run time
+!> This module adds the required topo edits to a file for use by MOM6 at run time
+!!
 !! @author Denise.Worthen@noaa.gov
 
 module topoedits
@@ -20,7 +20,14 @@ module topoedits
   public add_topoedits
 
   contains
-
+!> Read the existing topoedits file, append required topoedits and write a new topoedits file. Use the new topoedits
+!! to adjust the land mask used in subsequent steps to match the land mask which will be created at run time
+!!
+!! @param[in]  fsrc the existing topoedits file name
+!! @param[out] fdst the modified topoedits file name
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine add_topoedits(fsrc,fdst)
 
    character(len=*), intent(in) :: fsrc, fdst

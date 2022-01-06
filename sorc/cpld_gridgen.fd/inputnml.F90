@@ -17,6 +17,8 @@ module inputnml
 
 !>  Read input namelist file
 !!
+!! @param[in]  fname  the file name to read
+!!
 !! @author Denise.Worthen@noaa.gov
 
  subroutine read_inputnml(fname)

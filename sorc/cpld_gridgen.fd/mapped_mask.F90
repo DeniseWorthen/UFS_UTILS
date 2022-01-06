@@ -16,9 +16,10 @@ module mapped_mask
 
   contains
 
-!> Use ESMF weights to map the ocean land mask to
-!! the FV3 tiles and write the mapped mask to 6
-!! tile files
+!> Use ESMF weights to map the ocean land mask to the FV3 tiles and write the mapped mask to 6 tile files
+!!
+!! @param[in]  a SCRIP file containing the land mask for the ocean domain
+!! @param[in]  a file containing the ESMF weights to regrid from the ocean domain to the FV3 tile domain
 !!
 !! @author Denise.Worthen@noaa.gov
 

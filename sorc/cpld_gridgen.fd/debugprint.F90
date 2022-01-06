@@ -1,3 +1,10 @@
+!> @file
+!! @brief Print debugging information
+!! @author Denise.Worthen@noaa.gov
+!!
+!> Print values for debugging
+!! @author Denise.Worthen@noaa.gov
+
 module debugprint
 
   use esmf,    only : ESMF_LogFoundError, ESMF_LOGERR_PASSTHRU
@@ -14,10 +21,13 @@ module debugprint
 
   public :: checkseam, checkxlatlon, checkpoint
  
-  character(len=*),parameter :: u_FILE_u =  __FILE__
+  character(len=*),parameter :: u_FILE_u =  __FILE__    !< a file
 
   contains
-
+!> Print values across the tripole seam
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine checkseam
 
   integer :: j,i1,i2
@@ -93,7 +103,10 @@ module debugprint
     print *,lonCt(i1+3,j),lonCt(i2-3,j)
     print *
   end subroutine checkseam
-
+  
+  !> Print values near the poles and along the domain edges
+  !!
+  !! @author Denise.Worthen@noaa.gov
   subroutine checkxlatlon
  
   integer :: i
@@ -150,7 +163,10 @@ module debugprint
     print *
 
   end subroutine checkxlatlon
-
+  
+!> Print values at specified point
+!!
+!! @author Denise.Worthen@noaa.gov
   subroutine checkpoint
 
    integer :: i,j
@@ -229,6 +245,12 @@ module debugprint
   end subroutine checkpoint
 
   !> Returns true if ESMF_LogFoundError() determines that rc is an error code. Otherwise false.
+  !!
+  !! @param[in]      rc     return code to check
+  !! @param[in]      line   source code line number
+  !! @param[in]      file   name 
+  !! @return ChkErr  logical
+  
   logical function ChkErr(rc, line, file)
     integer, intent(in) :: rc            !< return code to check
     integer, intent(in) :: line          !< Integer source line number

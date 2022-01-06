@@ -26,6 +26,8 @@ module tripolegrid
   contains
 !> Write the tripole grid file
 !!
+!! @param[in]  fname  the name of the tripole grid file to write
+!!
 !! @author Denise.Worthen@noaa.gov
   
   subroutine write_tripolegrid(fname)

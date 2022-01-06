@@ -13,8 +13,7 @@ module vertices
   implicit none
 
   contains
-!> Fill the vertices for any stagger location between bounding
-!! j-rows
+!> Fill the vertices for any stagger location between bounding j-rows
 !!
 !! @author Denise.Worthen@noaa.gov
   
@@ -41,9 +40,8 @@ module vertices
   enddo
   end subroutine fill_vertices
 !> Fill the vertices for any stagger location along the bottom j-row
-!! j-rows
 !!
-!! @author Denise.Worthen@noaa.gov 
+!! @author Denise.Worthen@noaa.gov
   subroutine fill_bottom(iVert,jVert,lat,lon,latvert,lonvert,dlat)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)
@@ -77,9 +75,8 @@ module vertices
    enddo
    end subroutine fill_bottom
 !> Fill the vertices for any stagger location along the top j-row
-!! j-rows
 !!
-!! @author Denise.Worthen@noaa.gov 
+!! @author Denise.Worthen@noaa.gov
    subroutine fill_top(iVert,jVert,lat,lon,latvert,lonvert,xlat,xlon)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)

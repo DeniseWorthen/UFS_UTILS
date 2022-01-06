@@ -1,8 +1,8 @@
 !> @file
-!! @brief Define type-kind variables 
+!! @brief Define type-kind variables
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module defines the type-kind variables 
+!> This module defines the type-kind variables
 !! @author Denise.Worthen@noaa.gov
 
 module gengrid_kinds

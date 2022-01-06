@@ -3,15 +3,13 @@
 !!
 !! @author Denise.Worthen@noaa.gov
 
-!> Generate fixed grid files required for coupled model using the MOM6 super
-!! grid file and ocean mask file. It creates a master grid file which is then
-!! used to create subsequent files which are required to create the fix and IC
-!! files required for the S2S or S2SW application
+!> Generate fixed grid files required for coupled model using the MOM6 super grid file and ocean mask file. It creates
+!! a master grid file which is then used to create subsequent files which are required to create the fix and IC
+!! files required for the S2S or S2SW application.
 !!
-!! This executable created with this source code runs within the shell scrip
-!! "cpld_gridgen.sh" in ../../ush, which utilizes both NCO (netCDF Operators) and
-!! ESMF command line functions. The shell script creates a run-time grid.nml using
-!! a grid.nml.IN
+!! This executable created with this source code runs within the shell scrip cpld_gridgen.sh in ../../ush, which
+!! utilizes both NCO (netCDF Operators) and ESMF command line functions. The shell script creates a run-time grid.nml
+!! from grid.nml.IN
 !!
 !! @author Denise.Worthen@noaa.gov
 program gen_fixgrid
