@@ -1,3 +1,11 @@
+!> @file
+!! @brief Define the variables for output
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module defines the attributes for variables
+!! written to the tripole, cice and scrip grid files
+!! @author Denise.Worthen@noaa.gov
+
 module vartypedefs
 
   use charstrings, only : CL, CM, CS
@@ -20,6 +28,9 @@ module vartypedefs
 
   contains
 
+!> Define the variables written to the tripole grid file
+!!
+!! @author Denise.Worthen@noaa.gov
   subroutine fixvars_typedefine
 
   integer :: ii = 0
@@ -117,7 +128,9 @@ module vartypedefs
    fixvars(ii)%unit_name = 'degrees_north'
 
  end subroutine fixvars_typedefine
-
+!> Define the variables written to the CICE grid file
+!!
+!! @author Denise.Worthen@noaa.gov
  subroutine cicevars_typedefine
 
   integer :: ii = 0
@@ -158,7 +171,9 @@ module vartypedefs
    cicevars(ii)%var_type  = 'i4'
 
  end subroutine cicevars_typedefine
-
+!> Define the variables written to any SCRIP grid file
+!!
+!! @author Denise.Worthen@noaa.gov
  subroutine scripvars_typedefine
 
   integer :: ii = 0

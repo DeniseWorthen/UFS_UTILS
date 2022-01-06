@@ -1,3 +1,10 @@
+!> @file
+!! @brief Fill the vertices for any stagger location
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module fills the vertices for any stagger location
+!! @author Denise.Worthen@noaa.gov
+
 module vertices
 
   use gengrid_kinds, only : dbl_kind
@@ -6,7 +13,11 @@ module vertices
   implicit none
 
   contains
-
+!> Fill the vertices for any stagger location between bounding
+!! j-rows
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine fill_vertices(jbeg,jend,iVert,jVert,lat,lon,latvert,lonvert)
 
                               integer, intent( in) :: jbeg,jend
@@ -29,7 +40,10 @@ module vertices
    enddo
   enddo
   end subroutine fill_vertices
- 
+!> Fill the vertices for any stagger location along the bottom j-row
+!! j-rows
+!!
+!! @author Denise.Worthen@noaa.gov 
   subroutine fill_bottom(iVert,jVert,lat,lon,latvert,lonvert,dlat)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)
@@ -62,7 +76,10 @@ module vertices
       lonvert(i,j, 4) = lonvert(i,j,1)
    enddo
    end subroutine fill_bottom
-
+!> Fill the vertices for any stagger location along the top j-row
+!! j-rows
+!!
+!! @author Denise.Worthen@noaa.gov 
    subroutine fill_top(iVert,jVert,lat,lon,latvert,lonvert,xlat,xlon)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)

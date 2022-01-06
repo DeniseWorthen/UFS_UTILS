@@ -1,3 +1,10 @@
+!> @file
+!! @brief Write the tripole grid file
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module writes the master tripole grid file
+!! @author Denise.Worthen@noaa.gov
+
 module tripolegrid
 
   use gengrid_kinds, only: dbl_kind,int_kind,CM
@@ -17,7 +24,10 @@ module tripolegrid
   public write_tripolegrid
 
   contains
-
+!> Write the tripole grid file
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine write_tripolegrid(fname)
 
   character(len=*), intent(in) :: fname

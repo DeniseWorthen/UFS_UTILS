@@ -1,3 +1,10 @@
+!> @file
+!! @brief Create the mapped ocean mask files
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This writes the mapped ocean mask on the FV3 tiles
+!! @author Denise.Worthen@noaa.gov
+
 module mapped_mask
 
   use gengrid_kinds, only : dbl_kind,int_kind,CL,CM,CS
@@ -8,6 +15,12 @@ module mapped_mask
   implicit none
 
   contains
+
+!> Use ESMF weights to map the ocean land mask to
+!! the FV3 tiles and write the mapped mask to 6
+!! tile files
+!!
+!! @author Denise.Worthen@noaa.gov
 
   subroutine make_frac_land(src, wgt)
 

@@ -1,3 +1,13 @@
+!> @file
+!! @brief Determine the rotation angle on center and
+!! corner points
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module finds the rotation angle for at both center
+!! and corner points
+!! It utilizes the MOM6 function modulo_around_point
+!! @author Denise.Worthen@noaa.gov
+
 module angles
 
   use gengrid_kinds, only : dbl_kind, int_kind
@@ -10,7 +20,11 @@ module angles
   implicit none
 
   contains
-
+!> Find the rotation angle on corner grid (Bu) points using
+!! the full MOM6 supergrid
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine find_angq
 
     ! local variables
@@ -117,6 +131,9 @@ module angles
 
   end subroutine find_angq
 
+!> Find the rotation angle on center (Ct) grid points
+!!
+!! @author Denise.Worthen@noaa.gov
   subroutine find_ang
 
     ! local variables

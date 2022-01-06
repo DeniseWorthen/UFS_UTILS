@@ -1,3 +1,10 @@
+!> @file
+!! @brief Define required character string variables
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module contains the character string variables
+!! @author Denise.Worthen@noaa.gov
+
 module charstrings
 
   use gengrid_kinds, only : CL,CM,CS

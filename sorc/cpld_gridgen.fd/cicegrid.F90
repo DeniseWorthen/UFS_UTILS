@@ -1,3 +1,10 @@
+!> @file
+!! @brief Write the CICE6 grid file
+!! @author Denise.Worthen@noaa.gov
+!!
+!> Write the CICE6 grid file
+!! @author Denise.Worthen@noaa.gov
+
 module cicegrid
 
   use grdvars,       only: ni,nj,ulat,ulon,htn,hte,angle,wet4,mastertask
@@ -12,7 +19,10 @@ module cicegrid
   public write_cicegrid
 
   contains
-
+!> Write the CICE6 grid file
+!!
+!! @author Denise.Worthen@noaa.gov
+  
   subroutine write_cicegrid(fname)
 
   character(len=*), intent(in) :: fname

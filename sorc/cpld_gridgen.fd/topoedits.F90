@@ -1,3 +1,11 @@
+!> @file
+!! @brief Add required topo-edits to adjust the run-time MOM6 land mask
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module adds the required topo edits to a file for use by
+!! MOM6 at run time
+!! @author Denise.Worthen@noaa.gov
+
 module topoedits
 
   use gengrid_kinds, only: real_kind,int_kind

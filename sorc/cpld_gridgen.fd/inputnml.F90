@@ -1,3 +1,10 @@
+!> @file
+!! @brief Define the input namelist variables
+!! @author Denise.Worthen@noaa.gov
+!!
+!> This module contains the namelist variables
+!! @author Denise.Worthen@noaa.gov
+
 module inputnml
 
  use grdvars,     only : nx,ny,ni,nj,npx
@@ -7,6 +14,10 @@ module inputnml
  implicit none
 
  contains
+
+!>  Read input namelist file
+!!
+!! @author Denise.Worthen@noaa.gov
 
  subroutine read_inputnml(fname)
 
