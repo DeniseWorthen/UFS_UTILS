@@ -107,7 +107,7 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
 
 
 <table>
-<caption id="multi_row">Output files for 1/4 deg</caption>
+<caption id="foutmx025">Output files for 1/4 deg</caption>
 <tr><th>File name                      <th>Description                              <th>Function
 <tr><td row=1>tripole.mx025.nc         <td>master grid file                         <td>Creating all subsequent grid or mapping files
 <tr><td row=2>grid_cice_NEMS_mx025.nc  <td>the CICE grid file                       <td>used at runtime by CICE6
@@ -122,7 +122,7 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
     
 
 <table>
-<caption id="multi_row">Optional post-weights files for 1/4deg</caption>
+<caption id="foutpost">Optional post-weights files for 1/4deg</caption>
 <tr><th>File name                                                                       <th>Function
 <tr><td row=1>tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc                              <td>the ESMF weights for mapping OCN or ICE <br>                                                                                              output fields from the various stagger <br>                                                                                               locations on the tripole grid to the <br>                                                                                                 center (Ct) stagger location on the <br>
                                                                                             tripole grid using bilinear mapping
@@ -135,7 +135,7 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
     
     
 <table>
-<caption id="multi_row">Output files for CICE6 IC creation at tripole destination resolution</caption>
+<caption id="foutcice6">Output files for CICE6 IC creation at tripole destination resolution</caption>
 <tr><th>File name                                                               <th>Function
 <tr><td row=1>tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  <td>the ESMF weights for mapping the 1/4 CICE ICs to <br>
                                                                                     a tripole *destination resolution* using nearest <br>                                                                                     source-to-destination mapping
@@ -147,7 +147,7 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
     
     
 <table>
-<caption id="multi_row">Output files for run-time modification of MOM6 land mask</caption>
+<caption id="fouttopo">Output files for run-time modification of MOM6 land mask</caption>
 <tr><th>File name                       <th>Function
 <tr><td row=1>ufs.[Default filename].nc <td>Topo-edits required for UFS application. These are appended to the existing default topo <br>                                             edits file and implemented at run time with the parameter flag <br>                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *run_gridgen.sh* will be <br>                                                  consistent with this run-time land mask.
 </table>
