@@ -191,7 +191,7 @@ end module angles
 !! @param[in] x Value to which to apply modulo arithmetic
 !! @param[in] xc Center of modulo range
 !! @param[in] Lx Modulo range width
-!! @return x_mod x shifted by an integer multiple of Lx to be close to xc
+!! @return x_mod Value x shifted by an integer multiple of Lx to be close to xc
 function modulo_around_point(x, xc, Lx) result(x_mod)
   use gengrid_kinds, only : dbl_kind
 
