@@ -7,6 +7,8 @@
 module postwgts
 
   use ESMF
+  ! ?workflows keep failing because of esmf version
+  use ESMF_RegridWeightGenMod
 
   use gengrid_kinds, only : CL,CM,CS
   use grdvars,       only : nv, mastertask
