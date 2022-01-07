@@ -26,7 +26,9 @@ For the UFS coupled model application S2S or S2SW, the following fix files are r
 
 Since MOM6 creates the model grid at runtime (including adjusting the land mask, if required), the required files for CICE and UFSAtm must be created in a pre-processing step using only the MOM6 supergrid, topography and land mask files as input. This allows the mapped ocean mask (used for creating of the ATM ICs) and the CICE6 grid and mask files to be consistent with the run-time configuration of MOM6.
 
-## Terminology
+## Background:
+
+### Terminology
 
 MOM6 uses an Arakawa C grid staggering. Within cpld_gridgen, these are referred to as "stagger" locations, and named as follows:
 
@@ -39,20 +41,62 @@ MOM6 uses an Arakawa C grid staggering. Within cpld_gridgen, these are referred 
                  Bu────Cv─────Bu
 
 
+### Rotation angles
+
+For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (Bu) grid points, which for points along the tripole seam requires values on the other side of the tripole fold. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:
+
+
+                ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1
+                   x-------x-------x     |||        x-------x-------x
+
+then after folding along the tripole seam, ``ipL`` and ``ipR`` must align:
+
+
+                               ipR+1     ipR    ipR-1
+                                  x-------x-------x
+                               ipL-1     ipL    ipL+1
+                                  x-------x-------x
+
+
+Using the folded seam, the values required for calculating the rotation angle on the Bu grid points are available and can be calculated in the same way as MOM6 calculates rotation angles for the Ct grid points. 
+
+### SCRIP format files
+
+For calculating interplation weights using ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. Ct) and the associated grid vertices for that point. As seen from the above diagram, for the Ct points, those grid vertices are given by the Bu grid locations. 
+
+SCRIP requires that the vertices be ordered counter-clockwise so that the center grid point is always to the left of the vertex. In cpld_gridgen, vertices are defined counter-clockwise from upper right. Ct-grid vertices are located on the Bu grid (as shown above), Cu vertices on the Cv grid, Cv vertices on the Cu grid and Bu vertices on the Ct grid. For example, for the Ct-grid, the vertices
+are:
+ 
+             Vertex #2             Vertex #1
+             Bu(i-1,j)             Bu(i,j)
+                         Ct(i,j)
+           Bu(i-1,j-1)             Bu(i,j-1)
+             Vertex #3             Vertex #4
+
+
+so that the vertices of any Ct(i,j) are found as off-sets of the i,j index on the Bu grid
+
+     iVertCt(4) = (/0, -1, -1,  0/)
+     jVertCt(4) = (/0,  0, -1, -1/)
+     
+Careful examination of the Cu,Cv and Bu grids lead to similar definitions for the i,j offsets required to extract the vertices of the other grid stagger locations, all of which can be defined in terms of the iVertCt and jVertCt values
+
+Special treatment is require at the bottom of the grid, where the verticies of the Ct and Cu grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required verticies are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the Ct and Cu grid point locations across the matched seam.
+
 
 ## Generating the grid files
 
 The cpld_gridgen program and associated script related functions perform the following tasks:
 
-1. reads the MOM6 supergrid and ocean mask file and optionally creates the required *topo_edits* file if the land mask for MOM6 is to be changed at runtime.
-2. creates a master grid file containing all stagger locations of the grid fully defined
-3. creates the CICE6 grid variables and writes the required CICE6 grid file
-4. creates a SCRIP file for the center stagger (tracer) grid points and a second SCRIP file also containing the land mask
-5. creates the ESMF conservative regridding weights to map the ocean mask to the FV3 tiles and write the mapped mask to 6 tile files
-6. creates the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid 
-7. optionally calls a routine to generate ESMF regridding weights to map the tripole grid to a set of rectilinear grids
-8. uses the command line tool *ESMF_Scrip2Unstruct* to generate the ocean mesh from the SCRIP file containing the land mask (item 4)
-9. uses the NCO command line tool to generate the CICE6 land mask file from the CICE6 grid file
+1. read the MOM6 supergrid and ocean mask file and optionally creates the required *topo_edits* file if the land mask for MOM6 is to be changed at runtime.
+2. create a master grid file containing all stagger locations of the grid fully defined
+3. create the CICE6 grid variables and writes the required CICE6 grid file
+4. create a SCRIP file for the center stagger (tracer) grid points and a second SCRIP file also containing the land mask
+5. create the ESMF conservative regridding weights to map the ocean mask to the FV3 tiles and write the mapped mask to 6 tile files
+6. create the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid 
+7. optionally call a routine to generate ESMF regridding weights to map the tripole grid to a set of rectilinear grids
+8. use the command line command *ESMF_Scrip2Unstruct* to generate the ocean mesh from the SCRIP file containing the land mask (item 4)
+9. use an NCO command line command to generate the CICE6 land mask file from the CICE6 grid file
 
 ## The generated files
 
