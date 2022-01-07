@@ -35,8 +35,7 @@ The cpld_gengrid program is part of the
 
 | Filename                                                                  | Function     |
 | :------------------------------------------------------------------------ | :----------- |
-| ufs.[Default filename].nc                                                 | Topo-edits required for UFS application. These are appended
-                                                                              to the existing default topo edits file and implemented at run time with the parameter flag ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *run_gridgen.sh* will be consistent  with this run-time land mask |
+| ufs.[Default filename].nc                                                 | Topo-edits required for UFS application. These are appended to the existing default topo edits file and implemented at run time with the parameter flag ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *run_gridgen.sh* will be consistent  with this run-time land mask |
 
 
 <table>
@@ -47,4 +46,23 @@ The cpld_gengrid program is part of the
 <tr><td row=3>kmtu_cice_NEMS_mx025.nc  <td>the CICE mask file                       <td>used at runtime by CICE6
 <tr><td row=4>mesh.mx025.nc            <td>the ocean and ice mesh file              <td>used at runtime by CICE6, MOM6, and CMEPS
 <tr><td row=5>C384.mx025.tile[1-6].nc  <td>the mapped ocean mask on the ATM tiles   <td>used to create ATM ICs consistent with the fractional grid
+<table>
+    
+<table>
+<caption id="multi_row">Optional post-weights files for 1/4deg</caption>
+<tr><th>File name                                                                       <th>Function
+<tr><td row=1>tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc                              <td>the ESMF weights for mapping OCN or ICE output fields from the various stagger locations on the tripole grid to the center (Ct) stagger location on the tripole grid using bilinear mapping
+<tr><td row=2>tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc <td>the ESMF weights for mapping variables on the center (Ct) stagger location on the tripole grid to a rectilinear grid with *destination resolution* using either bilinear or conservative mapping
+<table>
+    
+<table>
+<caption id="multi_row">Output files for CICE6 IC creation at tripole destination resolution</caption>
+<tr><th>File name                                                               <th>Function
+<tr><td row=1>tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  <td>the ESMF weights for mapping the 1/4 CICE ICs to a tripole *destination resolution* using nearest source-to-destination mapping
+<table>
+    
+<table>
+<caption id="multi_row">Output files for run-time modification of MOM6 land mask</caption>
+<tr><th>File name                       <th>Function
+<tr><td row=1>ufs.[Default filename].nc <td>Topo-edits required for UFS application. These are appended to the existing default topo edits file and implemented at run time with the parameter flag ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *run_gridgen.sh* will be consistent  with this run-time land mask.
 <table>
