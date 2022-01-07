@@ -30,7 +30,7 @@ Since MOM6 creates the model grid at runtime (including adjusting the land mask,
 
 ### Terminology
 
-MOM6 uses an Arakawa C grid staggering. Within cpld_gridgen, these are referred to as "stagger" locations, and named as follows:
+MOM6 uses an Arakawa C grid. Within cpld_gridgen, these are referred to as "stagger" locations, and named as follows:
 
                  Bu────Cv─────Bu
                  │            │
@@ -43,7 +43,7 @@ MOM6 uses an Arakawa C grid staggering. Within cpld_gridgen, these are referred 
 
 ### Rotation angles
 
-For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (Bu) grid points, which for points along the tripole seam requires values on the other side of the tripole fold. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:
+For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (``Bu``) grid points, which for points along the tripole seam requires values on the other side of the tripole fold. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:
 
 
                 ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1
@@ -58,14 +58,13 @@ then after folding along the tripole seam, ``ipL`` and ``ipR`` must align:
                                   x-------x-------x
 
 
-Using the folded seam, the values required for calculating the rotation angle on the Bu grid points are available and can be calculated in the same way as MOM6 calculates rotation angles for the Ct grid points. 
+Using the folded seam, the values required for calculating the rotation angle on the ``Bu`` grid points are available and can be calculated in the same way as MOM6 calculates rotation angles for the ``Ct`` grid points. 
 
 ### SCRIP format files
 
-For calculating interplation weights using ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. Ct) and the associated grid vertices for that point. As seen from the above diagram, for the Ct points, those grid vertices are given by the Bu grid locations. 
+For calculating interpolation weights using ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. ``Ct``) and the associated grid vertices for that point. As seen from the above diagram, for the ``Ct`` points, those grid vertices are given by the ``Bu`` grid locations. 
 
-SCRIP requires that the vertices be ordered counter-clockwise so that the center grid point is always to the left of the vertex. In cpld_gridgen, vertices are defined counter-clockwise from upper right. Ct-grid vertices are located on the Bu grid (as shown above), Cu vertices on the Cv grid, Cv vertices on the Cu grid and Bu vertices on the Ct grid. For example, for the Ct-grid, the vertices
-are:
+SCRIP requires that the vertices be ordered counter-clockwise so that the center grid point is always to the left of the vertex. In cpld_gridgen, vertices are defined counter-clockwise from upper right. ``Ct`` vertices are located on the ``Bu`` grid (as shown above), ``Cu`` vertices on the ``Cv`` grid, ``Cv`` vertices on the ``Cu`` grid and ``Bu`` vertices on the ``Ct`` grid. For example, for the ``Ct`` grid, the vertices are:
  
              Vertex #2             Vertex #1
              Bu(i-1,j)             Bu(i,j)
@@ -74,14 +73,14 @@ are:
              Vertex #3             Vertex #4
 
 
-so that the vertices of any Ct(i,j) are found as off-sets of the i,j index on the Bu grid
+so that the vertices for the ``Ct`` grid are found as off-sets of the i,j index of the ``Bu`` grid
 
      iVertCt(4) = (/0, -1, -1,  0/)
      jVertCt(4) = (/0,  0, -1, -1/)
      
-Careful examination of the Cu,Cv and Bu grids lead to similar definitions for the i,j offsets required to extract the vertices of the other grid stagger locations, all of which can be defined in terms of the iVertCt and jVertCt values
+Careful examination of the remaining stagger locations lead to similar definitions for the i,j offsets required to extract the vertices, all of which can be defined in terms of the ``iVertCt`` and ``jVertCt`` values
 
-Special treatment is require at the bottom of the grid, where the verticies of the Ct and Cu grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required verticies are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the Ct and Cu grid point locations across the matched seam.
+Special treatment is require at the bottom of the grid, where the verticies of the ``Ct`` and ``Cu`` grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required verticies are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the ``Ct`` and ``Cu`` grid point locations across the matched seam.
 
 
 ## Generating the grid files
@@ -100,7 +99,7 @@ The cpld_gridgen program and associated script related functions perform the fol
 
 ## The generated files
 
-The exact list of files produced by the *run_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center (Ct, tracer) stagger point to the rectilinear grid will also be written. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
+The exact list of files produced by the *run_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* flag is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center ``Ct`` stagger point to the rectilinear grid will also be written. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
 
 * Executing the script for the 1/4 deg OCN/ICE resolution will result in the following files being produced in the output location:
 
