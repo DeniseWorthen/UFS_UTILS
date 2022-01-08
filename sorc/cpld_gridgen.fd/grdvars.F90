@@ -47,22 +47,22 @@ module grdvars
   integer, parameter, dimension(nv) :: jVertCt = (/0,  0, -1, -1/)  !< The j-offsets of the Bu grid at each Ct(i,j)
                                                                     !! which determine the 4 vertices of each Ct
                                                                     !! grid point in j
-  integer, dimension(nv) :: iVertCv                                 !! The i-offsets of the Cu grid at each Cv(i,j)
+  integer, dimension(nv) :: iVertCv                                 !< The i-offsets of the Cu grid at each Cv(i,j)
                                                                     !! which determine the 4 vertices of each Cv
                                                                     !! grid point in i
-  integer, dimension(nv) :: jVertCv                                 !! The j-offsets of the Cu grid at each Cv(i,j)
+  integer, dimension(nv) :: jVertCv                                 !< The j-offsets of the Cu grid at each Cv(i,j)
                                                                     !! which determine the 4 vertices of each Cv
                                                                     !! grid point in j
-  integer, dimension(nv) :: iVertCu                                 !! The i-offsets of the Cv grid at each Cu(i,j)
+  integer, dimension(nv) :: iVertCu                                 !< The i-offsets of the Cv grid at each Cu(i,j)
                                                                     !! which determine the 4 vertices of each Cu
                                                                     !! grid point in i
-  integer, dimension(nv) :: jVertCu                                 !! The j-offsets of the Cv grid at each Cu(i,j)
+  integer, dimension(nv) :: jVertCu                                 !< The j-offsets of the Cv grid at each Cu(i,j)
                                                                     !! which determine the 4 vertices of each Cu
                                                                     !! grid point in j
-  integer, dimension(nv) :: iVertBu                                 !! The i-offsets of the Ct grid at each Bu(i,j)
+  integer, dimension(nv) :: iVertBu                                 !< The i-offsets of the Ct grid at each Bu(i,j)
                                                                     !! which determine the 4 vertices of each Bu
                                                                     !! grid point in i
-  integer, dimension(nv) :: jVertBu                                 !! The j-offsets of the Ct grid at each Bu(i,j)
+  integer, dimension(nv) :: jVertBu                                 !< The j-offsets of the Ct grid at each Bu(i,j)
                                                                     !! which determine the 4 vertices of each Bu
                                                                     !! grid point in j
   ! Super-grid source grid variables
