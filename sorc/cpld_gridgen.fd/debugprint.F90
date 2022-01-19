@@ -251,13 +251,13 @@ module debugprint
   !!
   !! @param[in]      rc     return code to check
   !! @param[in]      line   source code line number
-  !! @param[in]      file   name
+  !! @param[in]      file   source file namename
   !! @return ChkErr  logical
   
   logical function ChkErr(rc, line, file)
-    integer, intent(in) :: rc            !< return code to check
-    integer, intent(in) :: line          !< Integer source line number
-    character(len=*), intent(in) :: file !< User-provided source file name
+    integer, intent(in) :: rc
+    integer, intent(in) :: line
+    character(len=*), intent(in) :: file
     integer :: lrc
     ChkErr = .false.
     lrc = rc

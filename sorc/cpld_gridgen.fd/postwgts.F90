@@ -18,9 +18,6 @@ module postwgts
 
   implicit none
 
-  character(*), parameter :: u_FILE_u  = &
-       __FILE__
-
   contains
 !> Create the ESMF weights files to remap velocity points from their native stagger location to the center
 !! (Ct) location. Create the ESMF weights file to remap from the Ct location to a rectilinear grid

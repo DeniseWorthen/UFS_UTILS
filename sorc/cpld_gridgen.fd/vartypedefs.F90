@@ -11,19 +11,19 @@ module vartypedefs
 
   implicit none
 
-  integer, parameter :: maxvars = 20    !< the maximum number of variables written to a file
+  integer, parameter :: maxvars = 20    !< The maximum number of variables written to a file
 
   type :: vardefs
-    character(len=CM)   ::  var_name
-    character(len=CM)   :: long_name
-    character(len=CM)   :: unit_name
-    character(len= 2)   ::  var_type
-    character(len=CM)   ::  vertices
+    character(len=CM)   ::  var_name    !< A variable name
+    character(len=CM)   :: long_name    !< A variable's long name
+    character(len=CM)   :: unit_name    !< A variable's unit
+    character(len= 2)   ::  var_type    !< A variable's type
+    character(len=CM)   ::  vertices    !< A variable's vertices
   end type vardefs
 
-  type(vardefs) ::    fixvars(maxvars)
-  type(vardefs) ::   cicevars(maxvars)
-  type(vardefs) ::  scripvars(maxvars)
+  type(vardefs) ::    fixvars(maxvars)  !< Attribute definitions for the variables written to the master tripole file
+  type(vardefs) ::   cicevars(maxvars)  !< Attribute definitions for the variables written to the CICE grid file
+  type(vardefs) ::  scripvars(maxvars)  !< Attribute definitions for the variables written to any SCRIP file
 
   contains
 
