@@ -30,6 +30,25 @@ Since MOM6 creates the model grid at runtime (including adjusting the land mask,
 
 ### Terminology
 
+The indexing of the MOM6 supergrid is shown below: 
+
+
+            Super Grid               Reduced Grid
+
+
+        I-1,J+1     I+1,J+1
+           X─────X─────X            I-1,J   i,j
+           │     │     │               X─────X
+           │     │     │               │     │
+           │    i│j    │               │  T  │
+           X─────X─────X               │     │
+           │     │     │               X─────X
+           │     │     │          I-1,J-1    I,J-1
+           │     │     │
+           X─────X─────X
+        I-1,J-1     I+1,J-1
+
+
 MOM6 uses an Arakawa C grid. Within cpld_gridgen, these are referred to as "stagger" locations, and named as follows:
 
                  Bu────Cv─────Bu
@@ -99,7 +118,7 @@ The cpld_gridgen program and associated script related functions perform the fol
 
 ## The generated files
 
-The exact list of files produced by the *run_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* flag is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center ``Ct`` stagger point to the rectilinear grid will also be written. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
+The exact list of files produced by the *cpld_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* flag is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center ``Ct`` stagger point to the rectilinear grid will also be written. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
 
 <br>
 
@@ -126,19 +145,19 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
 <tr><th>File name                                                                       <th>Function
 <tr><td row=1>tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc                              <td>the ESMF weights for mapping OCN or ICE <br>                                                                                              output fields from the various stagger <br>                                                                                               locations on the tripole grid to the <br>                                                                                                 center (Ct) stagger location on the <br>
                                                                                             tripole grid using bilinear mapping
-<tr><td row=2>tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc <td>the ESMF weights for mapping variables on <br>                                                                                        the center (Ct) stagger location on the <br>                                                                                              tripole grid to a rectilinear grid with <br>                                                                                              *destination resolution* using either <br>                                                                                                bilinear or conservative mapping
+<tr><td row=2>tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc <td>the ESMF weights for mapping variables on <br>                                                                                        the center (Ct) stagger location on the <br>                                                                                              tripole grid to a rectilinear grid with <br>                                                                                              destination resolution using either <br>                                                                                                  bilinear or conservative mapping
 </table>
     
 <br>
 
-* If a resolution other than 1/4 degree is used in *run_gridgen.sh*, the following file will be produced in the output location: 
+* If a resolution other than 1/4 degree is used in *cpld_gridgen.sh*, the following file will be produced in the output location: 
     
     
 <table>
 <caption id="foutcice6">Output files for CICE6 IC creation at tripole destination resolution</caption>
 <tr><th>File name                                                               <th>Function
 <tr><td row=1>tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  <td>the ESMF weights for mapping the 1/4 CICE ICs to <br>
-                                                                                    a tripole *destination resolution* using nearest <br>                                                                                     source-to-destination mapping
+                                                                                    a tripole destination resolution using nearest <br>                                                                                       source-to-destination mapping
 </table>
     
 <br>
@@ -149,6 +168,6 @@ The exact list of files produced by the *run_gridgen.sh* script will vary depend
 <table>
 <caption id="fouttopo">Output files for run-time modification of MOM6 land mask</caption>
 <tr><th>File name                       <th>Function
-<tr><td row=1>ufs.[Default filename].nc <td>Topo-edits required for UFS application. These are appended to the existing default topo <br>                                             edits file and implemented at run time with the parameter flag <br>                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *run_gridgen.sh* will be <br>                                                  consistent with this run-time land mask.
+<tr><td row=1>ufs.[Default filename].nc <td>Topo-edits required for UFS application. These are appended to the existing default topo <br>                                             edits file and implemented at run time with the parameter flag <br>                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *cpld_gridgen.sh* will be <br>                                                 consistent with this run-time land mask.
 </table>
 
