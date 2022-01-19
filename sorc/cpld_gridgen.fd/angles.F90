@@ -191,10 +191,10 @@ module angles
   function modulo_around_point(x, xc, Lx) result(x_mod)
     use gengrid_kinds, only : dbl_kind
 
-    real(dbl_kind), intent(in) :: x  !< Value to which to apply modulo arithmetic
-    real(dbl_kind), intent(in) :: xc !< Center of modulo range
-    real(dbl_kind), intent(in) :: Lx !< Modulo range width
-    real(dbl_kind) :: x_mod          !< x shifted by an integer multiple of Lx to be close to xc.
+    real(dbl_kind), intent(in) :: x
+    real(dbl_kind), intent(in) :: xc
+    real(dbl_kind), intent(in) :: Lx
+    real(dbl_kind) :: x_mod
 
     if (Lx > 0.0) then
       x_mod = modulo(x - (xc - 0.5*Lx), Lx) + (xc - 0.5*Lx)
