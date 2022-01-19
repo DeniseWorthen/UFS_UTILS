@@ -35,7 +35,6 @@ module tripolegrid
   character(len=*), intent(in) :: fname
 
   ! local variables
-
   integer :: ii,id,rc, ncid, dim2(2),dim3(3)
   integer :: idimid,jdimid,kdimid
 
@@ -71,7 +70,7 @@ module tripolegrid
    rc = nf90_def_var(ncid, 'anglet', nf90_double, dim2, id)
    rc = nf90_put_att(ncid, id,     'units',      'radians')
   !bathymetry
-   rc = nf90_def_var(ncid,  'depth', nf90_double, dim2, id)
+   rc = nf90_def_var(ncid,  'depth', nf90_float,  dim2, id)
    rc = nf90_put_att(ncid, id,     'units',            'm')
 
   dim2(:) = (/idimid, jdimid/)

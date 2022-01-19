@@ -32,6 +32,7 @@ module vartypedefs
 !! @author Denise.Worthen@noaa.gov
   subroutine fixvars_typedefine
 
+  ! local variables
   integer :: ii = 0
   
    !default
@@ -132,6 +133,7 @@ module vartypedefs
 !! @author Denise.Worthen@noaa.gov
  subroutine cicevars_typedefine
 
+  ! local variables
   integer :: ii = 0
 
    !default
@@ -175,6 +177,7 @@ module vartypedefs
 !! @author Denise.Worthen@noaa.gov
  subroutine scripvars_typedefine
 
+  ! local variables
   integer :: ii = 0
 
    !default

@@ -25,6 +25,7 @@ module inputnml
 
   character(len=*),   intent(in) :: fname
 
+  ! local variables
   integer :: stderr, iounit, rc
 
   namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &

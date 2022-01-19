@@ -30,7 +30,6 @@ module cicegrid
   character(len=*), intent(in) :: fname
 
   ! local variables
-
   integer :: ii,id,rc, ncid, dim2(2)
   integer :: idimid,jdimid
 

@@ -158,6 +158,13 @@ module grdvars
   real(dbl_kind), allocatable, dimension(:,:) ::  hte               !< The grid cell width in centimeters of the CICE6
                                                                     !! grid in the y-direction (j-dimension)
 
+  real(kind=real_kind), parameter :: minimum_depth = 9.5            !< The minimum depth for MOM6
+  real(kind=real_kind), parameter :: maximum_depth = 6500.0         !< The maximum depth for MOM6
+  real(kind=real_kind), parameter :: masking_depth = 0.0            !< The masking depth for MOM6. Depths shallower than
+                                                                    !! minimum_depth but deeper than masking_depth are
+                                                                    !! rounded to minimum_depth
+  real(kind=real_kind), parameter :: maximum_lat = 88.0             !< The maximum latitude for water points for WW3
+
   contains
 !> Allocate grid variables
 !!

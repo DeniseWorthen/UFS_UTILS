@@ -18,8 +18,8 @@ module mapped_mask
 
 !> Use ESMF weights to map the ocean land mask to the FV3 tiles and write the mapped mask to 6 tile files
 !!
-!! @param[in]  a SCRIP file containing the land mask for the ocean domain
-!! @param[in]  a file containing the ESMF weights to regrid from the ocean domain to the FV3 tile domain
+!! @param[in]  src a SCRIP file containing the land mask for the ocean domain
+!! @param[in]  wgt a file containing the ESMF weights to regrid from the ocean domain to the FV3 tile domain
 !!
 !! @author Denise.Worthen@noaa.gov
 
@@ -27,8 +27,8 @@ module mapped_mask
 
   character(len=*), intent(in) :: src, wgt
 
-  integer, parameter :: ntile = 6
   ! local variables
+  integer, parameter :: ntile = 6
   integer(int_kind) :: n_a, n_b, n_s
 
   integer(int_kind), allocatable, dimension(:) :: col, row

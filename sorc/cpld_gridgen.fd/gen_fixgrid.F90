@@ -28,7 +28,7 @@ program gen_fixgrid
   use tripolegrid,       only: write_tripolegrid
   use cicegrid,          only: write_cicegrid
   use scripgrid,         only: write_scripgrid
-  use topoedits,         only: add_topoedits
+  use topoedits,         only: add_topoedits, apply_topoedits
   use charstrings,       only: logmsg, res, dirsrc, dirout, atmres, fv3dir, editsfile
   use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
   use debugprint,        only: checkseam, checkxlatlon, checkpoint
@@ -36,12 +36,13 @@ program gen_fixgrid
 
   implicit none
 
+  ! local variables
   real(dbl_kind) :: dxT, dyT
 
   real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
   real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
 
-    real(real_kind), allocatable, dimension(:,:) :: ww3dpth
+  real(real_kind), allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
 
   character(len=CL) :: fsrc, fdst, fwgt
@@ -56,8 +57,7 @@ program gen_fixgrid
   type(ESMF_RegridMethod_Flag) :: method
   type(ESMF_VM) :: vm
 
-  !WW3 mod_def
-  real(real_kind)   :: lat_cutoff = 88.0
+  !WW3 file format for mod_def generation
   character(len= 6) :: i4fmt = '(i4.4)'
   character(len=CS) :: form1
   character(len=CS) :: form2
@@ -141,6 +141,7 @@ program gen_fixgrid
     if(rc .ne. 0)print '(a)', 'nf90_open = '//trim(nf90_strerror(rc))
   end if
 
+  wet4 = 0.0; wet8 = 0.0
   rc = nf90_inq_varid(ncid,  trim(maskname), id)
   rc = nf90_inquire_variable(ncid, id, xtype=xtype)
   if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  wet4)
@@ -164,6 +165,7 @@ program gen_fixgrid
     if(rc .ne. 0)print '(a)', 'nf90_open = '//trim(nf90_strerror(rc))
   end if
 
+  dp4 = 0.0; dp8 = 0.0
   rc = nf90_inq_varid(ncid,  trim(toponame), id)
   rc = nf90_inquire_variable(ncid, id, xtype=xtype)
   if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  dp4)
@@ -177,7 +179,7 @@ program gen_fixgrid
 
   if(editmask)then
 !---------------------------------------------------------------------
-! apply topoedits run time mask changes
+!  apply topoedits run time mask changes if required for this config
 !---------------------------------------------------------------------
 
    if(trim(editsfile)  == 'none')then
@@ -189,6 +191,16 @@ program gen_fixgrid
    fdst = trim(dirout)//'/'//'ufs.'//trim(editsfile)
    call add_topoedits(fsrc,fdst)
   endif
+
+!---------------------------------------------------------------------
+! MOM6 reads the depth file, applies the topo edits and then adjusts
+! depth using masking_depth and min/max depth. This call mimics
+! MOM6 routines apply_topography_edits_from_file and limit_topography
+!---------------------------------------------------------------------
+
+   fsrc = trim(dirsrc)//'/'//trim(editsfile)
+   if(editmask)fsrc = trim(dirout)//'/'//'ufs.'//trim(editsfile)
+  call apply_topoedits(fsrc)
 
 !---------------------------------------------------------------------
 ! read MOM6 supergrid file
@@ -420,17 +432,21 @@ program gen_fixgrid
 
   write(cnx,i4fmt)nx
   write(form1,'(a)')'('//trim(cnx)//'f14.8)'
-  write(form2,'(a)')'('//trim(cnx)//'i4)'
+  write(form2,'(a)')'('//trim(cnx)//'i2)'
 
   allocate(ww3mask(1:ni,1:nj)); ww3mask = wet4
   allocate(ww3dpth(1:ni,1:nj)); ww3dpth = dp4
 
-  where(latCt .ge. lat_cutoff)ww3mask = 3
+  where(latCt .ge. maximum_lat)ww3mask = 3
+  !close last row
+  ww3mask(:,nj) = 3
 
   open(unit=21,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_x.inp',form='formatted')
   open(unit=22,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_y.inp',form='formatted')
   open(unit=23,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_bottom.inp',form='formatted')
   open(unit=24,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_mapsta.inp',form='formatted')
+  ! cice0 .ne. cicen requires obstruction map, should be initialized as zeros (w3grid,ln3032)
+  open(unit=25,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_obstr.inp',form='formatted')
 
   do j = 1,nj
    write( 21,trim(form1))lonCt(:,j)
@@ -439,9 +455,12 @@ program gen_fixgrid
   do j = 1,nj
    write( 23,trim(form1))ww3dpth(:,j)
    write( 24,trim(form2))ww3mask(:,j)
+   !'obsx' and 'obsy' arrays ???
+   write( 25,trim(form2))ww3mask(:,j)*0
+   write( 25,trim(form2))ww3mask(:,j)*0
   end do
 
-  close(21); close(22); close(23); close(24)
+  close(21); close(22); close(23); close(24); close(25)
   deallocate(ww3mask); deallocate(ww3dpth)
 
 !---------------------------------------------------------------------

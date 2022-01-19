@@ -29,6 +29,7 @@ module postwgts
   
   subroutine make_postwgts
 
+  ! local variables
   character(len=CL) :: fsrc, fdst, fwgt
   character(len= 2) :: cstagger
 

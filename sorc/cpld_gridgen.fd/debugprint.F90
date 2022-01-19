@@ -30,7 +30,8 @@ module debugprint
   
   subroutine checkseam
 
-  integer :: j,i1,i2
+   ! local variables
+   integer :: j,i1,i2
 
     j = nj
     i1 = ipole(1); i2 = ipole(2)+1
@@ -109,6 +110,7 @@ module debugprint
   !! @author Denise.Worthen@noaa.gov
   subroutine checkxlatlon
  
+  ! local variables
   integer :: i
 
     print *,'============== Ct grid ==============='
@@ -169,6 +171,7 @@ module debugprint
 !! @author Denise.Worthen@noaa.gov
   subroutine checkpoint
 
+   ! local variables
    integer :: i,j
 
     ! check
@@ -248,7 +251,7 @@ module debugprint
   !!
   !! @param[in]      rc     return code to check
   !! @param[in]      line   source code line number
-  !! @param[in]      file   name 
+  !! @param[in]      file   name
   !! @return ChkErr  logical
   
   logical function ChkErr(rc, line, file)
