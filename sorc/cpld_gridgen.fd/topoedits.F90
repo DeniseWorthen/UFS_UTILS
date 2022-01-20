@@ -156,12 +156,13 @@ module topoedits
 
   end subroutine add_topoedits
 
-  subroutine apply_topoedits(fsrc)
 !> Read the topoedits file and adjust the bathymetry. Apply limits to bathymetry.
 !!
 !! @param[in]  fsrc the topoedits file name
 !!
 !! @author Denise.Worthen@noaa.gov
+
+  subroutine apply_topoedits(fsrc)
 
    character(len=*), intent(in) :: fsrc
 

@@ -30,6 +30,7 @@ module vartypedefs
 !> Define the variables written to the tripole grid file
 !!
 !! @author Denise.Worthen@noaa.gov
+
   subroutine fixvars_typedefine
 
   ! local variables
@@ -131,6 +132,7 @@ module vartypedefs
 !> Define the variables written to the CICE grid file
 !!
 !! @author Denise.Worthen@noaa.gov
+
  subroutine cicevars_typedefine
 
   ! local variables
@@ -175,6 +177,7 @@ module vartypedefs
 !> Define the variables written to any SCRIP grid file
 !!
 !! @author Denise.Worthen@noaa.gov
+
  subroutine scripvars_typedefine
 
   ! local variables

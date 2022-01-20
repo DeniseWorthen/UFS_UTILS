@@ -104,6 +104,7 @@ module debugprint
   !> Print values near the poles and along the domain edges
   !!
   !! @author Denise.Worthen@noaa.gov
+  
   subroutine checkxlatlon
  
   ! local variables
@@ -165,6 +166,7 @@ module debugprint
 !> Print values at specified point
 !!
 !! @author Denise.Worthen@noaa.gov
+  
   subroutine checkpoint
 
    ! local variables

@@ -28,9 +28,9 @@ Since MOM6 creates the model grid at runtime (including adjusting the land mask,
 
 ## Background:
 
-### Terminology
+### MOM6 grids
 
-The indexing of the MOM6 supergrid is shown below: 
+The MOM6 supergrid contains a MOM6 grid at twice the desired resolution. The indexing of the supergrid vs the reduced grid is: 
 
 
             Super Grid               Reduced Grid
@@ -97,9 +97,9 @@ so that the vertices for the ``Ct`` grid are found as off-sets of the i,j index 
      iVertCt(4) = (/0, -1, -1,  0/)
      jVertCt(4) = (/0,  0, -1, -1/)
      
-Careful examination of the remaining stagger locations lead to similar definitions for the i,j offsets required to extract the vertices, all of which can be defined in terms of the ``iVertCt`` and ``jVertCt`` values
+Careful examination of the remaining stagger locations lead to similar definitions for the i,j offsets required to extract the vertices, all of which can be defined in terms of the ``iVertCt`` and ``jVertCt`` values.
 
-Special treatment is require at the bottom of the grid, where the verticies of the ``Ct`` and ``Cu`` grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required verticies are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the ``Ct`` and ``Cu`` grid point locations across the matched seam.
+Special treatment is require at the bottom of the grid, where the vertices of the ``Ct`` and ``Cu`` grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required vertices are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the ``Ct`` and ``Cu`` grid point locations across the matched seam.
 
 
 ## Generating the grid files
@@ -118,7 +118,7 @@ The cpld_gridgen program and associated script related functions perform the fol
 
 ## The generated files
 
-The exact list of files produced by the *cpld_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* flag is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center ``Ct`` stagger point to the rectilinear grid will also be written. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
+The exact list of files produced by the *cpld_gridgen.sh* script will vary depending on several factors. For example, if the *DO_POSTWGHTS* flag is true, then a SCRIP format file will be produced for each rectilinear destination grid desired and a file containing the regridding weights to map from the center ``Ct`` stagger point to the rectilinear grid will also be written. Because both MOM6 and CICE6 velocity variables are located at ``Cu``,``Cv`` or ``Bu`` locations, additional files will also be created to regrid from the velocity stagger locations to the center ``Ct`` location. If an OCN/ICE grid resolution less than 1/4 degree is chosen, then a file containing regridding weights from the 1/4 degree grid to a lower resolution grid will also be written. Note also that multiple intermediate SCRIP format files may be produced depending on the options chosen.
 
 <br>
 
@@ -144,8 +144,8 @@ The exact list of files produced by the *cpld_gridgen.sh* script will vary depen
 <caption id="foutpost">Optional post-weights files for 1/4deg</caption>
 <tr><th>File name                                                                       <th>Function
 <tr><td row=1>tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc                              <td>the ESMF weights for mapping OCN or ICE <br>                                                                                              output fields from the various stagger <br>                                                                                               locations on the tripole grid to the <br>                                                                                                 center (Ct) stagger location on the <br>
-                                                                                            tripole grid using bilinear mapping
-<tr><td row=2>tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc <td>the ESMF weights for mapping variables on <br>                                                                                        the center (Ct) stagger location on the <br>                                                                                              tripole grid to a rectilinear grid with <br>                                                                                              destination resolution using either <br>                                                                                                  bilinear or conservative mapping
+                                                                                            same tripole grid using bilinear mapping
+<tr><td row=2>tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc <td>the ESMF weights for mapping variables <br>                                                                                               on the center (Ct) stagger location on <br>                                                                                               the tripole grid to a rectilinear grid <br>                                                                                               with [destination resolution] using <br>                                                                                                  either bilinear or conservative mapping
 </table>
     
 <br>
@@ -157,7 +157,7 @@ The exact list of files produced by the *cpld_gridgen.sh* script will vary depen
 <caption id="foutcice6">Output files for CICE6 IC creation at tripole destination resolution</caption>
 <tr><th>File name                                                               <th>Function
 <tr><td row=1>tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  <td>the ESMF weights for mapping the 1/4 CICE ICs to <br>
-                                                                                    a tripole destination resolution using nearest <br>                                                                                       source-to-destination mapping
+                                                                                    a tripole [destination resolution] using nearest <br>                                                                                     source-to-destination mapping
 </table>
     
 <br>

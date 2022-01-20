@@ -22,7 +22,6 @@ module angles
 !> Find the rotation angle on corner grid (Bu) points using the full MOM6 supergrid
 !!
 !! @author Denise.Worthen@noaa.gov
-  
   subroutine find_angq
 
     ! local variables

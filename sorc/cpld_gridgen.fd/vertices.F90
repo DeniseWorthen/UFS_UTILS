@@ -2,11 +2,12 @@
 !! @brief Fill the vertices for any stagger location
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module fills the vertices for any stagger location. The i,j indices of the source lat and lon 
-!! arrays are modified by the vertex offsets to give the latitudes and longitues of each vertex. For
-!! each stagger location. The routine fill_vertices fill the vertex values for all stagger locations.
-!! For the Ct and Cu grids, the fill_bottom routine fills the bottom most vertex values. For the Cv
-!! and Bu grids, the routine fill_top fills the topmost vertex values.
+!> This module fills the vertices for any stagger location. The i,j indices of the source lat and lon
+!! arrays are modified by the vertex offsets to give the latitudes and longitues of each vertex for the
+!! desired stagger lcation. The routine fill_vertices will fill the vertex values of all non-boundary
+!! rows for any stagger locations. For the Ct and Cu grids, the fill_bottom routine fills the bottom
+!! most vertex values. For the Cv and Bu grids, the routine fill_top fills the topmost vertex values using
+!! the values from across the tripole seam.
 !! @author Denise.Worthen@noaa.gov
 
 module vertices
@@ -21,10 +22,10 @@ module vertices
 !!
 !! @param[in] jbeg   the beginning row
 !! @param[in] jend   the ending row
-!! @param[in] iVert  the i-offset of the source latitude points for each vertex
-!! @param[in] jVert  the j-offset of the source longitude points for each vertex
-!! @param[in] lat    the source grid latitudes for retrieving each vertex
-!! @param[in] lon    the source grid longitudes for retrieving each vertex
+!! @param[in] iVert  the i-offset applied to the i-index of a stagger grid
+!! @param[in] jVert  the j-offset applied to the j-index of a stagger grid
+!! @param[in] lat    the latitudes of the stagger grid which define each vertex
+!! @param[in] lon    the longitudes of the stagger grid which define each vertex
 !! @param[out] latvert   the latitudes of each vertex
 !! @param[out] lonvert   the longitudes of each vertex
 !! @author Denise.Worthen@noaa.gov
@@ -52,16 +53,18 @@ module vertices
    enddo
   enddo
   end subroutine fill_vertices
+
 !> Fill the vertices for a stagger location along the bottom j-row
 !!
-!! @param[in] iVert  the i-offset of the source latitude points for each vertex
-!! @param[in] jVert  the j-offset of the source longitude points for each vertex
-!! @param[in] lat    the source grid latitudes for retrieving each vertex
-!! @param[in] lon    the source grid longitudes for retrieving each vertex
+!! @param[in] iVert  the i-offset applied to the i-index of a stagger grid
+!! @param[in] jVert  the j-offset applied to the j-index of a stagger grid
+!! @param[in] lat    the latitudes of the stagger grid which define each vertex
+!! @param[in] lon    the longitudes of the stagger grid which define each vertex
 !! @param[in] dlat   the approximate latitude along the bottom-most row
 !! @param[out] latvert   the latitudes of each vertex
 !! @param[out] lonvert   the longitudes of each vertex
 !! @author Denise.Worthen@noaa.gov
+
   subroutine fill_bottom(iVert,jVert,lat,lon,latvert,lonvert,dlat)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)
@@ -95,17 +98,19 @@ module vertices
       lonvert(i,j, 4) = lonvert(i,j,1)
    enddo
    end subroutine fill_bottom
+
 !> Fill the vertices for a stagger location along the top j-row
 !!
-!! @param[in] iVert  the i-offset of the source latitude points for each vertex
-!! @param[in] jVert  the j-offset of the source longitude points for each vertex
-!! @param[in] lat    the source grid latitudes for retrieving each vertex
-!! @param[in] lon    the source grid longitudes for retrieving each vertex
+!! @param[in] iVert  the i-offset applied to the i-index of a stagger grid
+!! @param[in] jVert  the j-offset applied to the j-index of a stagger grid
+!! @param[in] lat    the latitudes of the stagger grid which define each vertex
+!! @param[in] lon    the longitudes of the stagger grid which define each vertex
 !! @param[in] xlat   the latitude across the tripole seam
 !! @param[in] xlon   the longitude across the tripole seam
 !! @param[out] latvert   the latitudes of each vertex
 !! @param[out] lonvert   the longitudes of each vertex
 !! @author Denise.Worthen@noaa.gov
+
    subroutine fill_top(iVert,jVert,lat,lon,latvert,lonvert,xlat,xlon)
 
                               integer, intent( in) :: iVert(nv), jVert(nv)
