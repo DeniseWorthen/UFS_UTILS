@@ -12,6 +12,7 @@
 !! from grid.nml.IN
 !!
 !! @author Denise.Worthen@noaa.gov
+!! @return 0 for success, error code otherwise.
 program gen_fixgrid
 
   use ESMF
