@@ -7,7 +7,7 @@
 
   program ftst_find_angq
  
-  use grdvars,       only : x,y,xsgp1,ysgp1,angq
+  use grdvars,       only : nx,ny,x,y,xsgp1,ysgp1,angq
   use angles,        only : find_angq
 
   implicit none
@@ -18,24 +18,26 @@
   logical :: debug = .false.
 
   ! reduced (output) grid dimensions
-  integer, parameter :: ni = 12, nj = 7
+  integer, parameter :: lni = 12, lnj = 7
   ! supergrid dimensions
-  integer, parameter :: nx = 2*ni, ny = 2*nj
+  integer, parameter :: lnx = 2*lni, lny = 2*lnj
 
   ! pole locations on SG
   integer :: ipolesg(2)
   real(kind=8) :: delta(15)
-  real(kind=8) :: sumdelta
+  real(kind=8) :: sumdelta, angdelta, angtdelta
   real(kind=8) :: sg_maxlat
+  ! expected corner angle values on supergrid along j=lny
+  real(kind=8), dimension(0:lnx) :: angle_expected
 
   ! test supergrid values
-  real(kind=4) :: sgx(0:nx,0:ny)
-  real(kind=4) :: sgy(0:nx,0:ny)
+  real(kind=4) :: sgx(0:lnx,0:lny)
+  real(kind=4) :: sgy(0:lnx,0:lny)
 
   ! supergrid x,y and angles on corners
-  allocate (x(0:nx,0:ny), y(0:nx,0:ny), angq(0:nx,0:ny))
+  allocate (x(0:lnx,0:lny), y(0:lnx,0:lny), angq(0:lnx,0:lny))
   ! supergrid "plus 1" arrays
-  allocate (xsgp1(0:nx,0:ny+1), ysgp1(0:nx,0:ny+1))
+  allocate (xsgp1(0:lnx,0:lny+1), ysgp1(0:lnx,0:lny+1))
 
  data sgy &
          /-85.00,  -85.00,  -85.00,  -85.00,  -85.00,  -85.00,  -85.00,  -85.00,  -85.00,  -85.00,&
@@ -131,20 +133,28 @@ data sgx &
          -100.00, -100.00, -100.00, -100.00, -100.00, -100.00, -100.00, -100.00, -100.00,   80.00,&
            80.00,   80.00,   80.00,   80.00,   80.00/
 
+  data angle_expected / 0.00000000, -3.02402352, -0.94998978, -0.92425100, -0.85051272, -0.74357528,&
+                        0.13678155,  0.86943193,  0.99637788,  1.09512092,  1.17715679,  1.28528118,&
+                        0.77832632, -0.84046526, -0.94998958, -0.92425088, -0.85051270, -0.74357529,&
+                       -0.87256414, -0.13592542,  0.99637789,  1.09512090,  1.17715677,  1.28528121,&
+                        0.00000000/
+
+  print *,angle_expected
   print *,"Starting test of cpld_gridgen routine find_angq"
 
   x = sgx
   y = sgy
-
+  nx = lnx
+  ny = lny
   sg_maxlat = maxval(y)
 
   !pole on supergrid
   ipolesg = -1
-      j = ny
-  do i = 1,nx/2
+      j = lny
+  do i = 1,lnx/2
    if(y(i,j) .eq. sg_maxlat)ipolesg(1) = i
   enddo
-  do i = nx/2+1,nx
+  do i = lnx/2+1,lnx
    if(y(i,j) .eq. sg_maxlat)ipolesg(2) = i
   enddo
 
@@ -154,7 +164,7 @@ data sgx &
   ! required for checking longitudes across seam
   where(xsgp1 .lt. 0.0)xsgp1 = xsgp1 + 360.0
 
-  j = ny+1
+  j = lny
   i1 = ipolesg(1); i2 = ipolesg(2)-(ipolesg(1)-i1)
   delta = 0.0
   ! check lons match across seam
@@ -170,17 +180,28 @@ data sgx &
   delta( 9) = ysgp1(i1+1,j)-ysgp1(i2-1,j)
   delta(10) = ysgp1(i1+2,j)-ysgp1(i2-2,j)
   ! check angq match across seam
-  j = ny
+  j = lny
   delta(11)=angq(i1-2,j)-angq(i2-2,j)
   delta(12)=angq(i1-1,j)-angq(i2-1,j)
   delta(13)=angq(i1,  j)-angq(i2,  j)
   delta(14)=angq(i1+1,j)-angq(i2+1,j)
   delta(15)=angq(i1+2,j)-angq(i2+2,j)
+  do i = 1,15
+   print *,i,delta(i)
+  end do
 
   sumdelta = 0.0
   sumdelta = sum(delta)
+  print *,sumdelta
 
-  if (sumdelta == 0.0) then
+  angdelta = 0.0
+  j = lny
+  do i = 1,lnx
+   angdelta = angdelta + (angq(i,j) - angle_expected(i))
+   print '(i6,3f12.8)',i, angdelta,angq(i,j),angle_expected(i)
+  end do
+
+  if (sumdelta == 0.0 .and. angdelta <= 1.e-6) then
     print *,'OK'
     print *,'SUCCESS!'
     deallocate(x,y,xsgp1,ysgp1,angq)

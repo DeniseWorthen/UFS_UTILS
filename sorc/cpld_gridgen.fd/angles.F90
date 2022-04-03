@@ -42,6 +42,8 @@ module angles
 
      angq = 0.0
     xsgp1 = 0.0; ysgp1 = 0.0
+    sg_maxlat = maxval(y)
+
     !pole on supergrid
     ipolesg = -1
         j = ny
@@ -51,7 +53,8 @@ module angles
     do i = nx/2+1,nx
      if(y(i,j) .eq. sg_maxlat)ipolesg(2) = i
     enddo
-    if(mastertask .and. debug)print *,'poles found at ',ipolesg
+    !if(mastertask .and. debug)print *,'poles found at ',ipolesg
+    print *,'poles found at ',ipolesg
 
     xsgp1(:,0:ny) = x(:,0:ny)
     ysgp1(:,0:ny) = y(:,0:ny)
@@ -60,11 +63,13 @@ module angles
     do i = ipolesg(1)-5,ipolesg(1)+5
      i2 = ipolesg(2)+(ipolesg(1)-i)+1
      if(mastertask .and. debug)print *,i,i2
+     print *,i,i2
     enddo
      print *
     do i = ipolesg(2)-5,ipolesg(2)+5
      i2 = ipolesg(2)+(ipolesg(1)-i)+1
      if(mastertask .and. debug)print *,i,i2
+     print *,i,i2
     enddo
   
     !replicate supergrid across pole
@@ -75,7 +80,7 @@ module angles
     enddo
    
     !check
-    if(mastertask .and. debug)then
+    !if(mastertask .and. debug)then
      j = ny+1
     i1 = ipolesg(1); i2 = ipolesg(2)-(ipolesg(1)-i1)
       print *,'replicate X across seam on SG'
@@ -91,7 +96,7 @@ module angles
       print *,ysgp1(i1,  j),ysgp1(i2,  j)
       print *,ysgp1(i1+1,j),ysgp1(i2-1,j)
       print *,ysgp1(i1+2,j),ysgp1(i2-2,j)
-    end if
+    !end if
   
 !---------------------------------------------------------------------
 ! rotation angle on supergrid vertices
@@ -114,7 +119,7 @@ module angles
     enddo ; enddo
 
     !check
-    if(mastertask .and. debug) then
+    !if(mastertask .and. debug) then
        j = ny
       i1 = ipolesg(1); i2 = ipolesg(2)-(ipolesg(1)-i1)
       print *,'angq along seam on SG'
@@ -123,7 +128,7 @@ module angles
       print *,angq(i1,  j),angq(i2,  j)
       print *,angq(i1+1,j),angq(i2-1,j)
       print *,angq(i1+2,j),angq(i2-2,j)
-    end if
+    !end if
 
   end subroutine find_angq
 

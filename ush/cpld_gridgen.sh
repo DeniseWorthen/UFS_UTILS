@@ -33,7 +33,7 @@ cd $workdir
 cp $srcdir/sorc/cpld_gridgen.fd/grid.nml.IN $workdir
 
 export RESNAME=$1
-export DEBUG=.false.
+export DEBUG=.true.
 export MASKEDIT=.false.
 export DO_POSTWGTS=.false.
 #export OUTDIR_PATH=/scratch2/NCEPDEV/climate/Denise.Worthen/grids-20210727/

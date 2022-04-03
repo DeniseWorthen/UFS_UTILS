@@ -228,7 +228,6 @@ program gen_fixgrid
   rc = nf90_close(ncid)
   !print *,'super grid size ',size(y,1),size(y,2)
   !print *,'max lat in super grid ',maxval(y)
-  sg_maxlat = maxval(y)
 
 !---------------------------------------------------------------------
 ! find the angle on corners---this requires the supergrid
