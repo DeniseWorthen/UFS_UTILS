@@ -28,7 +28,7 @@ load(pathJoin("netcdf", netcdf_ver))
 nccmp_ver=os.getenv("nccmp_ver") or "1.8.7.0"
 load(pathJoin("nccmp", nccmp_ver))
 
-esmf_ver=os.getenv("esmf_ver") or "8_1_0_beta_snapshot_27"
+esmf_ver=os.getenv("esmf_ver") or "8_2_0"
 load(pathJoin("esmf", esmf_ver))
 
 w3nco_ver=os.getenv("w3nco_ver") or "2.4.1"
@@ -52,7 +52,7 @@ load(pathJoin("sfcio", sfcio_ver))
 nemsio_ver=os.getenv("nemsio_ver") or "2.5.2"
 load(pathJoin("nemsio", nemsio_ver))
 
-g2_ver=os.getenv("g2_ver") or "3.4.1"
+g2_ver=os.getenv("g2_ver") or "3.4.3"
 load(pathJoin("g2", g2_ver))
 
 wgrib2_ver=os.getenv("wgrib2_ver") or "2.0.8"

@@ -22,7 +22,7 @@ load(pathJoin("hpc-impi", impi_ver))
 bacio_ver=os.getenv("bacio_ver") or "2.4.1"
 load(pathJoin("bacio", bacio_ver))
 
-g2_ver=os.getenv("g2_ver") or "3.4.1"
+g2_ver=os.getenv("g2_ver") or "3.4.3"
 load(pathJoin("g2", g2_ver))
 
 ip_ver=os.getenv("ip_ver") or "3.3.3"
@@ -61,7 +61,7 @@ load(pathJoin("netcdf", netcdf_ver))
 nccmp_ver=os.getenv("nccmp_ver") or "1.8.7.0"
 load(pathJoin("nccmp", nccmp_ver))
 
-esmf_ver=os.getenv("esmf_ver") or "8_1_1"
+esmf_ver=os.getenv("esmf_ver") or "8_2_0"
 load(pathJoin("esmf", esmf_ver))
 
 whatis("Description: UFS_UTILS build environment")
