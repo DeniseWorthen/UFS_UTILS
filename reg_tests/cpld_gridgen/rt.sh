@@ -248,20 +248,20 @@ while read -r line || [ "$line" ]; do
 
   if [[ $target = wcoss2 ]]; then
 
-#   rm -f $RUNDIR/bad.${TEST_NAME}
+#   RM -F $RUNDIR/BAD.${TEST_NAME}
 
     TEST=$(qsub -V -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
           -Wblock=true -l walltime=00:05:00 -N $TEST_NAME -l select=1:ncpus=1:mem=8GB -v RESNAME=$TEST_NAME \
           -v MOSAICRES=$MOSAICRES $SBATCH_COMMAND)
 
-#   qsub -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
-#        -Wblock=true -l walltime=00:01:00 -N chgres_summary -l select=1:ncpus=1:mem=100MB -W depend=afternotok:$TEST << EOF
-#!/bin/bash
-#   touch $RUNDIR/bad.${TEST_NAME}
+#   QSUB -O $PATHRT/RUN_${TEST_NAME}.LOG -E $PATHRT/RUN_${TEST_NAME}.LOG -Q $QUEUE  -A $ACCOUNT \
+#        -WBLOCK=TRUE -L WALLTIME=00:01:00 -N CHGRES_SUMMARY -L SELECT=1:NCPUS=1:MEM=100MB -W DEPEND=AFTERNOTOK:$TEST << EOF
+#!/BIN/BASH
+#   TOUCH $RUNDIR/BAD.${TEST_NAME}
 #EOF
-#   if [[ -f $RUNDIR/bad.${TEST_NAME} ]]; then
-#     error "Batch job for test $TEST_NAME did not finish successfully. Refer to run_${TEST_NAME}.log"
-#   fi
+#   IF [[ -F $RUNDIR/BAD.${TEST_NAME} ]]; THEN
+#     ERROR "BATCH JOB FOR TEST $TEST_NAME DID NOT FINISH SUCCESSFULLY. REFER TO RUN_${TEST_NAME}.LOG"
+#   FI
 
   else
     sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
