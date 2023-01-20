@@ -22,7 +22,7 @@ export RESNAME=${RESNAME:-$1}
 export DEBUG=.false.
 export MASKEDIT=.false.
 export DO_POSTWGTS=.false.
-export OUTDIR_PATH=${OUTDIR_PATH:-/scratch2/NCEPDEV/climate/Denise.Worthen/grids-20220116}
+export OUTDIR_PATH=${OUTDIR_PATH:-/scratch1/NCEPDEV/climate/Denise.Worthen/grids-20220116}
 export MOSAICDIR_PATH=${MOSAICDIR_PATH:-$PATHTR/fix/orog}
 APRUN=${APRUN:-"srun"}
 
@@ -46,7 +46,7 @@ if [ $RESNAME = 100 ]; then
   export NI=360
   export NJ=320
   export MASKEDIT=.T.
-  export MOSAICRES=C96
+  #export MOSAICRES=C96
   export NPX=96
   export TOPOGFILE=topog.nc
   export EDITSFILE=topo_edits_011818.nc
@@ -61,7 +61,7 @@ fi
 if [ $RESNAME = 050 ]; then
   export NI=720
   export NJ=576
-  export MOSAICRES=C192
+  #export MOSAICRES=C192
   export NPX=192
   export TOPOGFILE=ocean_topog.nc
   export EDITSFILE='none'
@@ -77,8 +77,13 @@ fi
 if [ $RESNAME = 025 ]; then
   export NI=1440
   export NJ=1080
-  export MOSAICRES=C384
-  export NPX=384
+  #export MOSAICRES=C384
+  if [ $MOSAICRES == C384 ]; then
+      export NPX=384
+  fi
+  if [ $MOSAICRES == C1152 ]; then
+      export NPX=1152
+  fi
   export TOPOGFILE=ocean_topog.nc
   export EDITSFILE=All_edits.nc
   if [ $DO_POSTWGTS == .true. ]; then

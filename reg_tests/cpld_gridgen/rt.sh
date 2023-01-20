@@ -40,7 +40,7 @@ check_results() {
   local test_status=PASS
   # verification run
   if [[ $CREATE_BASELINE = false ]]; then
-  
+
     echo | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Working dir = $RUNDIR" | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Baseline dir = $BASELINE" | tee -a $PATHRT/$REGRESSIONTEST_LOG
@@ -218,6 +218,7 @@ while read -r line || [ "$line" ]; do
 
   TEST_NAME=$(echo $line | cut -d'|' -f1 | sed -e 's/^ *//' -e 's/ *$//')
   DEP_NAME=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
+  MOSAICRES=${TEST_NAME%_*}
   TEST_NAME=${TEST_NAME##*_}
   DEP_NAME=${DEP_NAME##*_}
 
@@ -231,6 +232,7 @@ while read -r line || [ "$line" ]; do
   # OUTDIR_PATH is passed down to $PATHTR/ush/cpld_gridgen.sh
   # It MUST be set
   export OUTDIR_PATH=$RUNDIR
+  export MOSAICRES=$MOSAICRES
 
   if [[ -n $DEP_NAME ]]; then
     cp $DEPDIR/Ct.mx025_SCRIP.nc $RUNDIR >/dev/null 2>&1 && d=$? || d=$?
@@ -249,7 +251,8 @@ while read -r line || [ "$line" ]; do
 #   rm -f $RUNDIR/bad.${TEST_NAME}
 
     TEST=$(qsub -V -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
-          -Wblock=true -l walltime=00:05:00 -N $TEST_NAME -l select=1:ncpus=1:mem=8GB -v RESNAME=$TEST_NAME $SBATCH_COMMAND)
+          -Wblock=true -l walltime=00:05:00 -N $TEST_NAME -l select=1:ncpus=1:mem=8GB -v RESNAME=$TEST_NAME \
+          -v MOSAICRES=$MOSAICRES $SBATCH_COMMAND)
 
 #   qsub -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
 #        -Wblock=true -l walltime=00:01:00 -N chgres_summary -l select=1:ncpus=1:mem=100MB -W depend=afternotok:$TEST << EOF
