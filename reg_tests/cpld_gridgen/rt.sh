@@ -264,10 +264,13 @@ while read -r line || [ "$line" ]; do
 #   FI
 
   else
-    sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
-           --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
-           --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
+    #sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+    #       --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
+    #       --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 
+     sbatch --wait --ntasks-per-node=20 --nodes=1 --mem=4G -t 0:15:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
+            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
     if [[ d -ne 0 ]]; then
       error "Batch job for test $TEST_NAME did not finish successfully. Refer to run_${TEST_NAME}.log"
     fi

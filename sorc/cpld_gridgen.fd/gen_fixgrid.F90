@@ -77,12 +77,9 @@ program gen_fixgrid
        line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   maintask = .false.
   if (localPet == 0) maintask=.true.
-  print '(a,i4)','num pets = ',npet
-  if (maintask) then
 
-     !---------------------------------------------------------------------
-     !
-     !---------------------------------------------------------------------
+  if (maintask) then
+     print '(a,i4)','Running on = ',npet,' tasks'
 
      call read_inputnml('grid.nml')
 
