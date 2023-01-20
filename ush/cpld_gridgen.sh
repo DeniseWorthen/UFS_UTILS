@@ -32,7 +32,8 @@ elif [[ $MOSAICRES == C384 ]]; then
     export NPX=384
 elif [[ $MOSAICRES == C192 ]]; then
   export NPX=192
-else
+elif [[ $MOSAICRES == C096 ]]; then
+  export MOSAICRES=C96
   export NPX=96
 fi
 

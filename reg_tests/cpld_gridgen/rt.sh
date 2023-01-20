@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+SECONDS=0
+
 error() {
   echo
   echo "$@" 1>&2
@@ -248,29 +250,25 @@ while read -r line || [ "$line" ]; do
 
   if [[ $target = wcoss2 ]]; then
 
-#   RM -F $RUNDIR/BAD.${TEST_NAME}
+#   rm -f $RUNDIR/bad.${TEST_NAME}
 
     TEST=$(qsub -V -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
-          -Wblock=true -l walltime=00:05:00 -N $TEST_NAME -l select=1:ncpus=1:mem=8GB -v RESNAME=$TEST_NAME \
-          -v MOSAICRES=$MOSAICRES $SBATCH_COMMAND)
+          -Wblock=true -l walltime=00:05:00 -N $TEST_NAME -l select=1:ncpus=1:mem=8GB -v RESNAME=$TEST_NAME $SBATCH_COMMAND)
 
-#   QSUB -O $PATHRT/RUN_${TEST_NAME}.LOG -E $PATHRT/RUN_${TEST_NAME}.LOG -Q $QUEUE  -A $ACCOUNT \
-#        -WBLOCK=TRUE -L WALLTIME=00:01:00 -N CHGRES_SUMMARY -L SELECT=1:NCPUS=1:MEM=100MB -W DEPEND=AFTERNOTOK:$TEST << EOF
-#!/BIN/BASH
-#   TOUCH $RUNDIR/BAD.${TEST_NAME}
+#   qsub -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
+#        -Wblock=true -l walltime=00:01:00 -N chgres_summary -l select=1:ncpus=1:mem=100MB -W depend=afternotok:$TEST << EOF
+#!/bin/bash
+#   touch $RUNDIR/bad.${TEST_NAME}
 #EOF
-#   IF [[ -F $RUNDIR/BAD.${TEST_NAME} ]]; THEN
-#     ERROR "BATCH JOB FOR TEST $TEST_NAME DID NOT FINISH SUCCESSFULLY. REFER TO RUN_${TEST_NAME}.LOG"
-#   FI
+#   if [[ -f $RUNDIR/bad.${TEST_NAME} ]]; then
+#     error "Batch job for test $TEST_NAME did not finish successfully. Refer to run_${TEST_NAME}.log"
+#   fi
 
   else
-    #sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
-    #       --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
-    #       --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
+    sbatch --wait --ntasks-per-node=20 --nodes=1 -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+           --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
+           --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 
-     sbatch --wait --ntasks-per-node=20 --nodes=1 --mem=4G -t 0:15:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
-            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
-            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
     if [[ d -ne 0 ]]; then
       error "Batch job for test $TEST_NAME did not finish successfully. Refer to run_${TEST_NAME}.log"
     fi
@@ -307,3 +305,7 @@ else
   echo "All tests passed" >>summary.log
 fi
 date >> $REGRESSIONTEST_LOG
+
+elapsed_time=$( printf '%02dh:%02dm:%02ds\n' $((SECONDS%86400/3600)) $((SECONDS%3600/60)) $((SECONDS%60)) )
+echo "Elapsed time: ${elapsed_time}. Have a nice day!" >> ${REGRESSIONTEST_LOG}
+echo "Elapsed time: ${elapsed_time}. Have a nice day!"
