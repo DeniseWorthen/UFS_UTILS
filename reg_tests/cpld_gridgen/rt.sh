@@ -1,5 +1,7 @@
 #!/bin/bash
-set -eu
+set -eux
+
+SECONDS=0
 
 error() {
   echo
@@ -40,7 +42,7 @@ check_results() {
   local test_status=PASS
   # verification run
   if [[ $CREATE_BASELINE = false ]]; then
-  
+
     echo | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Working dir = $RUNDIR" | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Baseline dir = $BASELINE" | tee -a $PATHRT/$REGRESSIONTEST_LOG
@@ -218,6 +220,7 @@ while read -r line || [ "$line" ]; do
 
   TEST_NAME=$(echo $line | cut -d'|' -f1 | sed -e 's/^ *//' -e 's/ *$//')
   DEP_NAME=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
+  MOSAICRES=${TEST_NAME%_*}
   TEST_NAME=${TEST_NAME##*_}
   DEP_NAME=${DEP_NAME##*_}
 
@@ -231,6 +234,7 @@ while read -r line || [ "$line" ]; do
   # OUTDIR_PATH is passed down to $PATHTR/ush/cpld_gridgen.sh
   # It MUST be set
   export OUTDIR_PATH=$RUNDIR
+  export MOSAICRES=$MOSAICRES
 
   if [[ -n $DEP_NAME ]]; then
     cp $DEPDIR/Ct.mx025_SCRIP.nc $RUNDIR >/dev/null 2>&1 && d=$? || d=$?
@@ -261,7 +265,7 @@ while read -r line || [ "$line" ]; do
 #   fi
 
   else
-    sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+    sbatch --wait --ntasks-per-node=10 --nodes=1 -t 0:30:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 
@@ -301,3 +305,7 @@ else
   echo "All tests passed" >>summary.log
 fi
 date >> $REGRESSIONTEST_LOG
+
+elapsed_time=$( printf '%02dh:%02dm:%02ds\n' $((SECONDS%86400/3600)) $((SECONDS%3600/60)) $((SECONDS%60)) )
+echo "Elapsed time: ${elapsed_time}. Have a nice day!" >> ${REGRESSIONTEST_LOG}
+echo "Elapsed time: ${elapsed_time}. Have a nice day!"
