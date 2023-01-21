@@ -51,7 +51,7 @@ program gen_fixgrid
   integer :: rc,ncid,id,xtype
   integer :: i,j,k,i2,j2
   integer :: ii,jj
-  integer :: mpi_comm, ierr
+  integer :: mpi_comm, mpi_dup, ierr
   integer :: localPet, nPet
   logical :: fexist = .false.
 
@@ -67,14 +67,17 @@ program gen_fixgrid
   !-------------------------------------------------------------------------
   ! Initialize esmf environment.
   ! Everthing except the generation of the weights to map the ocean mask to
-  ! the ATM tiles is done on the root PE.
+  ! the ATM tiles and generation of the tripole:tripole weights is done on
+  ! the root PE.
   !-------------------------------------------------------------------------
 
-  call ESMF_VMGetGlobal(vm, rc=rc)
+  ! Providing the optional vm argument to ESMF_Initialize() is one way of obtaining the global VM.
   call ESMF_Initialize(VM=vm, logkindflag=ESMF_LOGKIND_MULTI, rc=rc)
   call ESMF_VMGet(vm, localPet=localPet, peCount=nPet, mpiCommunicator=mpi_comm, rc=rc)
   if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
        line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+  ! Duplicate the MPI communicator not to interfere with ESMF communications.
+  call MPI_Comm_dup(mpi_comm, mpi_dup, ierr)
   maintask = .false.
   if (localPet == 0) maintask=.true.
 
@@ -457,32 +460,31 @@ program gen_fixgrid
   ! file if destination is also mx025
   !---------------------------------------------------------------------
 
+  call mpi_bcast(res,    len(res),    MPI_CHARACTER, 0, mpi_dup, ierr)
+  call mpi_bcast(atmres, len(atmres), MPI_CHARACTER, 0, mpi_dup, ierr)
+  call mpi_bcast(dirout, len(dirout), MPI_CHARACTER, 0, mpi_dup, ierr)
+  call mpi_bcast(fv3dir, len(fv3dir), MPI_CHARACTER, 0, mpi_dup, ierr)
+
   if(trim(res) .ne. '025') then
      fsrc = trim(dirout)//'/'//'Ct.mx025_SCRIP.nc'
-     call mpi_bcast(fsrc, len(fsrc), MPI_CHARACTER, 0, mpi_comm, ierr)
-
      inquire(FILE=trim(fsrc), EXIST=fexist)
      if (fexist ) then
         method=ESMF_REGRIDMETHOD_NEAREST_STOD
         fdst = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
         fwgt = trim(dirout)//'/'//'tripole.mx025.Ct.to.mx'//trim(res)//'.Ct.neareststod.nc'
-
-        call mpi_bcast(fdst, len(fdst), MPI_CHARACTER, 0, mpi_comm, ierr)
-        call mpi_bcast(fwgt, len(fwgt), MPI_CHARACTER, 0, mpi_comm, ierr)
         if(maintask) then
            logmsg = 'creating weight file '//trim(fwgt)
            print '(a)',trim(logmsg)
         end if
-
         call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
              weightFile=trim(fwgt), regridmethod=method, &
-             ignoreDegenerate=.true., &
+             ignoreDegenerate=.true., verboseFlag=debug, &
              unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
         if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
              line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
      else
         if(maintask) then
-           logmsg = 'ERROR: '//trim(fsrc)//' is required to generate tripole:triple weights'
+           logmsg = 'ERROR: '//trim(fsrc)//' is required to generate tripole:tripole weights'
            print '(a)',trim(logmsg)
         end if
         stop
@@ -500,11 +502,7 @@ program gen_fixgrid
   fdst = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
   fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
   fatm = trim(fv3dir)//'/'//trim(atmres)//'/'
-  ! ESMF does not have a broadcast for chars
-  call mpi_bcast(fsrc, len(fsrc), MPI_CHARACTER, 0, mpi_comm, ierr)
-  call mpi_bcast(fdst, len(fdst), MPI_CHARACTER, 0, mpi_comm, ierr)
-  call mpi_bcast(fwgt, len(fwgt), MPI_CHARACTER, 0, mpi_comm, ierr)
-  call mpi_bcast(fatm, len(fatm), MPI_CHARACTER, 0, mpi_comm, ierr)
+
   if(maintask) then
      logmsg = 'creating weight file '//trim(fwgt)
      print '(a)',trim(logmsg)
@@ -513,7 +511,8 @@ program gen_fixgrid
   call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
        weightFile=trim(fwgt), regridmethod=method, &
        unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, &
-       ignoreDegenerate=.true., tileFilePath=trim(fatm), rc=rc)
+       ignoreDegenerate=.true., verboseFlag=debug, &
+       tileFilePath=trim(fatm), rc=rc)
   if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
        line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
@@ -523,7 +522,6 @@ program gen_fixgrid
 
      fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
      fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
-
      call make_frac_land(trim(fsrc), trim(fwgt))
 
      !---------------------------------------------------------------------
