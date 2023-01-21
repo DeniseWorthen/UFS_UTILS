@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eux
 
 SECONDS=0
 
@@ -265,7 +265,7 @@ while read -r line || [ "$line" ]; do
 #   fi
 
   else
-    sbatch --wait --ntasks-per-node=20 --nodes=1 -t 0:30:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+    sbatch --wait --ntasks-per-node=10 --nodes=1 -t 0:30:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 

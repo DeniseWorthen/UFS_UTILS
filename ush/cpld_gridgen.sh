@@ -26,8 +26,13 @@ export OUTDIR_PATH=${OUTDIR_PATH:-/scratch1/NCEPDEV/climate/Denise.Worthen/grids
 export MOSAICDIR_PATH=${MOSAICDIR_PATH:-$PATHTR/fix/orog}
 APRUN=${APRUN:-"srun"}
 
-if [[ $MOSAICRES == C1152 ]]; then
+
+if [[ $MOSAICRES == C3072 ]]; then
+    export NPX=3072
+elif [[ $MOSAICRES == C1152 ]]; then
     export NPX=1152
+elif [[ $MOSAICRES == C768 ]]; then
+    export NPX=768
 elif [[ $MOSAICRES == C384 ]]; then
     export NPX=384
 elif [[ $MOSAICRES == C192 ]]; then
@@ -106,7 +111,7 @@ $APRUN ./cpld_gridgen
 # generate ice mesh
 export FSRC=${OUTDIR_PATH}/Ct.mx${RESNAME}_SCRIP_land.nc
 export FDST=${OUTDIR_PATH}/mesh.mx${RESNAME}.nc
-$APRUN ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
+$APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
 
 # generate kmt file for CICE
 export FSRC=${OUTDIR_PATH}/grid_cice_NEMS_mx${RESNAME}.nc
