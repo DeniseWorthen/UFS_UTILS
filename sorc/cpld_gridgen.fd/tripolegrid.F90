@@ -2,7 +2,7 @@
 !! @brief Write the tripole grid file
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module writes the master tripole grid file
+!> This module writes the main tripole grid file
 !! @author Denise.Worthen@noaa.gov
 
 module tripolegrid
