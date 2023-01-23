@@ -40,7 +40,7 @@ check_results() {
   local test_status=PASS
   # verification run
   if [[ $CREATE_BASELINE = false ]]; then
-  
+
     echo | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Working dir = $RUNDIR" | tee -a $PATHRT/$REGRESSIONTEST_LOG
     echo "Baseline dir = $BASELINE" | tee -a $PATHRT/$REGRESSIONTEST_LOG
@@ -261,7 +261,7 @@ while read -r line || [ "$line" ]; do
 #   fi
 
   else
-    sbatch --wait --ntasks-per-node=1 --nodes=1 --mem=4G -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+    sbatch --wait --ntasks-per-node=6 --nodes=1 --mem=8GB -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 
