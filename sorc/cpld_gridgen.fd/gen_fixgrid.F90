@@ -455,10 +455,37 @@ program gen_fixgrid
 
   end if ! if (maintask)
 
-  call mpi_bcast(res,    len(res),    MPI_CHARACTER, 0, mpi_dup, ierr)
-  call mpi_bcast(atmres, len(atmres), MPI_CHARACTER, 0, mpi_dup, ierr)
   call mpi_bcast(dirout, len(dirout), MPI_CHARACTER, 0, mpi_dup, ierr)
+  call mpi_bcast(res,    len(res),    MPI_CHARACTER, 0, mpi_dup, ierr)
   call mpi_bcast(fv3dir, len(fv3dir), MPI_CHARACTER, 0, mpi_dup, ierr)
+  call mpi_bcast(atmres, len(atmres), MPI_CHARACTER, 0, mpi_dup, ierr)
+
+  !---------------------------------------------------------------------
+  ! use ESMF regridding to produce mapped ocean mask; first generate
+  ! conservative regrid weights from ocean to tiles; these are used to 
+  ! generate the tiled files containing the mapped ocean mask
+  !---------------------------------------------------------------------
+
+  method=ESMF_REGRIDMETHOD_CONSERVE
+  fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
+  fdst = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
+  fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
+  fatm = trim(fv3dir)//'/'//trim(atmres)//'/'
+  if(maintask) then
+     logmsg = 'creating weight file '//trim(fwgt)
+     print '(a)',trim(logmsg)
+  end if
+
+  ! call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst),      &
+  !      weightFile=trim(fwgt), regridmethod=method,                      &
+  !      unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, largefileFlag=.true., &
+  !      ignoreDegenerate=.true., verboseFlag=debug, tileFilePath=trim(fatm), rc=rc)
+  call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst),      &
+       weightFile=trim(fwgt), regridmethod=method,                      &
+       unmappedaction=ESMF_UNMAPPEDACTION_IGNORE,                       &
+       ignoreDegenerate=.true., verboseFlag=debug, tileFilePath=trim(fatm), rc=rc)
+  if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+       line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   !---------------------------------------------------------------------
   ! use ESMF to find the tripole:tripole weights for creation
@@ -477,9 +504,13 @@ program gen_fixgrid
            logmsg = 'creating weight file '//trim(fwgt)
            print '(a)',trim(logmsg)
         end if
+        ! call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst),       &
+        !      weightFile=trim(fwgt), regridmethod=method,                       &
+        !      ignoreDegenerate=.true., verboseFlag=debug, largefileFlag=.true., &
+        !      unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
         call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst),       &
              weightFile=trim(fwgt), regridmethod=method,                       &
-             ignoreDegenerate=.true., verboseFlag=debug, largefileFlag=.true., &
+             ignoreDegenerate=.true., verboseFlag=debug,                       &
              unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
         if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
              line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
@@ -491,29 +522,6 @@ program gen_fixgrid
         stop
      end if
   end if
-
-  !---------------------------------------------------------------------
-  ! use ESMF regridding to produce mapped ocean mask; first generate
-  ! conservative regrid weights from ocean to tiles; then generate the
-  ! tiled files containing the mapped ocean mask
-  !---------------------------------------------------------------------
-
-  method=ESMF_REGRIDMETHOD_CONSERVE
-  fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
-  fdst = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
-  fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
-  fatm = trim(fv3dir)//'/'//trim(atmres)//'/'
-  if(maintask) then
-     logmsg = 'creating weight file '//trim(fwgt)
-     print '(a)',trim(logmsg)
-  end if
-
-  call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst),      &
-       weightFile=trim(fwgt), regridmethod=method,                      &
-       unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, largefileFlag=.true., &
-       ignoreDegenerate=.true., verboseFlag=debug, tileFilePath=trim(fatm), rc=rc)
-  if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
-       line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
   if (maintask) then
      !---------------------------------------------------------------------
