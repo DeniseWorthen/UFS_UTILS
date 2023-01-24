@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+SECONDS=0
+
 error() {
   echo
   echo "$@" 1>&2
@@ -261,7 +263,7 @@ while read -r line || [ "$line" ]; do
 #   fi
 
   else
-    sbatch --wait --ntasks-per-node=6 --nodes=1 --mem=8GB -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
+    sbatch --wait --ntasks-per-node=6 --nodes=1 --mem=8g -t 0:05:00 -A $ACCOUNT -q $QUEUE -J $TEST_NAME \
            --partition=$PARTITION -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log \
            --wrap "$SBATCH_COMMAND $TEST_NAME" && d=$? || d=$?
 
@@ -301,3 +303,7 @@ else
   echo "All tests passed" >>summary.log
 fi
 date >> $REGRESSIONTEST_LOG
+
+elapsed_time=$( printf '%02dh:%02dm:%02ds\n' $((SECONDS%86400/3600)) $((SECONDS%3600/60)) $((SECONDS%60)) )
+echo "Elapsed time: ${elapsed_time}. Have a nice day!" >> ${REGRESSIONTEST_LOG}
+echo "Elapsed time: ${elapsed_time}. Have a nice day!"
