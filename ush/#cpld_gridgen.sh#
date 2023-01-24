@@ -25,6 +25,8 @@ export DO_POSTWGTS=.false.
 export OUTDIR_PATH=${OUTDIR_PATH:-/scratch1/NCEPDEV/climate/Denise.Worthen/grids-20220116}
 export MOSAICDIR_PATH=${MOSAICDIR_PATH:-$PATHTR/fix/orog}
 APRUN=${APRUN:-"srun"}
+
+
 if [[ $MOSAICRES == C3072 ]]; then
     export NPX=3072
 elif [[ $MOSAICRES == C1152 ]]; then

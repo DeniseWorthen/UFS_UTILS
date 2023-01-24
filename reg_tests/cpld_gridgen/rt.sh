@@ -220,6 +220,7 @@ while read -r line || [ "$line" ]; do
 
   TEST_NAME=$(echo $line | cut -d'|' -f1 | sed -e 's/^ *//' -e 's/ *$//')
   DEP_NAME=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
+  MOSAICRES=${TEST_NAME%_*}
   TEST_NAME=${TEST_NAME##*_}
   DEP_NAME=${DEP_NAME##*_}
 
@@ -233,6 +234,7 @@ while read -r line || [ "$line" ]; do
   # OUTDIR_PATH is passed down to $PATHTR/ush/cpld_gridgen.sh
   # It MUST be set
   export OUTDIR_PATH=$RUNDIR
+  export MOSAICRES=$MOSAICRES
 
   if [[ -n $DEP_NAME ]]; then
     cp $DEPDIR/Ct.mx025_SCRIP.nc $RUNDIR >/dev/null 2>&1 && d=$? || d=$?
