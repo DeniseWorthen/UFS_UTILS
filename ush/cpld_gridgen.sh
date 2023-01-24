@@ -103,7 +103,7 @@ $APRUN ./cpld_gridgen
 # generate ice mesh
 export FSRC=${OUTDIR_PATH}/Ct.mx${RESNAME}_SCRIP_land.nc
 export FDST=${OUTDIR_PATH}/mesh.mx${RESNAME}.nc
-$APRUN ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
+$APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
 
 # generate kmt file for CICE
 export FSRC=${OUTDIR_PATH}/grid_cice_NEMS_mx${RESNAME}.nc
