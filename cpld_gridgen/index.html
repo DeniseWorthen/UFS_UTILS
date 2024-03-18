@@ -110,7 +110,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>The CICE6 grid and mask file</li>
 <li>The mesh file for the desired OCN/ICE resolution, which is identical for MOM6 and CICE6.</li>
 <li>The mapped ocean mask on the FV3 tiles</li>
-<li>The ESMF regridding weights required to create the CICE6 IC from CPC (SIS2) reanalysis.</li>
+<li>The ESMF regridding weights required to create the CICE6 IC from CPC (SIS2) reanalysis or to map a 1/4 deg MOM6 or CICE 6 tripole restart file to a lower tripole resolution.</li>
+<li>The latitude,longitude,depth and mask arrays required by WW3 in creating the mod_def file.</li>
 <li>The ESMF regridding weights required to remap the CICE6 or MOM6 output from tripole grid to a rectilinear grid (optional).</li>
 </ul>
 <p>Since MOM6 creates the model grid at runtime (including adjusting the land mask, if required), the required files for CICE and UFSAtm must be created in a pre-processing step using only the MOM6 supergrid, topography and land mask files as input. This allows the mapped ocean mask (used for creating of the ATM ICs) and the CICE6 grid and mask files to be consistent with the run-time configuration of MOM6.</p>
@@ -231,11 +232,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 <th>File name </th><th>Function </th></tr>
 <tr>
 <td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br/>
- a tripole destination resolution using nearest <br/>
+ a lower tripole destination resolution using nearest <br/>
  source-to-destination mapping </td></tr>
 <tr>
 <td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br/>
- a tripole destination resolution using <br/>
+ a lower tripole destination resolution using <br/>
  bilinear mapping </td></tr>
 <tr>
 <td row="1">tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc </td><td>the ESMF weights for mapping downscaled IC values on a <br/>
