@@ -170,7 +170,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">### Rotation angles</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on ``Ct`` grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (``Bu``) grid points. To find these <a class="code" href="classangles.html">angles</a>, the rotation angle on ``Ct`` points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by &quot;flipping over&quot; the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on ``Ct`` grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (``Bu``) grid points. To find these <a class="code" href="classangles.html">angles</a>, the rotation angle on ``Ct`` points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by &quot;flipping over&quot; and changing the sign of the values on the last row of the MOM6 grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1</div>
@@ -219,7 +219,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;3. create the CICE6 grid variables and writes the required CICE6 grid file</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;4. create a SCRIP file <span class="keywordflow">for</span> the center stagger (``Ct``) grid points and a second SCRIP file also containing the land mask</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;5. create the ESMF conservative regridding weights to map the ocean mask to the FV3 tiles and write the mapped mask to 6 tile files</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;6. create the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;6. create the ESMF regridding weights to map a 1/4 deg ice or ocean restart file to a lower resolution tripole grid</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;7. optionally call a routine to generate ESMF regridding weights to map the tripole grid to a set of rectilinear grids</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;8. use the command line command *ESMF_Scrip2Unstruct* to generate the ocean mesh from the SCRIP file containing the land mask (item 4)</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;9. use an NCO command line command to generate the CICE6 land mask file from the CICE6 grid file</div>
@@ -258,30 +258,29 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;&lt;br&gt;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;* The following file will be produced in the output location to map the 1/4 degree tripole values to a tripole grid of lower resolution.</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;* The following file will be produced in the output location to map 1/4 degree tripole values to a tripole grid of lower resolution.</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;&lt;table&gt;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;foutcice6&quot;&gt;Output files for down-sampled IC creation at tripole destination resolution&lt;/caption&gt;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;fouttripole&quot;&gt;Output files for down-sampled IC creation at tripole destination resolution&lt;/caption&gt;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;&lt;tr&gt;&lt;th&gt;File name                                                               &lt;th&gt;Function</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  &lt;td&gt;the ESMF weights for mapping 1/4deg tripole ICs to &lt;br&gt;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                                                                                    a tripole [destination resolution] using nearest &lt;br&gt;                                                                                     source-to-destination mapping</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc  &lt;td&gt;the ESMF weights for mapping 1/4 tripole ICs to &lt;br&gt;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                                                                    a tripole [destination resolution] using nearest &lt;br&gt;      \</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                                                               bilinear mapping</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc &lt;td&gt; the ESMF weights for mapping downscaled IC values on a &lt;br&gt;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                                          tripole grid to the native stagger locations</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;&lt;/table&gt;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;&lt;br&gt;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;* If run-time land mask changes for MOM6 are requested, the following file will be produced in the output location:</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  &lt;td&gt;the ESMF weights for mapping 1/4 deg tripole ICs to &lt;br&gt;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                                                                                    a tripole destination resolution using nearest &lt;br&gt;                                                                                     source-to-destination mapping</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc  &lt;td&gt;the ESMF weights for mapping 1/4 deg tripole ICs to &lt;br&gt;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                                                                    a tripole destination resolution using nearest &lt;br&gt;                                                                                     bilinear mapping</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc &lt;td&gt; the ESMF weights for mapping downscaled IC values on a &lt;br&gt;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                                          tripole grid from Ct locations to the native stagger locations</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;&lt;/table&gt;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;&lt;br&gt;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;* If run-time land mask changes for MOM6 are requested, the following file will be produced in the output location:</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;&lt;table&gt;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;fouttopo&quot;&gt;Output files for run-time modification of MOM6 land mask&lt;/caption&gt;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;&lt;tr&gt;&lt;th&gt;File name                       &lt;th&gt;Function</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;&lt;tr&gt;&lt;td row=1&gt;ufs.[Default filename].nc &lt;td&gt;Topo-edits required for UFS application. These are appended to the existing default topo &lt;br&gt;                                             edits file and implemented at run time with the parameter flag &lt;br&gt;                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *cpld_gridgen.sh* will be &lt;br&gt;                                                 consistent with this run-time land mask.</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;&lt;/table&gt;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;&lt;table&gt;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;fouttopo&quot;&gt;Output files for run-time modification of MOM6 land mask&lt;/caption&gt;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;&lt;tr&gt;&lt;th&gt;File name                       &lt;th&gt;Function</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;&lt;tr&gt;&lt;td row=1&gt;ufs.[Default filename].nc &lt;td&gt;Topo-edits required for UFS application. These are appended to the existing default topo &lt;br&gt;                                             edits file and implemented at run time with the parameter flag &lt;br&gt;                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *cpld_gridgen.sh* will be &lt;br&gt;                                                 consistent with this run-time land mask.</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;&lt;/table&gt;</div>
 <div class="ttc" id="classvertices_html"><div class="ttname"><a href="classvertices.html">vertices</a></div><div class="ttdef"><b>Definition:</b> <a href="vertices_8F90_source.html#l00013">vertices.F90:13</a></div></div>
 <div class="ttc" id="classangles_html"><div class="ttname"><a href="classangles.html">angles</a></div><div class="ttdef"><b>Definition:</b> <a href="angles_8F90_source.html#l00010">angles.F90:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('index.html','');});
              │            │
              Bu────Cv─────Bu
 </pre><h3>Rotation angles</h3>
-<p>For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on <code>Ct</code> grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (<code>Bu</code>) grid points. To find these angles, the rotation angle on <code>Ct</code> points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If <code>ipL</code> and <code>ipR</code> are the i-indices of the poles along the last j-row:</p>
+<p>For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on <code>Ct</code> grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (<code>Bu</code>) grid points. To find these angles, the rotation angle on <code>Ct</code> points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by "flipping over" and changing the sign of the values on the last row of the MOM6 grid. If <code>ipL</code> and <code>ipR</code> are the i-indices of the poles along the last j-row:</p>
 <pre class="fragment">            ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1
                x-------x-------x     |||        x-------x-------x
 </pre><p>then after folding along the tripole seam, <code>ipL</code> and <code>ipR</code> must align:</p>
@@ -170,7 +170,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li>create the CICE6 grid variables and writes the required CICE6 grid file</li>
 <li>create a SCRIP file for the center stagger (<code>Ct</code>) grid points and a second SCRIP file also containing the land mask</li>
 <li>create the ESMF conservative regridding weights to map the ocean mask to the FV3 tiles and write the mapped mask to 6 tile files</li>
-<li>create the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid</li>
+<li>create the ESMF regridding weights to map a 1/4 deg ice or ocean restart file to a lower resolution tripole grid</li>
 <li>optionally call a routine to generate ESMF regridding weights to map the tripole grid to a set of rectilinear grids</li>
 <li>use the command line command <em>ESMF_Scrip2Unstruct</em> to generate the ocean mesh from the SCRIP file containing the land mask (item 4)</li>
 <li>use an NCO command line command to generate the CICE6 land mask file from the CICE6 grid file</li>
@@ -223,23 +223,23 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p><br/>
 </p>
 <ul>
-<li>The following file will be produced in the output location to map the 1/4 degree tripole values to a tripole grid of lower resolution.</li>
+<li>The following file will be produced in the output location to map 1/4 degree tripole values to a tripole grid of lower resolution.</li>
 </ul>
 <table class="doxtable">
-<caption id="foutcice6" align="bottom">Output files for down-sampled IC creation at tripole destination resolution</caption>
+<caption id="fouttripole" align="bottom">Output files for down-sampled IC creation at tripole destination resolution</caption>
 <tr>
 <th>File name </th><th>Function </th></tr>
 <tr>
-<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping 1/4deg tripole ICs to <br/>
- a tripole [destination resolution] using nearest <br/>
+<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br/>
+ a tripole destination resolution using nearest <br/>
  source-to-destination mapping </td></tr>
 <tr>
-<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc </td><td>the ESMF weights for mapping 1/4 tripole ICs to <br/>
- a tripole [destination resolution] using nearest <br/>
- \ bilinear mapping </td></tr>
+<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br/>
+ a tripole destination resolution using nearest <br/>
+ bilinear mapping </td></tr>
 <tr>
 <td row="1">tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc </td><td>the ESMF weights for mapping downscaled IC values on a <br/>
- tripole grid to the native stagger locations </td></tr>
+ tripole grid from Ct locations to the native stagger locations </td></tr>
 </table>
 <p><br/>
 </p>
