@@ -21,14 +21,17 @@
 #   4) surface climo fields, such as soil type, vegetation
 #      greenness and albedo.
 #
-# Calls the following scripts:
+# Calls the following scripts
 #   1) fv3gfs_make_grid.sh (make 'grid' files)
-#   2) fv3gfs_make_orog.sh (make 'oro' files)
-#   3) fv3gfs_make_orog_gsl.sh (make gsl drag 'oro' files)
-#   4) fv3gfs_filter_topo.sh (filter topography)
-#   5) sfc_climo_gen.sh (create surface climo fields)
-#
-# Note: The sfc_climo_gen program only runs with an
+#   2) fv3gfs_make_lake.sh (adds lakes)
+#   3) fv3gfs_make_orog.sh (make land mask and exits for uniform grid type only, generates oro for other grid types)
+#   4) fv3gfs_ocean_merge.sh (Reads pre-generated ocean grid and merges them for uniform grid type only)
+#   5) fv3gfs_make_orog.sh (reads merged masks and makes 'oro' files for uniform grid type only)
+#   6) fv3gfs_make_orog_gsl.sh (make gsl drag 'oro' files for uniform grid type only)
+#   7) fv3gfs_filter_topo.sh (filter topography)
+#   8) sfc_climo_gen.sh (create surface climo fields)
+# 
+#    Note: The sfc_climo_gen program only runs with an
 #       mpi task count that is a multiple of six.  This is
 #       an ESMF library requirement.  Large grids may require
 #       tasks spread across multiple nodes.
@@ -39,23 +42,28 @@
 
 set -eux
 
-export machine=${machine:?}
-
 #----------------------------------------------------------------------------------
 # Makes FV3 cubed-sphere grid
 #----------------------------------------------------------------------------------
+
+
+export veg_type_src=${veg_type_src:-modis.igbp.0.05}
+export soil_type_src=${soil_type_src:-statsgo.0.05} 
+export lake_data_srce=${lake_data_srce:-MODISP_GLDBV3}
 
 export res=${res:-96}           # resolution of tile: 48, 96, 128, 192, 384, 768, 1152, 3072
 export gtype=${gtype:-uniform}  # grid type: uniform, stretch, nest, regional_gfdl,
                                 # or regional_esg
 
-export add_lake=${add_lake:-false}      # add lake fraction and depth.  uniform only.
-export lake_cutoff=${lake_cutoff:-0.20} # lake fractions less than lake_cutoff 
-                                        # are ignored.
+export add_lake=${add_lake:-false}      # add lake fraction and depth. uniform only.
+export lake_cutoff=${lake_cutoff:-0.50} # return 0 if lake_frac <  lake_cutoff & add_lake=T
+export binary_lake=${binary_lake:-1}    # return 1 if lake_frac >= lake_cutoff & add_lake=T
 
 export make_gsl_orog=${make_gsl_orog:-false} # when true, create GSL drag suite orog files.
+export vegsoilt_frac=${vegsoilt_frac:-.false.}
 
 if [ $gtype = uniform ];  then
+ # export ocn=${ocn:-025}
   echo "Creating global uniform grid"
 elif [ $gtype = stretch ]; then
   export stretch_fac=${stretch_fac:-1.5}  # Stretching factor for the grid
@@ -100,14 +108,12 @@ fi
 
 export TEMP_DIR=${TEMP_DIR:?}
 export out_dir=${out_dir:?}
-
 export home_dir=${home_dir:-"$PWD/../"}
 export script_dir=$home_dir/ush
 export exec_dir=${exec_dir:-"$home_dir/exec"}
-export topo=$home_dir/fix/fix_orog
-export topo_am=$home_dir/fix/fix_am
-
+export topo=$home_dir/fix/orog_raw
 export NCDUMP=${NCDUMP:-ncdump}
+
 
 rm -fr $TEMP_DIR
 mkdir -p $TEMP_DIR
@@ -142,8 +148,21 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
 
   export grid_dir=$TEMP_DIR/$name/grid
   export orog_dir=$TEMP_DIR/$name/orog
-  out_dir=$out_dir/C${res}
+
+
+	#if [ $gtype = uniform ]; then
+	if declare -p ocn &>/dev/null;then
+			out_dir=$out_dir/C$res.mx$ocn
+                	readme_name=readme.C$res.mx$ocn.txt
+	else
+
+	out_dir=$out_dir/C$res
+        readme_name=readme.C$res.txt
+	fi         
+
+
   mkdir -p $out_dir
+  
 
   if [ $gtype = nest ]; then
     filter_dir=$orog_dir   # nested grid topography will be filtered online
@@ -171,67 +190,33 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
  
   echo "Begin uniform orography generation at `date`"
 
-#----------------------------------------------------------------------------------
-# On WCOSS_C use cfp to run multiple tiles simulatneously for the orography
-#----------------------------------------------------------------------------------
-
-  if [ $machine = WCOSS_C ]; then
-    touch $TEMP_DIR/orog.file1
-    if [ $make_gsl_orog = true ]; then
-      touch $TEMP_DIR/orog_gsl.file1
-    fi
-    tile=1
-    while [ $tile -le $ntiles ]; do
-      echo "$script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo " >>$TEMP_DIR/orog.file1
-      if [ $make_gsl_orog = true ]; then
-        export halo_tmp="-999"  # no halo
-        echo $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo_am >>$TEMP_DIR/orog_gsl.file1
-      fi
-      tile=$(( $tile + 1 ))
-    done
-    aprun -j 1 -n 4 -N 4 -d 6 -cc depth cfp $TEMP_DIR/orog.file1
+  tile=1
+  while [ $tile -le $ntiles ]; do
+    set +x
+    echo
+    echo "............ Execute fv3gfs_make_orog.sh for tile $tile .................."
+    echo
+    set -x
+    $script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo
     err=$?
     if [ $err != 0 ]; then
       exit $err
     fi
-    rm $TEMP_DIR/orog.file1
     if [ $make_gsl_orog = true ]; then
-      aprun -j 1 -n 4 -N 4 -d 6 -cc depth cfp $TEMP_DIR/orog_gsl.file1
-      err=$?
-      if [ $err != 0 ]; then
-        exit $err
-      fi
-      rm $TEMP_DIR/orog_gsl.file1
-    fi
-  else
-    tile=1
-    while [ $tile -le $ntiles ]; do
       set +x
       echo
-      echo "............ Execute fv3gfs_make_orog.sh for tile $tile .................."
-      echo
+      echo "............ Execute fv3gfs_make_orog_gsl.sh for tile $tile .................."
+      echo 
       set -x
-      $script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo
+      export halo_tmp="-999"  # no halo
+      $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo
       err=$?
       if [ $err != 0 ]; then
         exit $err
       fi
-      if [ $make_gsl_orog = true ]; then
-        set +x
-        echo
-        echo "............ Execute fv3gfs_make_orog_gsl.sh for tile $tile .................."
-        echo 
-        set -x
-        export halo_tmp="-999"  # no halo
-        $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo_am
-        err=$?
-        if [ $err != 0 ]; then
-          exit $err
-        fi
-      fi
-      tile=$(( $tile + 1 ))
-    done
-  fi
+    fi
+    tile=$(( $tile + 1 ))
+  done
 
   if [ $add_lake = true ]; then
     $script_dir/fv3gfs_make_lake.sh
@@ -240,6 +225,16 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
       exit $err
     fi
   fi
+
+	if [ $gtype = uniform ]; then
+	  if declare -p ocn &>/dev/null;then 
+ 	     $script_dir/fv3gfs_ocean_merge.sh
+	     err=$?
+             if [ $err != 0 ]; then
+                exit $err
+     	     fi
+           fi
+	fi
 
   set +x
   echo "End uniform orography generation at `date`"
@@ -268,17 +263,26 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
 
   tile=1
   while [ $tile -le $ntiles ]; do
-    cp $filter_dir/oro.C${res}.tile${tile}.nc $out_dir/C${res}_oro_data.tile${tile}.nc
-    cp $grid_dir/C${res}_grid.tile${tile}.nc  $out_dir/C${res}_grid.tile${tile}.nc
-    if [ $make_gsl_orog = true ]; then
-      cp $orog_dir/C${res}_oro_data_*.tile${tile}*.nc $out_dir/  # gsl drag suite oro_data files
-    fi
-    tile=`expr $tile + 1 `
+	
+  	if declare -p ocn &>/dev/null;then
+	cp $filter_dir/oro.C${res}.tile${tile}.nc $out_dir/C${res}.mx${ocn}_oro_data.tile${tile}.nc
+   	cp $grid_dir/C${res}_grid.tile${tile}.nc  $out_dir/C${res}_grid.tile${tile}.nc
+        else
+	cp $filter_dir/oro.C${res}.tile${tile}.nc $out_dir/C${res}_oro_data.tile${tile}.nc
+        cp $grid_dir/C${res}_grid.tile${tile}.nc  $out_dir/C${res}_grid.tile${tile}.nc
+	fi
+
+	 if [ $make_gsl_orog = true ]; then
+      		cp $orog_dir/C${res}_oro_data*.tile${tile}*.nc $out_dir/  # gsl drag suite oro_data files
+   	 fi
+    		tile=`expr $tile + 1 `
   done
 
   cp $grid_dir/C${res}_*mosaic.nc             $out_dir
 
   echo "Grid and orography files are now prepared."
+
+#exit 0
 
 #----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------
@@ -301,6 +305,7 @@ elif [ $gtype = regional_gfdl ] || [ $gtype = regional_esg ]; then
   filter_dir=$TEMP_DIR/$name/filter_topo
   rm -rf $TEMP_DIR/$name
   mkdir -p $grid_dir $orog_dir $filter_dir
+  readme_name=readme.$gtype.txt
 
 #----------------------------------------------------------------------------------
 # Create regional gfdl grid files.
@@ -385,29 +390,19 @@ elif [ $gtype = regional_gfdl ] || [ $gtype = regional_esg ]; then
 
 #----------------------------------------------------------------------------------
 # Create orography.
-#
-# On WCOSS_C use cfp to run multiple tiles simulatneously for the orography.
-# For now we only have one tile but in the future we will have more.
 #----------------------------------------------------------------------------------
  
   echo "Begin orography generation at `date`"
 
-  if [ $machine = WCOSS_C ]; then
-    echo "$script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo " >>$TEMP_DIR/orog.file1
-    aprun -j 1 -n 4 -N 4 -d 6 -cc depth cfp $TEMP_DIR/orog.file1
-    err=$?
-    rm $TEMP_DIR/orog.file1
-  else
-    set +x
-    echo
-    echo "............ Execute fv3gfs_make_orog.sh for tile $tile .................."
-    echo
-    set -x
-    $script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo
-    err=$?
-    if [ $err != 0 ]; then
-      exit $err
-    fi
+  set +x
+  echo
+  echo "............ Execute fv3gfs_make_orog.sh for tile $tile .................."
+  echo
+  set -x
+  $script_dir/fv3gfs_make_orog.sh $res $tile $grid_dir $orog_dir $script_dir $topo
+  err=$?
+  if [ $err != 0 ]; then
+    exit $err
   fi
 
 # add lake data to the orography file, if $add_lake is true
@@ -498,24 +493,18 @@ elif [ $gtype = regional_gfdl ] || [ $gtype = regional_esg ]; then
   if [ $make_gsl_orog = true ]; then
     export halo_tmp="0"
     ln -sf $out_dir/C${res}_grid.tile${tile}.halo0.nc $grid_dir/
-    if [ $machine = WCOSS_C ]; then
-      echo $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo_am >>$TEMP_DIR/orog_gsl.file1
-      aprun -j 1 -n 4 -N 4 -d 6 -cc depth cfp $TEMP_DIR/orog_gsl.file1
-      err=$?
-      rm $TEMP_DIR/orog_gsl.file1
-    else
-      set +x 
-      echo
-      echo "............ Execute fv3gfs_make_orog_gsl.sh for tile $tile .................."
-      echo
-      set -x
-      $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo_am
-      err=$?
-      if [ $err != 0 ]; then
-        exit $err
-      fi
+    set +x 
+    echo
+    echo "............ Execute fv3gfs_make_orog_gsl.sh for tile $tile .................."
+    echo
+    set -x
+    $script_dir/fv3gfs_make_orog_gsl.sh $res $tile $halo_tmp $grid_dir $orog_dir $topo
+    err=$?
+    if [ $err != 0 ]; then
+      exit $err
     fi
     cp $orog_dir/C${res}_oro_data_*.tile${tile}*.nc $out_dir/  # gsl drag suite oro_data files
+
   fi
 
   echo "Grid and orography files are now prepared for regional grid"
@@ -534,15 +523,17 @@ fi
 #------------------------------------------------------------------------------------
 
 export WORK_DIR=$TEMP_DIR/sfcfields
-export SAVE_DIR=$out_dir/fix_sfc
+export SAVE_DIR=$out_dir/sfc
 export BASE_DIR=$home_dir
 export FIX_FV3=$out_dir
-export input_sfc_climo_dir=$home_dir/fix/fix_sfc_climo
+export input_sfc_climo_dir=$home_dir/fix/sfc_climo
+
 
 if [ $gtype = regional_gfdl ] || [ $gtype = regional_esg ]; then
   export HALO=$halop1
   ln -fs $out_dir/C${res}_grid.tile${tile}.halo${HALO}.nc $out_dir/C${res}_grid.tile${tile}.nc
   ln -fs $out_dir/C${res}_oro_data.tile${tile}.halo${HALO}.nc $out_dir/C${res}_oro_data.tile${tile}.nc
+
   export GRIDTYPE=regional
 elif [ $gtype = nest ]; then
   export mosaic_file=$out_dir/C${res}_coarse_mosaic.nc
@@ -574,5 +565,90 @@ if [ $gtype = nest ]; then
     exit $err
   fi
 fi
+
+
+
+#------------------------------------------------------------------------------------
+# Make the README files with all relevant info to reproduce the outputs
+#------------------------------------------------------------------------------------
+
+cd $home_dir
+
+commit_string=$(git log -1 --oneline)
+commit_num=$(echo $commit_string | cut -c1-7)
+cd $out_dir
+
+if [ $gtype = uniform ] || [ $gtype = stretch ]; then
+
+cat <<EOF > $readme_name
+The following parameters were used
+	commit_num=$commit_num
+	creation date=$(date +%Y-%m-%d)
+        gtype=$gtype
+        make_gsl_orog=$make_gsl_orog
+        vegsoilt_frac=$vegsoilt_frac
+        veg_type=$veg_type_src
+        soil_type=$soil_type_src
+        add_lake=$add_lake
+	lake_data_srce=$lake_data_srce
+        binary_lake=$binary_lake
+	lake_cutoff=$lake_cutoff
+EOF
+elif [ $gtype = nest ] || [ $gtype = regional_gfdl ]; then
+
+
+cat <<EOF > $readme_name
+The following parameters were used
+        commit_num=$commit_num
+	creation date=$(date +%Y-%m-%d)
+        gtype=$gtype
+        vegsoilt_frac=$vegsoilt_frac
+        veg_type=$veg_type_src
+        soil_type=$soil_type_src
+        make_gsl_orog=$make_gsl_orog
+        vegsoilt_frac=$vegsoilt_frac
+        veg_type=$veg_type_src
+        soil_type=$soil_type_src
+        add_lake=$add_lake
+	lake_data_srce=$lake_data_srce
+        lake_cutoff=$lake_cutoff
+        binary_lake=$binary_lake
+        stretch_fac=$stretch_fac        # Stretching factor for the grid
+        target_lon=$target_lon          # Center longitude of the highest resolution tile
+        target_lat=$target_lat          # Center latitude of the highest resolution tile
+        refine_ratio=$refine_ratio      # The refinement ratio
+        istart_nest=$istart_nest        # Starting i-direction index of nest grid in parent tile supergrid
+        jstart_nest=$jstart_nest        # Starting j-direction index of nest grid in parent tile supergrid
+        iend_nest=$iend_nest            # Ending i-direction index of nest grid in parent tile supergrid
+        jend_nest=$jend_nest            # Ending j-direction index of nest grid in parent tile supergrid
+        halo=$halo                      # Lateral boundary halo
+EOF
+elif [ $gtype = regional_esg ] ; then
+
+cat <<EOF > $readme_name
+The following parameters were used
+        commit_num=$commit_num
+        creation date=$(date +%Y-%m-%d)
+	gtype=$gtype
+        res=-999                        # equivalent resolution is computed
+        vegsoilt_frac=$vegsoilt_frac
+        veg_type=$veg_type_src
+        soil_type=$soil_type_src
+	lake_data_srce=$lake_data_srce
+        target_lon=$target_lon          # Center longitude of grid
+        target_lat=$target_lat          # Center latitude of grid
+        idim=$idim                      # Dimension of grid in 'i' direction
+        jdim=$jdim                      # Dimension of grid in 'j' direction
+        delx=$delx                      # Grid spacing (in degrees) in the 'i' direction
+                                        # on the SUPERGRID (which has twice the resolution of
+                                        # the model grid).  The physical grid spacing in the 'i'
+                                        # direction is related to delx as follows:
+        dely=$dely                      # Grid spacing (in degrees) in the 'j' direction.
+        halo=$halo                      # number of row/cols for halo
+EOF
+fi
+
+
+
 
 exit

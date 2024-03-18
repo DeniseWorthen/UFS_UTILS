@@ -1,13 +1,15 @@
 # This is the CMake build file for the chgres_cube utility in the
 # UFS_UTILS package.
 #
-# George Gayno, Mark Potts, Kyle Gerheiser
+# George Gayno, Mark Potts, Kyle Gerheiser, Larissa Reames
 
 set(lib_src
     atmosphere.F90
     atmosphere_target_data.F90
     grib2_util.F90
-    input_data.F90
+    atm_input_data.F90
+    sfc_input_data.F90
+    nst_input_data.F90
     model_grid.F90
     program_setup.F90
     search_util.F90
@@ -21,15 +23,12 @@ set(lib_src
 
 set(exe_src chgres.F90)
 
+add_subdirectory(msis2.1.fd)
+
 if(CMAKE_Fortran_COMPILER_ID MATCHES "^(Intel)$")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8 -assume byterecl")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^(GNU)$")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-line-length-0 -fdefault-real-8")
-  
-  # Turn on this argument mismatch flag for gfortran10.
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch")
-  endif()
 endif()
 
 set(exe_name chgres_cube)
@@ -49,12 +48,16 @@ target_link_libraries(
   sfcio::sfcio
   sigio::sigio
   bacio::bacio_4
-  sp::sp_d
-  w3nco::w3nco_d
+  ip::ip_d
+  w3emc::w3emc_d
   esmf
-  wgrib2::wgrib2
+  msis2
   MPI::MPI_Fortran
   NetCDF::NetCDF_Fortran)
+
+if(sp_FOUND)
+  target_link_libraries(chgres_cube_lib PUBLIC sp::sp_d)
+endif()
 
 if(OpenMP_Fortran_FOUND)
   target_link_libraries(${exe_name} PUBLIC OpenMP::OpenMP_Fortran)
@@ -62,7 +65,7 @@ endif()
 
 target_link_libraries(${exe_name} PRIVATE chgres_cube_lib)
 
-install(TARGETS ${exe_name} RUNTIME DESTINATION ${exec_dir})
+install(TARGETS ${exe_name})
 
 # If doxygen documentation we enabled, build it.
 if(ENABLE_DOCS)

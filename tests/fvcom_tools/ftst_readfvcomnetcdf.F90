@@ -40,14 +40,14 @@
  real :: lbcvice_expected(NUM_VALUES) !expected fvcom ice thickness values
 
 ! Create allocabable arrays to read from .nc files
- real, allocatable :: fv3ice(:,:), fv3sst(:,:)
- real, allocatable :: fv3sfcT(:,:), fv3mask(:,:)
- real, allocatable :: fv3iceT(:,:), fv3sfcTl(:,:)
- real, allocatable :: fv3zorl(:,:), fv3hice(:,:)
- real, allocatable :: lbcice(:,:), lbcsst(:,:)
- real, allocatable :: lbcsfcT(:,:), lbcmask(:,:)
- real, allocatable :: lbciceT(:,:), lbchice(:,:)
- real, allocatable :: lbczorl(:,:)
+ real(4), allocatable :: fv3ice(:,:), fv3sst(:,:)
+ real(4), allocatable :: fv3sfcT(:,:), fv3mask(:,:)
+ real(4), allocatable :: fv3iceT(:,:), fv3sfcTl(:,:)
+ real(4), allocatable :: fv3zorl(:,:), fv3hice(:,:)
+ real(4), allocatable :: lbcice(:,:), lbcsst(:,:)
+ real(4), allocatable :: lbcsfcT(:,:), lbcmask(:,:)
+ real(4), allocatable :: lbciceT(:,:), lbchice(:,:)
+ real(4), allocatable :: lbczorl(:,:)
 ! Expected values from the dummy files
  data lat_lon_expected_values /5, 5/
  data fv3mask_expected /1, 0/
@@ -74,8 +74,8 @@
 
  print*,"Starting test of fvcom_tools."
 !Set default file names, cold start, and time str
- fv3file = 'sfcdata_unittest.nc'
- fvcomfile = 'fvcom_unittest.nc'
+ fv3file = './data/sfcdata_unittest.nc'
+ fvcomfile = './data/fvcom_unittest.nc'
  wcstart = 'cold'
  inputFVCOMselStr = '3333-44-55T66:77:88.000000'
  t1 = 1

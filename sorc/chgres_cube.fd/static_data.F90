@@ -14,6 +14,8 @@
 
  use esmf
 
+ use utilities, only              : error_handler, netcdf_err
+
  implicit none
 
  private
@@ -46,8 +48,7 @@
 !! @author George Gayno NCEP/EMC   
  subroutine get_static_fields(localpet)
 
- use model_grid, only               : target_grid, &
-                                      num_tiles_target_grid, &
+ use model_grid, only               : num_tiles_target_grid, &
                                       i_target, j_target
 
  implicit none

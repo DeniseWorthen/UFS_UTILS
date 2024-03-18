@@ -18,12 +18,15 @@ fi
 export DATA=$OUTDIR/c96_gfs_sigio
 rm -fr $DATA
 
-export FIXfv3=${HOMEreg}/fix/C96
+export CRES=96
+export ocn=100
+export FIXfv3=${HOMEreg}/fix/C${CRES}
+
 export COMIN=${HOMEreg}/input_data/gfs.sigio
 export ATM_FILES_INPUT=gdas.t00z.sanl
 export SFC_FILES_INPUT=gdas.t00z.sfcanl
 export CONVERT_NST='.false.'
-export VCOORD_FILE=${HOMEufs}/fix/fix_am/global_hyblev.l64.txt
+export VCOORD_FILE=${HOMEufs}/fix/am/global_hyblev.l64.txt
 export INPUT_TYPE="gfs_sigio"
 
 # dont start/end with double quotes

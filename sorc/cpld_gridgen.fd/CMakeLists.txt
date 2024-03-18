@@ -25,11 +25,6 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES "^(Intel)$")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -r8 -assume byterecl")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^(GNU)$")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-line-length-0 -fdefault-real-8")
-  
-  # Turn on this argument mismatch flag for gfortran10.
-  if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10)
-     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fallow-argument-mismatch")
-  endif()
 endif()
 
 set(exe_name cpld_gridgen)
@@ -45,7 +40,8 @@ target_link_libraries(
   cpld_gridgen_lib
   PUBLIC
   esmf
-  MPI::MPI_Fortran)
+  MPI::MPI_Fortran
+  NetCDF::NetCDF_Fortran)
 
 if(OpenMP_Fortran_FOUND)
   target_link_libraries(${exe_name} PUBLIC OpenMP::OpenMP_Fortran)
@@ -53,9 +49,9 @@ endif()
 
 target_link_libraries(${exe_name} PRIVATE cpld_gridgen_lib)
 
-install(TARGETS ${exe_name} RUNTIME DESTINATION ${exec_dir})
+install(TARGETS ${exe_name})
 
 # If doxygen documentation we enabled, build it.
 if(ENABLE_DOCS)
-  add_subdirectory(docs)  
+  add_subdirectory(docs)
 endif()

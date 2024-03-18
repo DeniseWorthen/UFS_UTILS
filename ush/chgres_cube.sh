@@ -17,6 +17,13 @@ set -eux
 CRES=${CRES:-96}
 
 #----------------------------------------------------------------------------
+# Resolution of ocean grid. When declared, use the orography files
+# for coupled model runs. Choices are: 025, 050, 100 or 500.
+#----------------------------------------------------------------------------
+
+ocn=${ocn:-""}
+
+#----------------------------------------------------------------------------
 # Set up environment paths.
 #
 # HOMEufs - Location of root ufs_utils directory.
@@ -24,8 +31,7 @@ CRES=${CRES:-96}
 # FIXufs  - Location of ufs_utils root fixed data directory.
 # FIXfv3  - Location of target grid orography and 'grid' files.
 # FIXsfc  - Location of target grid surface climatological files.
-# FIXam   - Location of vertical coordinate definition file for target grid 
-#           and RAP grib2 input grid lat/lon definition file.
+# FIXam   - Location of vertical coordinate definition file for target grid.
 #----------------------------------------------------------------------------
 
 ufs_ver=${ufs_ver:-v1.0.0}
@@ -34,9 +40,9 @@ NWROOT=${NWROOT:-/nw${envir}}
 HOMEufs=${HOMEufs:-${NWROOT}/ufs_util.${ufs_ver}}
 EXECufs=${EXECufs:-$HOMEufs/exec}
 FIXufs=${FIXufs:-$HOMEufs/fix}
-FIXfv3=${FIXfv3:-$FIXufs/fix_fv3_gmted2010/C${CRES}}
-FIXsfc=${FIXsfc:-$FIXfv3/fix_sfc}
-FIXam=${FIXam:-$FIXufs/fix_am}
+FIXfv3=${FIXfv3:-$FIXufs/orog/C${CRES}}
+FIXsfc=${FIXsfc:-$FIXfv3/sfc}
+FIXam=${FIXam:-$FIXufs/am}
 
 #----------------------------------------------------------------------------
 # CDATE - YYMMDDHH of your run.
@@ -157,7 +163,14 @@ GEOGRID_FILE_INPUT=${GEOGRID_FILE_INPUT:-NULL}
 #                          be located in FIXfv3.
 #
 # THOMPSON_AEROSOL_FILE = Location of Thompson aerosol climatology file.
+#
+# WAM_COLD_START = Set to .true. if coldstarting for the Whole Atmosphere
+#                  Model (WAM).
+#
+# WAM_PARM_FILE = Location of the parameter file used by the WAM function.
 #----------------------------------------------------------------------------
+
+WAM_PARM_FILE=${WAM_PARM_FILE:-NULL}
 
 VARMAP_FILE=${VARMAP_FILE:-NULL}
 
@@ -169,9 +182,15 @@ MOSAIC_FILE_TARGET_GRID=${MOSAIC_FILE_TARGET_GRID:-${FIXfv3}/C${CRES}_mosaic.nc}
 
 OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID:-NULL}
 if [ $OROG_FILES_TARGET_GRID == NULL ]; then
-  OROG_FILES_TARGET_GRID='C'${CRES}'_oro_data.tile1.nc","C'${CRES}'_oro_data.tile2.nc"'
-  OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}'_oro_data.tile3.nc","C'${CRES}'_oro_data.tile4.nc"'
-  OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}'_oro_data.tile5.nc","C'${CRES}'_oro_data.tile6.nc'
+  if [ -z "${ocn}" ];then
+    OROG_FILES_TARGET_GRID='C'${CRES}'_oro_data.tile1.nc","C'${CRES}'_oro_data.tile2.nc"'
+    OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}'_oro_data.tile3.nc","C'${CRES}'_oro_data.tile4.nc"'
+    OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}'_oro_data.tile5.nc","C'${CRES}'_oro_data.tile6.nc'
+  else
+    OROG_FILES_TARGET_GRID='C'${CRES}.mx${ocn}'_oro_data.tile1.nc","C'${CRES}.mx${ocn}'_oro_data.tile2.nc"'
+    OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}.mx${ocn}'_oro_data.tile3.nc","C'${CRES}.mx${ocn}'_oro_data.tile4.nc"'
+    OROG_FILES_TARGET_GRID=${OROG_FILES_TARGET_GRID}',"C'${CRES}.mx${ocn}'_oro_data.tile5.nc","C'${CRES}.mx${ocn}'_oro_data.tile6.nc'
+  fi
 fi
 
 THOMPSON_AEROSOL_FILE=${THOMPSON_AEROSOL_FILE:-NULL}
@@ -249,7 +268,6 @@ cat << EOF > ./fort.41
   mosaic_file_target_grid="${MOSAIC_FILE_TARGET_GRID}"
   fix_dir_target_grid="${FIXsfc}"
   orog_dir_target_grid="${FIXfv3}"
-  fix_dir_input_grid="${FIXam}"
   orog_files_target_grid="${OROG_FILES_TARGET_GRID}"
   vcoord_file_target_grid="${VCOORD_FILE}"
   mosaic_file_input_grid="${MOSAIC_FILE_INPUT_GRID}"
@@ -264,6 +282,7 @@ cat << EOF > ./fort.41
   grib2_file_input_grid="${GRIB2_FILE_INPUT}"
   geogrid_file_input_grid="${GEOGRID_FILE_INPUT}"
   varmap_file="${VARMAP_FILE}"
+  wam_parm_file="${WAM_PARM_FILE}"
   cycle_year=$iy
   cycle_mon=$im
   cycle_day=$id

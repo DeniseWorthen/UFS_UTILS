@@ -12,12 +12,15 @@ set -x
 export DATA=$OUTDIR/c96_gfs_nemsio
 rm -fr $DATA
 
-export FIXfv3=${HOMEreg}/fix/C96
+export CRES=96
+export ocn=100
+export FIXfv3=${HOMEreg}/fix/C${CRES}
+
 export COMIN=${HOMEreg}/input_data/gfs.nemsio
 export ATM_FILES_INPUT=gfnanl.gdas.2017071700
 export SFC_FILES_INPUT=sfnanl.gdas.2017071700
 export NST_FILES_INPUT=nsnanl.gdas.2017071700
-export VCOORD_FILE=${HOMEufs}/fix/fix_am/global_hyblev.l64.txt
+export VCOORD_FILE=${HOMEufs}/fix/am/global_hyblev.l64.txt
 export INPUT_TYPE="gfs_gaussian_nemsio"
 
 # dont start/end with double quotes.

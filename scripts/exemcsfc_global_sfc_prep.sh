@@ -63,16 +63,12 @@ then
   set -x
 fi
 
-# path names
-export envir=${envir:-"prod"}
-export NWROOT=${NWROOT:-"/nw${envir}"}
-
 RUN=${RUN:-"gfs"}
 
-export HOMEgfs=${HOMEgfs:-$NWROOT/gfs.${gfs_ver:?}}
+export PACKAGEROOT=${PACKAGEROOT:-/lfs/h1/ops/prod/packages}
+export HOMEgfs=${HOMEgfs:-${PACKAGEROOT}/gfs.${gfs_ver:?}}
 export USHgfs=${USHgfs:-$HOMEgfs/ush}
 export FIXgfs=${FIXgfs:-$HOMEgfs/fix}
-FIXgfs_am=${FIXgfs_am:-$HOMEgfs/fix/fix_am}
 export EXECgfs=${EXECgfs:-$HOMEgfs/exec}
 
 # output com directory.
@@ -90,7 +86,7 @@ cd $DATA
 export SENDCOM=${SENDCOM:-"NO"}
 
 #-----------------------------------------------------------------------
-# the "postmsg" and "err_exit" utilities are only used in ncep ops
+# The "err_exit" utility is only used in ncep ops
 # when the "prod_util" module is loaded. 
 #-----------------------------------------------------------------------
 
@@ -116,7 +112,7 @@ export IMS_FILE=${IMS_FILE:-"ims.grib2"}
 export FIVE_MIN_ICE_FILE=${FIVE_MIN_ICE_FILE:-"seaice.5min.grib2"}
 
 # landmask file for global 5-minute data (grib 2)
-export FIVE_MIN_ICE_MASK_FILE=${FIVE_MIN_ICE_MASK_FILE:-${FIXgfs_am}/emcsfc_gland5min.grib2}
+export FIVE_MIN_ICE_MASK_FILE=${FIVE_MIN_ICE_MASK_FILE:-${FIXgfs}/am/emcsfc_gland5min.grib2}
 
 # the output ice blend data (grib)
 export BLENDED_ICE_FILE=${BLENDED_ICE_FILE:-seaice.5min.blend}
@@ -134,10 +130,7 @@ export pgmout=${pgmout:-OUTPUT}
 # call utility script to create global ice blend data.
 #-----------------------------------------------------------------------
 
-if test "$use_prod_util" = "true" ; then
-  msg="create blended ice data."
-  postmsg "$jlogfile" "$msg"
-fi
+echo "Create blended ice data."
 
 ${USHgfs}/emcsfc_ice_blend.sh
 rc=$?
@@ -157,16 +150,10 @@ if ((rc != 0));then
   if test "$SENDCOM" = "YES"
   then
     if [ -s $BLENDED_ICE_FILE_m6hrs ]; then
-      msg="copy old ice blend file to current directory"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "Copy old ice blend file to current directory"
       cp $BLENDED_ICE_FILE_m6hrs $COMOUT/$BLENDED_ICE_FILE
     else
-      msg="FATAL ERROR: CURRENT AND 6-HR OLD ICE FILE MISSING"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "FATAL ERROR: CURRENT AND 6-HR OLD ICE FILE MISSING"
       if test "$use_prod_util" = "true" ; then
         err_exit
       else
@@ -191,17 +178,14 @@ LATB=${LATB:-"1536"}
 
 resolution="${JCAP}.${LONB}.${LATB}"
 
-export MODEL_SLMASK_FILE=${SLMASK:-$FIXgfs_am/global_slmask.t${resolution}.grb}
-export MODEL_LATITUDE_FILE=${MDL_LATS:-$FIXgfs_am/global_latitudes.t${resolution}.grb}
-export MODEL_LONGITUDE_FILE=${MDL_LONS:-$FIXgfs_am/global_longitudes.t${resolution}.grb}
-export GFS_LONSPERLAT_FILE=${LONSPERLAT:-$FIXgfs_am/global_lonsperlat.t${resolution}.txt}
+export MODEL_SLMASK_FILE=${SLMASK:-${FIXgfs}/am/global_slmask.t${resolution}.grb}
+export MODEL_LATITUDE_FILE=${MDL_LATS:-${FIXgfs}/am/global_latitudes.t${resolution}.grb}
+export MODEL_LONGITUDE_FILE=${MDL_LONS:-${FIXgfs}/am/global_longitudes.t${resolution}.grb}
+export GFS_LONSPERLAT_FILE=${LONSPERLAT:-${FIXgfs}/am/global_lonsperlat.t${resolution}.txt}
 export MODEL_SNOW_FILE=${FNSNOAJCAP:-${RUN}.${cycle}.snogrb_t${resolution}}
 export MODEL_SNOW_FILE_m6hrs=${FNSNOGJCAP:-${COMINgfs_m6hrs}/${RUN}.${cycle_m6hrs}.snogrb_t${resolution}}
 
-if test "$use_prod_util" = "true" ; then
-  msg="create ${JCAP} snow data."
-  postmsg "$jlogfile" "$msg"
-fi
+echo "Create ${JCAP} snow data."
 
 ${USHgfs}/emcsfc_snow.sh
 rc=$?
@@ -221,16 +205,10 @@ if ((rc != 0)); then
   if test "$SENDCOM" = "YES"
   then
     if [ -s $MODEL_SNOW_FILE_m6hrs ]; then
-      msg="COPY OLD ${JCAP} SNOW FILE TO CURRENT DIRECTORY"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "COPY OLD ${JCAP} SNOW FILE TO CURRENT DIRECTORY"
       cp $MODEL_SNOW_FILE_m6hrs $COMOUT/$MODEL_SNOW_FILE
     else
-      msg="FATAL ERROR: CURRENT AND 6-HR OLD ${JCAP} SNOW MISSING"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "FATAL ERROR: CURRENT AND 6-HR OLD ${JCAP} SNOW MISSING"
       if test "$use_prod_util" = "true" ; then
         err_exit
       else
@@ -258,17 +236,14 @@ LATB_ENKF=${LATB_ENKF:-"576"}
 
 resolution="${JCAP_ENKF}.${LONB_ENKF}.${LATB_ENKF}"
 
-export MODEL_SLMASK_FILE=${SLMASK_ENKF:-$FIXgfs_am/global_slmask.t${resolution}.grb}
-export MODEL_LATITUDE_FILE=${MDL_LATS_ENKF:-$FIXgfs_am/global_latitudes.t${resolution}.grb}
-export MODEL_LONGITUDE_FILE=${MDL_LONS_ENKF:-$FIXgfs_am/global_longitudes.t${resolution}.grb}
-export GFS_LONSPERLAT_FILE=${LONSPERLAT_ENKF:-$FIXgfs_am/global_lonsperlat.t${resolution}.txt}
+export MODEL_SLMASK_FILE=${SLMASK_ENKF:-${FIXgfs}/am/global_slmask.t${resolution}.grb}
+export MODEL_LATITUDE_FILE=${MDL_LATS_ENKF:-${FIXgfs}/am/global_latitudes.t${resolution}.grb}
+export MODEL_LONGITUDE_FILE=${MDL_LONS_ENKF:-${FIXgfs}/am/global_longitudes.t${resolution}.grb}
+export GFS_LONSPERLAT_FILE=${LONSPERLAT_ENKF:-${FIXgfs}/am/global_lonsperlat.t${resolution}.txt}
 export MODEL_SNOW_FILE=${FNSNOAJCAP_ENKF:-${RUN}.${cycle}.snogrb_t${resolution}}
 export MODEL_SNOW_FILE_m6hrs=${FNSNOGJCAP_ENKF:-${COMINgfs_m6hrs}/${RUN}.${cycle_m6hrs}.snogrb_t${resolution}}
 
-if test "$use_prod_util" = "true" ; then
-  msg="create enkf snow data."
-  postmsg "$jlogfile" "$msg"
-fi
+echo "Create enkf snow data."
 
 ${USHgfs}/emcsfc_snow.sh
 rc=$?
@@ -282,16 +257,10 @@ if ((rc != 0)); then
   if test "$SENDCOM" = "YES"
   then
     if [ -s $MODEL_SNOW_FILE_m6hrs ]; then
-      msg="COPY OLD ENKF SNOW FILE TO CURRENT DIRECTORY"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "COPY OLD ENKF SNOW FILE TO CURRENT DIRECTORY"
       cp $MODEL_SNOW_FILE_m6hrs $COMOUT/$MODEL_SNOW_FILE
     else
-      msg="FATAL ERROR: CURRENT AND 6-HR OLD ENKF SNOW MISSING"
-      if test "$use_prod_util" = "true" ; then
-        postmsg "$jlogfile" "$msg"
-      fi
+      echo "FATAL ERROR: CURRENT AND 6-HR OLD ENKF SNOW MISSING"
       if test "$use_prod_util" = "true" ; then
         err_exit
       else

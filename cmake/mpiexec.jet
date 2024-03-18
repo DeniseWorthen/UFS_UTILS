@@ -6,10 +6,11 @@
 #   $2+ - Executable and its arguments
 #
 
-ACCOUNT=
-QOS=debug
+ACCOUNT=nesdis-rdo2
+QOS=batch
+PARTITION=xjet
 
 NP=$1
 shift
 
-srun -A $ACCOUNT -q $QOS -n $NP $@
+srun -A $ACCOUNT -p $PARTITION -q $QOS -n $NP $@
