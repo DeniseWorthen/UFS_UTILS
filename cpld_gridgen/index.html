@@ -223,16 +223,23 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p><br/>
 </p>
 <ul>
-<li>If a resolution other than 1/4 degree is used in <em>cpld_gridgen.sh</em>, the following file will be produced in the output location:</li>
+<li>The following file will be produced in the output location to map the 1/4 degree tripole values to a tripole grid of lower resolution.</li>
 </ul>
 <table class="doxtable">
-<caption id="foutcice6" align="bottom">Output files for CICE6 IC creation at tripole destination resolution</caption>
+<caption id="foutcice6" align="bottom">Output files for down-sampled IC creation at tripole destination resolution</caption>
 <tr>
 <th>File name </th><th>Function </th></tr>
 <tr>
-<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping the 1/4 CICE ICs to <br/>
+<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping 1/4deg tripole ICs to <br/>
  a tripole [destination resolution] using nearest <br/>
  source-to-destination mapping </td></tr>
+<tr>
+<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc </td><td>the ESMF weights for mapping 1/4 tripole ICs to <br/>
+ a tripole [destination resolution] using nearest <br/>
+ \ bilinear mapping </td></tr>
+<tr>
+<td row="1">tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc </td><td>the ESMF weights for mapping downscaled IC values on a <br/>
+ tripole grid to the native stagger locations </td></tr>
 </table>
 <p><br/>
 </p>
