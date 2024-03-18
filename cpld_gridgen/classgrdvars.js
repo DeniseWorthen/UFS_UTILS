@@ -1,6 +1,7 @@
 var classgrdvars =
 [
     [ "allocate_all", "classgrdvars.html#a328728def7fe66a571d827098703ef11", null ],
+    [ "angchk", "classgrdvars.html#a481524f95fbd955ca45c83ac9c08baeb", null ],
     [ "angle", "classgrdvars.html#a0e385d357aa508d205d034e70f22aba6", null ],
     [ "anglet", "classgrdvars.html#ab489a917aac77e880f9a34fe38675691", null ],
     [ "angq", "classgrdvars.html#a62d978631e2fd36b42904614a1e64bef", null ],
@@ -61,6 +62,7 @@ var classgrdvars =
     [ "wet4", "classgrdvars.html#aa4f6251fd1cc62eb6e16cb6d0212a5d3", null ],
     [ "wet8", "classgrdvars.html#ac1763db1c5a77d24c63c8796e8c4b3b7", null ],
     [ "x", "classgrdvars.html#a945aaee1f1cb229b0d7211e17ddc1d53", null ],
+    [ "xangct", "classgrdvars.html#a3590ce8fb06a2a3c3a12d0bb7f8d8b35", null ],
     [ "xlatct", "classgrdvars.html#aafda856d193d771c1000b4319f633055", null ],
     [ "xlatcu", "classgrdvars.html#aedf78b8050a6b8a862762b04f3f84363", null ],
     [ "xlonct", "classgrdvars.html#a7767b784a2aaa851007bf6495baf52d8", null ],

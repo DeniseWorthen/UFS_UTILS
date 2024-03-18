@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('index.html','');});
              │            │
              Bu────Cv─────Bu
 </pre><h3>Rotation angles</h3>
-<p>For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (<code>Bu</code>) grid points, which for points along the tripole seam requires values on the other side of the tripole fold. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If <code>ipL</code> and <code>ipR</code> are the i-indices of the poles along the last j-row:</p>
+<p>For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on <code>Ct</code> grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (<code>Bu</code>) grid points. To find these angles, the rotation angle on <code>Ct</code> points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by "flipping over" the values on the last row of the MOM6 super-grid. If <code>ipL</code> and <code>ipR</code> are the i-indices of the poles along the last j-row:</p>
 <pre class="fragment">            ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1
                x-------x-------x     |||        x-------x-------x
 </pre><p>then after folding along the tripole seam, <code>ipL</code> and <code>ipR</code> must align:</p>
@@ -148,7 +148,7 @@ $(document).ready(function(){initNavTree('index.html','');});
                               x-------x-------x
                            ipL-1     ipL    ipL+1
                               x-------x-------x
-</pre><p>Using the folded seam, the values required for calculating the rotation angle on the <code>Bu</code> grid points are available and can be calculated in the same way as MOM6 calculates rotation angles for the <code>Ct</code> grid points.</p>
+</pre><p>Using the folded seam, the values of the rotation on <code>Ct</code> points across the seam are known. The same procedure that CICE uses internally to calculate the <code>Ct</code> angles from the <code>Bu</code> angles can be used to instead calculate the <code>Bu</code> angles knowing the <code>Ct</code> angles.</p>
 <h3>SCRIP format files</h3>
 <p>For calculating interpolation weights using ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. <code>Ct</code>) and the associated grid vertices for that point. As seen from the above diagram, for the <code>Ct</code> points, those grid vertices are given by the <code>Bu</code> grid locations.</p>
 <p>SCRIP requires that the vertices be ordered counter-clockwise so that the center grid point is always to the left of the vertex. In cpld_gridgen, vertices are defined counter-clockwise from upper right. <code>Ct</code> vertices are located on the <code>Bu</code> grid (as shown above), <code>Cu</code> vertices on the <code>Cv</code> grid, <code>Cv</code> vertices on the <code>Cu</code> grid and <code>Bu</code> vertices on the <code>Ct</code> grid. For example, for the <code>Ct</code> grid, the vertices are: </p>

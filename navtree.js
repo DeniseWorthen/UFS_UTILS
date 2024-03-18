@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "UFS_UTILS", "index.html", [
-    [ "main", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_UFS_UTILS_docs_main.html", null ]
+    [ "main", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_utils_dw_docs_main.html", null ]
   ] ]
 ];
 

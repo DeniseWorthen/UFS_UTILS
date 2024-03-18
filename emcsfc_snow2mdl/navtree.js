@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "emcsfc_snow2mdl", "index.html", [
-    [ "README", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_UFS_UTILS_sorc_emcsfc_snow2mdl_8fd_docs_README.html", null ],
+    [ "README", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_utils_dw_sorc_emcsfc_snow2mdl_8fd_docs_README.html", null ],
     [ "Data Types List", null, [
       [ "Data Types List", "annotated.html", "annotated" ],
       [ "Data Fields", "functions.html", [

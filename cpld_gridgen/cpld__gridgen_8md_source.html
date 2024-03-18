@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>cpld_gridgen: /scratch1/NCEPDEV/nems/Denise.Worthen/WORK/UFS_UTILS/sorc/cpld_gridgen.fd/docs/cpld_gridgen.md Source File</title>
+<title>cpld_gridgen: /scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/cpld_gridgen.fd/docs/cpld_gridgen.md Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -103,7 +103,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/UFS_UTILS/sorc/cpld_gridgen.fd/docs/cpld_gridgen.md</div>  </div>
+<div class="title">/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/cpld_gridgen.fd/docs/cpld_gridgen.md</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># cpldgrid_gen</span></div>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">### MOM6 grids</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;The MOM6 supergrid contains a MOM6 grid at twice the desired resolution. The indexing of the supergrid vs the reduced grid is: </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;The MOM6 supergrid contains a MOM6 grid at twice the desired resolution. The indexing of the supergrid vs the reduced grid is:</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            Super Grid               Reduced Grid</div>
@@ -170,7 +170,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">### Rotation angles</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (``Bu``) grid points, which for points along the tripole seam requires values on the other side of the tripole fold. In cpld_gridgen, these values are found by &quot;flipping over&quot; the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;For the tripole grid, a rotation angle is defined to translate vectors to/from the grid (i-j) orientation from/to true E-W. The rotation angle on ``Ct`` grid points is calculated at run-time in MOM6 (src/initialization/MOM_shared_initialization.F90). However, CICE6 requires a rotation at the corner (``Bu``) grid points. To find these <a class="code" href="classangles.html">angles</a>, the rotation angle on ``Ct`` points on the opposite side of the tripole fold are used. In cpld_gridgen, these values are found by &quot;flipping over&quot; the values on the last row of the MOM6 super-grid. If ``ipL`` and ``ipR`` are the i-indices of the poles along the last j-row:</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                ipL-1     ipL    ipL+1            ipR-1     ipR    ipR+1</div>
@@ -185,14 +185,14 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                  x-------x-------x</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;Using the folded seam, the values required for calculating the rotation angle on the ``Bu`` grid points are available and can be calculated in the same way as MOM6 calculates rotation <a class="code" href="classangles.html">angles</a> for the ``Ct`` grid points. </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;Using the folded seam, the values of the rotation on ``Ct`` points across the seam are known. The same procedure that CICE uses internally to calculate the ``Ct`` angles from the ``Bu`` angles can be used to instead calculate the ``Bu`` angles knowing the ``Ct`` angles.</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">### SCRIP format files</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;For calculating interpolation weights <span class="keyword">using</span> ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. ``Ct``) and the associated grid <a class="code" href="classvertices.html">vertices</a> for that point. As seen from the above diagram, for the ``Ct`` points, those grid <a class="code" href="classvertices.html">vertices</a> are given by the ``Bu`` grid locations. </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;For calculating interpolation weights <span class="keyword">using</span> ESMF, a SCRIP file needs to be provided. A SCIP file contains the both the grid locations of any stagger grid location (e.g. ``Ct``) and the associated grid <a class="code" href="classvertices.html">vertices</a> for that point. As seen from the above diagram, for the ``Ct`` points, those grid <a class="code" href="classvertices.html">vertices</a> are given by the ``Bu`` grid locations.</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;SCRIP requires that the <a class="code" href="classvertices.html">vertices</a> be ordered counter-clockwise so that the center grid point is always to the left of the vertex. In cpld_gridgen, <a class="code" href="classvertices.html">vertices</a> are defined counter-clockwise from upper right. ``Ct`` <a class="code" href="classvertices.html">vertices</a> are located on the ``Bu`` grid (as shown above), ``Cu`` <a class="code" href="classvertices.html">vertices</a> on the ``Cv`` grid, ``Cv`` <a class="code" href="classvertices.html">vertices</a> on the ``Cu`` grid and ``Bu`` <a class="code" href="classvertices.html">vertices</a> on the ``Ct`` grid. For example, for the ``Ct`` grid, the <a class="code" href="classvertices.html">vertices</a> are:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;             Vertex <span class="preprocessor">#2             Vertex #1</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor"></span>             Bu(i-1,j)             Bu(i,j)</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                         Ct(i,j)</div>
@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;     iVertCt(4) = (/0, -1, -1,  0/)</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;     jVertCt(4) = (/0,  0, -1, -1/)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;     </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;Careful examination of the remaining stagger locations lead to similar definitions <span class="keywordflow">for</span> the i,j offsets required to extract the <a class="code" href="classvertices.html">vertices</a>, all of which can be defined in terms of the ``iVertCt`` and ``jVertCt`` values.</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;Special treatment is require at the bottom of the grid, where the vertices of the ``Ct`` and ``Cu`` grid must be set manually (note, these points are on land.) The top of the grid also requires special treatment because the required vertices are located across the tripole seam. This is accomplished by creating 1-d arrays which hold the ``Ct`` and ``Cu`` grid point locations across the matched seam.</div>
@@ -219,7 +219,7 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;3. create the CICE6 grid variables and writes the required CICE6 grid file</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;4. create a SCRIP file <span class="keywordflow">for</span> the center stagger (``Ct``) grid points and a second SCRIP file also containing the land mask</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;5. create the ESMF conservative regridding weights to map the ocean mask to the FV3 tiles and write the mapped mask to 6 tile files</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;6. create the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;6. create the ESMF regridding weights to map the 1/4 CICE6 restart file to a lower resolution tripole grid</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;7. optionally call a routine to generate ESMF regridding weights to map the tripole grid to a set of rectilinear grids</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;8. use the command line command *ESMF_Scrip2Unstruct* to generate the ocean mesh from the SCRIP file containing the land mask (item 4)</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;9. use an NCO command line command to generate the CICE6 land mask file from the CICE6 grid file</div>
@@ -242,11 +242,11 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;&lt;tr&gt;&lt;td row=4&gt;mesh.mx025.nc            &lt;td&gt;the ocean and ice mesh file              &lt;td&gt;used at runtime by CICE6, MOM6, and CMEPS</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;&lt;tr&gt;&lt;td row=5&gt;C384.mx025.tile[1-6].nc  &lt;td&gt;the mapped ocean mask on the ATM tiles   &lt;td&gt;used to create ATM ICs consistent with the &lt;br&gt;                                                                                           fractional grid</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;&lt;/table&gt;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;&lt;br&gt;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;   </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;* If the optional post-weights are generated, the following files will be produced in the output location: </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;* If the optional post-weights are generated, the following files will be produced in the output location:</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;&lt;table&gt;</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;&lt;caption <span class="keywordtype">id</span>=<span class="stringliteral">&quot;foutpost&quot;</span>&gt;Optional post-weights files <span class="keywordflow">for</span> 1/4deg&lt;/caption&gt;</div>
@@ -255,30 +255,29 @@ $(document).ready(function(){initNavTree('cpld__gridgen_8md.html','');});
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                                                                            same tripole grid using bilinear mapping</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;&lt;tr&gt;&lt;td row=2&gt;tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc &lt;td&gt;the ESMF weights for mapping variables &lt;br&gt;                                                                                               on the center (Ct) stagger location on &lt;br&gt;                                                                                               the tripole grid to a rectilinear grid &lt;br&gt;                                                                                               with [destination resolution] using &lt;br&gt;                                                                                                  either bilinear or conservative mapping</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;&lt;/table&gt;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;&lt;br&gt;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;* If a resolution other than 1/4 degree is used in *cpld_gridgen.sh*, the following file will be produced in the output location: </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;* If a resolution other than 1/4 degree is used in *cpld_gridgen.sh*, the following file will be produced in the output location:</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;&lt;table&gt;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;foutcice6&quot;&gt;Output files for CICE6 IC creation at tripole destination resolution&lt;/caption&gt;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;&lt;tr&gt;&lt;th&gt;File name                                                               &lt;th&gt;Function</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;&lt;tr&gt;&lt;td row=1&gt;tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc  &lt;td&gt;the ESMF weights for mapping the 1/4 CICE ICs to &lt;br&gt;</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                                                                                    a tripole [destination resolution] using nearest &lt;br&gt;                                                                                     source-to-destination mapping</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;&lt;/table&gt;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;&lt;br&gt;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;* If run-time land mask changes for MOM6 are requested, the following file will be produced in the output location:</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;&lt;table&gt;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;&lt;caption <span class="keywordtype">id</span>=&quot;fouttopo&quot;&gt;Output files for run-time modification of MOM6 land mask&lt;/caption&gt;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;&lt;tr&gt;&lt;th&gt;File name                       &lt;th&gt;Function</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;&lt;tr&gt;&lt;td row=1&gt;ufs.[Default filename].nc &lt;td&gt;Topo-edits required for UFS application. These are appended to the existing default topo &lt;br&gt;                                             edits file and implemented at run time with the parameter flag &lt;br&gt;                                                                       ``ALLOW_LANDMASK_CHANGES=true``. All files produced by the *cpld_gridgen.sh* will be &lt;br&gt;                                                 consistent with this run-time land mask.</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;&lt;/table&gt;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
 <div class="ttc" id="classvertices_html"><div class="ttname"><a href="classvertices.html">vertices</a></div><div class="ttdef"><b>Definition:</b> <a href="vertices_8F90_source.html#l00013">vertices.F90:13</a></div></div>
 <div class="ttc" id="classangles_html"><div class="ttname"><a href="classangles.html">angles</a></div><div class="ttdef"><b>Definition:</b> <a href="angles_8F90_source.html#l00010">angles.F90:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

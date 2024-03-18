@@ -20,6 +20,12 @@ grdvars \-
 .ti -1c
 .RI "real(dbl_kind), dimension(:,:), 
 .br
+allocatable \fBangchk\fP"
+.br
+.RI "\fIThe rotation angle on Ct points, as calculated by CICE internally using angle on Bu\&. \fP"
+.ti -1c
+.RI "real(dbl_kind), dimension(:,:), 
+.br
 allocatable \fBangle\fP"
 .br
 .RI "\fIThe rotation angle on Bu points\&. \fP"
@@ -326,6 +332,12 @@ allocatable \fBx\fP"
 .ti -1c
 .RI "real(dbl_kind), dimension(:), 
 .br
+allocatable \fBxangct\fP"
+.br
+.RI "\fIThe rotation angle on the Ct grid points on the opposite side of the tripole seam\&. \fP"
+.ti -1c
+.RI "real(dbl_kind), dimension(:), 
+.br
 allocatable \fBxlatct\fP"
 .br
 .RI "\fIThe latitude of the Ct grid points on the opposite side of the tripole seam\&. \fP"
@@ -383,11 +395,17 @@ Denise Worthen
 .PP
 
 .PP
-Definition at line 173 of file grdvars\&.F90\&.
+Definition at line 178 of file grdvars\&.F90\&.
 .PP
 Referenced by gen_fixgrid()\&.
 .SH "Field Documentation"
 .PP 
+.SS "real(dbl_kind), dimension(:,:), allocatable grdvars::angchk"
+
+.PP
+The rotation angle on Ct points, as calculated by CICE internally using angle on Bu\&. 
+.PP
+Definition at line 106 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::angle"
 
 .PP
@@ -423,13 +441,13 @@ Definition at line 23 of file grdvars\&.F90\&.
 .PP
 The latitude spacing between Bu points at the grid bottom\&. 
 .PP
-Definition at line 136 of file grdvars\&.F90\&.
+Definition at line 141 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:), allocatable grdvars::dlatcv"
 
 .PP
 The latitude spacing between Cv points at the grid bottom\&. 
 .PP
-Definition at line 138 of file grdvars\&.F90\&.
+Definition at line 143 of file grdvars\&.F90\&.
 .SS "logical grdvars::do_postwgts"
 
 .PP
@@ -441,13 +459,13 @@ Definition at line 26 of file grdvars\&.F90\&.
 .PP
 The ocean depth from a MOM6 topog file, stored as real*4 (m) 
 .PP
-Definition at line 146 of file grdvars\&.F90\&.
+Definition at line 151 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::dp8"
 
 .PP
 The ocean depth from a MOM6 topog file, stored as real*8 (m) 
 .PP
-Definition at line 148 of file grdvars\&.F90\&.
+Definition at line 153 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::dx"
 
 .PP
@@ -471,13 +489,13 @@ Definition at line 21 of file grdvars\&.F90\&.
 .PP
 The grid cell width in centimeters of the CICE6 grid in the y-direction (j-dimension) 
 .PP
-Definition at line 158 of file grdvars\&.F90\&.
+Definition at line 163 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::htn"
 
 .PP
 The grid cell width in centimeters of the CICE6 grid in the x-direction (i-dimension) 
 .PP
-Definition at line 156 of file grdvars\&.F90\&.
+Definition at line 161 of file grdvars\&.F90\&.
 .SS "integer(int_kind), dimension(2) grdvars::ipole"
 
 .PP
@@ -543,7 +561,7 @@ Definition at line 96 of file grdvars\&.F90\&.
 .PP
 The latitudes of the 4 vertices of each Bu grid point\&. 
 .PP
-Definition at line 122 of file grdvars\&.F90\&.
+Definition at line 124 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::latct"
 
 .PP
@@ -555,7 +573,7 @@ Definition at line 84 of file grdvars\&.F90\&.
 .PP
 The latitudes of the 4 vertices of each Ct grid point\&. 
 .PP
-Definition at line 107 of file grdvars\&.F90\&.
+Definition at line 109 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::latcu"
 
 .PP
@@ -567,7 +585,7 @@ Definition at line 92 of file grdvars\&.F90\&.
 .PP
 The latitudes of the 4 vertices of each Cu grid point\&. 
 .PP
-Definition at line 117 of file grdvars\&.F90\&.
+Definition at line 119 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::latcv"
 
 .PP
@@ -579,7 +597,7 @@ Definition at line 88 of file grdvars\&.F90\&.
 .PP
 The latitudes of the 4 vertices of each Cv grid point\&. 
 .PP
-Definition at line 112 of file grdvars\&.F90\&.
+Definition at line 114 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::lonbu"
 
 .PP
@@ -591,7 +609,7 @@ Definition at line 99 of file grdvars\&.F90\&.
 .PP
 The longitudes of the 4 vertices of each Bu grid point\&. 
 .PP
-Definition at line 124 of file grdvars\&.F90\&.
+Definition at line 126 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::lonct"
 
 .PP
@@ -603,7 +621,7 @@ Definition at line 86 of file grdvars\&.F90\&.
 .PP
 The longitudes of the 4 vertices of each Ct grid point\&. 
 .PP
-Definition at line 109 of file grdvars\&.F90\&.
+Definition at line 111 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::loncu"
 
 .PP
@@ -615,7 +633,7 @@ Definition at line 94 of file grdvars\&.F90\&.
 .PP
 The longitudes of the 4 vertices of each Cu grid point\&. 
 .PP
-Definition at line 119 of file grdvars\&.F90\&.
+Definition at line 121 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::loncv"
 
 .PP
@@ -627,31 +645,31 @@ Definition at line 90 of file grdvars\&.F90\&.
 .PP
 The longitudes of the 4 vertices of each Cv grid point\&. 
 .PP
-Definition at line 114 of file grdvars\&.F90\&.
+Definition at line 116 of file grdvars\&.F90\&.
 .SS "real(kind=real_kind), parameter grdvars::masking_depth = 0\&.0"
 
 .PP
 The masking depth for MOM6\&. Depths shallower than minimum_depth but deeper than masking_depth are rounded to minimum_depth 
 .PP
-Definition at line 163 of file grdvars\&.F90\&.
+Definition at line 168 of file grdvars\&.F90\&.
 .SS "real(kind=real_kind), parameter grdvars::maximum_depth = 6500\&.0"
 
 .PP
 The maximum depth for MOM6\&. 
 .PP
-Definition at line 162 of file grdvars\&.F90\&.
+Definition at line 167 of file grdvars\&.F90\&.
 .SS "real(kind=real_kind), parameter grdvars::maximum_lat = 88\&.0"
 
 .PP
 The maximum latitude for water points for WW3\&. 
 .PP
-Definition at line 166 of file grdvars\&.F90\&.
+Definition at line 171 of file grdvars\&.F90\&.
 .SS "real(kind=real_kind), parameter grdvars::minimum_depth = 9\&.5"
 
 .PP
 The minimum depth for MOM6\&. 
 .PP
-Definition at line 161 of file grdvars\&.F90\&.
+Definition at line 166 of file grdvars\&.F90\&.
 .SS "integer, parameter grdvars::ncoord = 2*4\&."
 
 .PP
@@ -723,55 +741,61 @@ Definition at line 39 of file grdvars\&.F90\&.
 .PP
 The latitude points (on the Bu grid) for CICE6 (radians) 
 .PP
-Definition at line 154 of file grdvars\&.F90\&.
+Definition at line 159 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::ulon"
 
 .PP
 The longitude points (on the Bu grid) for CICE6 (radians) 
 .PP
-Definition at line 152 of file grdvars\&.F90\&.
+Definition at line 157 of file grdvars\&.F90\&.
 .SS "real(real_kind), dimension(:,:), allocatable grdvars::wet4"
 
 .PP
 The ocean mask from a MOM6 mask file, stored as real*4 (nd) 
 .PP
-Definition at line 141 of file grdvars\&.F90\&.
+Definition at line 146 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::wet8"
 
 .PP
 The ocean mask from a MOM6 mask file, stored as real*8 (nd) 
 .PP
-Definition at line 143 of file grdvars\&.F90\&.
+Definition at line 148 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::x"
 
 .PP
 The longitudes of the MOM6 supergrid\&. 
 .PP
 Definition at line 69 of file grdvars\&.F90\&.
+.SS "real(dbl_kind), dimension(:), allocatable grdvars::xangct"
+
+.PP
+The rotation angle on the Ct grid points on the opposite side of the tripole seam\&. 
+.PP
+Definition at line 134 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:), allocatable grdvars::xlatct"
 
 .PP
 The latitude of the Ct grid points on the opposite side of the tripole seam\&. 
 .PP
-Definition at line 130 of file grdvars\&.F90\&.
+Definition at line 132 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:), allocatable grdvars::xlatcu"
 
 .PP
 The latitude of the Cu grid points on the opposite side of the tripole seam\&. 
 .PP
-Definition at line 134 of file grdvars\&.F90\&.
+Definition at line 139 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:), allocatable grdvars::xlonct"
 
 .PP
 The longitude of the Ct grid points on the opposite side of the tripole seam\&. 
 .PP
-Definition at line 128 of file grdvars\&.F90\&.
+Definition at line 130 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:), allocatable grdvars::xloncu"
 
 .PP
 The longitude of the Cu grid points on the opposite side of the tripole seam\&. 
 .PP
-Definition at line 132 of file grdvars\&.F90\&.
+Definition at line 137 of file grdvars\&.F90\&.
 .SS "real(dbl_kind), dimension(:,:), allocatable grdvars::xsgp1"
 
 .PP
