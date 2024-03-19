@@ -10,8 +10,6 @@
 module angles
 
   use gengrid_kinds, only : dbl_kind, int_kind
-  use grdvars,       only : ni,nj,nx,ny
-  use grdvars,       only : latBu,lonBu,lonCt,xangCt,ipole
   use grdvars,       only : debug
 
   implicit none
@@ -19,12 +17,17 @@ module angles
 contains
   !> Find the rotation angle on center (Bu) grid points
   !!
+  !! @param[in]  ni           the i-dimension of the grid
+  !! @param[in]  nj           the j-dimension of the grid
+  !! @param[in]  xangCt       the angle across the tripole seam
   !! @param[in]  anglet       the rotation angle on Ct points
   !! @param[out] angle        the rotation angle on Bu points
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine find_angq(anglet,angle)
+  subroutine find_angq(ni,nj,xangCt,anglet,angle)
 
+    integer       , intent(in)  :: ni,nj
+    real(dbl_kind), intent(in)  :: xangCt(:)
     real(dbl_kind), intent(in)  :: anglet(:,:)
     real(dbl_kind), intent(out) :: angle(:,:)
 
@@ -46,11 +49,6 @@ contains
     !
     !---------------------------------------------------------------------
 
-    xangCt(:) = 0.0
-    do i = 1,ni
-       i2 = ipole(2)+(ipole(1)-i)+1
-       xangCt(i) = -anglet(i2,nj)       ! angle changes sign across seam
-    end do
 
     angle = 0.0
     do j = 2,nj
@@ -79,11 +77,14 @@ contains
   !> Verify the rotation angle on center (Ct) grid points using angle on corner
   !! (Bu) grid points
   !!
+  !! @param[in]  ni         the i-dimension of the grid
+  !! @param[in]  nj         the j-dimension of the grid
   !! @param[in]  angle      the rotation angle on Bu points
   !! @param[out] angchk     the rotation angle on Ct points
   !! @author Denise.Worthen@noaa.gov
-  subroutine find_angchk(angle,angchk)
+  subroutine find_angchk(ni,nj,angle,angchk)
 
+    integer       , intent(in)  :: ni,nj
     real(dbl_kind), intent(in)  :: angle(:,:)
     real(dbl_kind), intent(out) :: angchk(:,:)
 
@@ -121,11 +122,20 @@ contains
 
   !> Find the rotation angle on center (Ct) grid points
   !!
+  !! @param[in]  ni            the i-dimension of the grid
+  !! @param[in]  nj            the j-dimension of the grid
+  !! @param[in]  lonBu         the longitudes of the corner grid points
+  !! @param[in]  latBu         the latitudes of the corner grid points
+  !! @param[in]  lonCt         the longitudes of the center grid points
   !! @param[out] anglet        the rotation angle on Ct points
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine find_ang(anglet)
+  subroutine find_ang(ni,nj,lonBu,latBu,lonCt,anglet)
 
+    integer       , intent(in)  :: ni,nj
+    real(dbl_kind), intent(in)  :: lonBu(:,:)
+    real(dbl_kind), intent(in)  :: latBu(:,:)
+    real(dbl_kind), intent(in)  :: lonCt(:,:)
     real(dbl_kind), intent(out) :: anglet(:,:)
 
     ! local variables
