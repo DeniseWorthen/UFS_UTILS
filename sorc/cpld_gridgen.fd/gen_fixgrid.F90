@@ -313,6 +313,8 @@ program gen_fixgrid
      enddo
   enddo
   angchk(1,:) = -angchk(ni,:)
+  ! reverse angle for MOM6
+  angchk = - angchk
   print *,'ANGCHK ',minval(angchk), maxval(angchk)
   !---------------------------------------------------------------------
   ! For the 1/4deg grid, hte at j=720 and j = 1440 is identically=0.0 for
