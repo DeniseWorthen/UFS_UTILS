@@ -305,6 +305,7 @@ program gen_fixgrid
   !---------------------------------------------------------------------
 
   call find_angq(ni,nj,xangCt,anglet,angle)
+  angle(ni,:) = -angle(1,:)
   ! reverse angle for CICE
   angle = -angle
   write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(angle),maxval(angle)
@@ -317,6 +318,9 @@ program gen_fixgrid
   !---------------------------------------------------------------------
 
   call find_angchk(ni,nj,angle,angchk)
+  angchk(1,:) = -angchk(ni,:)
+  ! reverse angle for MOM6
+  angchk = - angchk
   write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
   print '(a)',trim(logmsg)
   write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)

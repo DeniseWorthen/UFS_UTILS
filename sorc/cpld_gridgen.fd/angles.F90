@@ -69,7 +69,6 @@ contains
           if (abs(angle(i,j)) .le. 1.0e-10)angle(i,j) = 0.0
        enddo
     enddo
-    angle(ni,:) = -angle(1,:)
 
   end subroutine find_angq
 
@@ -115,7 +114,6 @@ contains
                               p25*(cos(angle_0) + cos(angle_w) + cos(angle_s) + cos(angle_sw)))
        enddo
     enddo
-    angchk(1,:) = -angchk(ni,:)
 
   end subroutine find_angchk
 
