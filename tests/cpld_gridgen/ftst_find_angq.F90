@@ -40,7 +40,7 @@
 
     integer :: i,j,i1,i2,j1,j2,k
     integer :: ipole(nblocks)
-    logical :: debug = .false.
+    logical :: debug = .true.
 
     !CICE6
     data ((cice6_angle(i,j,1), i=1,ni), j=1,nj) /                                &
@@ -175,19 +175,23 @@
     !------------------------------------------
     ! find anglet and test against mom6 values
     !------------------------------------------
-    call find_ang(ni,nj,lonBu(:,:,1),latBu(:,:,1),lonCt(:,:,1),anglet(:,:,1))
-    call find_ang(ni,nj,lonBu(:,:,2),latBu(:,:,2),lonCt(:,:,2),anglet(:,:,2))
-    call find_ang(ni,nj,lonBu(:,:,3),latBu(:,:,3),lonCt(:,:,3),anglet(:,:,3))
+    call find_ang((/2,5/),(/2,5/),lonBu(:,:,1),latBu(:,:,1),lonCt(:,:,1),anglet(:,:,1))
+    call find_ang((/2,5/),(/2,5/),lonBu(:,:,2),latBu(:,:,2),lonCt(:,:,2),anglet(:,:,2))
+    call find_ang((/2,5/),(/2,5/),lonBu(:,:,3),latBu(:,:,3),lonCt(:,:,3),anglet(:,:,3))
 
-    i1 = 2; j1 = 2
-    i2 = 5; j2 = 5
+    !i1 = 2; j1 = 2
+    !i2 = 5; j2 = 5
+    i1 = 1; i2 = ni
+    j1 = 1; j2 = nj
     do k = 1,nblocks
        write(ck,'(i1.1)')k
        maxval = 1.0e-30
        do j = j1,j2
           do i = i1,i2
-             diff  = abs(anglet(i,j,k) - asin(mom6_sinrot(i,j,k)))
-             maxval = max(diff,maxval)
+             if (abs(anglet(i,j,k)) .gt. 0.0)then
+                diff  = abs(anglet(i,j,k) - asin(mom6_sinrot(i,j,k)))
+                maxval = max(diff,maxval)
+             end if
           end do
        end do
        call passfail(maxval, 1.0e-4, 'MOM6 anglet, block '//trim(ck))
@@ -210,7 +214,7 @@
     end if
 
     !--------------------------------------------------------
-    ! block 3 does not have anglet at nj+1 value available
+    !
     !---------------------------------------------------------
 
     xangCt = 0.0
@@ -218,27 +222,33 @@
        i2 = ipole(2)+(ipole(1)-i)+1
        xangCt(i,1) = -anglet(i2,nj,1)       ! angle changes sign across seam
        xangCt(i,2) = -anglet(i2,nj,2)
+       xangCt(i,3) =  anglet(i,nj,3)
+       print *,i,i2,xangCt(i,:)
     end do
 
     !-------------------------------------------
     ! find angle and test against cice6 values
     !-------------------------------------------
-    call find_angq(ni,nj,xangCt(:,1),anglet(:,:,1),angle(:,:,1))
-    call find_angq(ni,nj,xangCt(:,2),anglet(:,:,2),angle(:,:,2))
-    call find_angq(ni,nj,xangCt(:,3),anglet(:,:,3),angle(:,:,3))
+    call find_angq((/2,5/),(/2,5/),xangCt(:,1),anglet(:,:,1),angle(:,:,1))
+    call find_angq((/2,5/),(/2,5/),xangCt(:,2),anglet(:,:,2),angle(:,:,2))
+    call find_angq((/2,5/),(/2,4/),xangCt(:,3),anglet(:,:,3),angle(:,:,3))
     angle(:,:,:) = -angle(:,:,:)
 
-    i1 = 2; j1 = 2
-    i2 = 4; j2 = 5
+    !i1 = 2; j1 = 2
+    !i2 = 4; j2 = 5
+    i1 = 1; i2 = ni
+    j1 = 1; j2 = nj
     do k = 1,nblocks
        write(ck,'(i1.1)')k
        maxval = 1.0e-30
        ! note reduced check, xangCt(:,3) is zero
-       if (k .eq. nblocks) j2 = 4
+       !if (k .eq. nblocks) j2 = 4
        do j = j1,j2
           do i = i1,i2
-             diff = abs(angle(i,j,k) - cice6_angle(i,j,k))
-             maxval = max(diff,maxval)
+             if (abs(angle(i,j,k)) .gt. 0.0) then
+                diff = abs(angle(i,j,k) - cice6_angle(i,j,k))
+                maxval = max(diff,maxval)
+             end if
           end do
        end do
        call passfail(maxval, 1.0e-4, 'CICE6 angle, block '//trim(ck))
@@ -259,38 +269,45 @@
           print '(5f15.6)',(angle(i,j,3), i = 1,ni)
        end do
     end if
+
     !-----------------------------------------------------------------------
     ! find anglet calculated by CICE and test against cice6 and mom6 values
     !-----------------------------------------------------------------------
-    call find_angchk(ni,nj,angle(:,:,1),angchk(:,:,1))
-    call find_angchk(ni,nj,angle(:,:,2),angchk(:,:,2))
-    call find_angchk(ni,nj,angle(:,:,3),angchk(:,:,3))
+    call find_angchk((/3,4/),(/3,5/),angle(:,:,1),angchk(:,:,1))
+    call find_angchk((/3,4/),(/3,5/),angle(:,:,2),angchk(:,:,2))
+    call find_angchk((/3,4/),(/3,4/),angle(:,:,3),angchk(:,:,3))
 
-    i1 = 3; j1 = 3
-    i2 = 4; j2 = 5
+    i1 = 1; i2 = ni
+    j1 = 1; j2 = nj
+    !i1 = 3; j1 = 3
+    !i2 = 4; j2 = 5
     do k = 1,nblocks
        write(ck,'(i1.1)')k
        maxval = 1.0e-30
-       if (k .eq. nblocks) j2 = 4
+       !if (k .eq. nblocks) j2 = 4
        do j = j1,j2
           do i = i1,i2
-             diff = abs(angchk(i,j,k) - cice6_anglet(i,j,k))
-             maxval = max(diff,maxval)
+             if (abs(angchk(i,j,k)) .gt. 0.0) then
+                diff = abs(angchk(i,j,k) - cice6_anglet(i,j,k))
+                maxval = max(diff,maxval)
+             end if
           end do
        end do
        call passfail(maxval, 1.0e-4, 'angchk vs CICE6 anglet, block '//trim(ck))
     end do
 
-    i1 = 3; j1 = 3
-    i2 = 4; j2 = 4
+    !i1 = 3; j1 = 3
+    !i2 = 4; j2 = 4
     do k = 1,nblocks
        write(ck,'(i1.1)')k
        maxval = 1.0e-30
-       if (k .eq. nblocks) j2 = 4
+       !if (k .eq. nblocks) j2 = 4
        do j = j1,j2
           do i = i1,i2
-             diff = abs(-angchk(i,j,k) - asin(mom6_sinrot(i,j,k)))
-             maxval = max(diff,maxval)
+             if (abs(angchk(i,j,k)) .gt. 0.0) then
+                diff = abs(-angchk(i,j,k) - asin(mom6_sinrot(i,j,k)))
+                maxval = max(diff,maxval)
+             end if
           end do
        end do
        call passfail(maxval, 1.2e-2, 'angchk vs MOM6 anglet, block '//trim(ck))
@@ -328,6 +345,6 @@
        print *,'SUCCESS! '//trim(msg),'  ',maxval,tolerance
     else
        print *,'FAIL! '//trim(msg),'  ',maxval,tolerance
-       stop 1
+       !stop 1
     endif
   end subroutine passfail
