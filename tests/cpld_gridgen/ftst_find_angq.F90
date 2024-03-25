@@ -9,10 +9,6 @@
 !! of the tripole region (i=300:304,j=306:310). Because the angle calculations
 !! involve points outside of the 5x5 blocks (eg, i+1), not all 5x5 points are
 !! checked.
-
-!! For anglet, valid points returned are (2:5,2:5). For angle,
-!! valid points are (2:4,2:5) or (2:4,2:4)
-!! or (2:4,2:4) values are tested
 !!
 !! @author Denise.Worthen@noaa.gov
 
