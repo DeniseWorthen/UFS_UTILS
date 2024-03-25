@@ -414,7 +414,6 @@ program gen_fixgrid
   fdst = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.nc'
   call write_tripolegrid(trim(fdst))
 
-#ifdef test
   ! write cice grid
   fdst = trim(dirout)//'/'//'grid_cice_NEMS_mx'//trim(res)//'.nc'
   call write_cicegrid(trim(fdst))
@@ -560,7 +559,7 @@ program gen_fixgrid
   !---------------------------------------------------------------------
 
   if(do_postwgts)call make_postwgts
-#endif
+
   !---------------------------------------------------------------------
   ! clean up
   !---------------------------------------------------------------------
