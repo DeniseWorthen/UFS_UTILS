@@ -52,7 +52,7 @@ program gen_fixgrid
 
   integer :: rc,ncid,id,xtype
   integer :: i,j,k,i2,j2
-  integer :: ii,jj
+  integer :: ii
   integer :: localPet, nPet
   logical :: fexist = .false.
 
@@ -150,8 +150,6 @@ program gen_fixgrid
 
   if(xtype.eq. 6)wet4 = real(wet8,4)
 
-  !print *,minval(wet8),maxval(wet8)
-  !print *,minval(wet4),maxval(wet4)
 
   !---------------------------------------------------------------------
   ! read the MOM6 depth file
@@ -239,9 +237,9 @@ program gen_fixgrid
   rc = nf90_get_var(ncid,     id, dy)
 
   rc = nf90_close(ncid)
-  !print *,'super grid size ',size(y,1),size(y,2)
-  !print *,'max lat in super grid ',maxval(y)
   sg_maxlat = maxval(y)
+  write(logmsg,'(a,f12.2)')'max lat in super grid ',maxval(y)
+  print '(a)',trim(logmsg)
 
   !---------------------------------------------------------------------
   ! find the angle on corners---this requires the supergrid
@@ -301,6 +299,7 @@ program gen_fixgrid
   !   Bu(i-1,j-1) sw----------------s
   !
   !---------------------------------------------------------------------
+
   angchk = 0.0
   do j = 2,nj
      do i = 2,ni
@@ -316,6 +315,7 @@ program gen_fixgrid
   ! reverse angle for MOM6
   angchk = - angchk
   print *,'ANGCHK ',minval(angchk), maxval(angchk)
+
   !---------------------------------------------------------------------
   ! For the 1/4deg grid, hte at j=720 and j = 1440 is identically=0.0 for
   ! j > 840 (64.0N). These are land points, but since CICE uses hte to
@@ -455,7 +455,7 @@ program gen_fixgrid
   write(form1,'(a)')'('//trim(cnx)//'f14.8)'
   write(form2,'(a)')'('//trim(cnx)//'i2)'
 
-  allocate(ww3mask(1:ni,1:nj)); ww3mask = wet4
+  allocate(ww3mask(1:ni,1:nj)); ww3mask = int(wet4)
   allocate(ww3dpth(1:ni,1:nj)); ww3dpth = dp4
 
   where(latCt .ge. maximum_lat)ww3mask = 3
