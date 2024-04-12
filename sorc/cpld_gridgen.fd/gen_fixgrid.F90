@@ -524,7 +524,17 @@ program gen_fixgrid
         fwgt = trim(dirout)//'/'//'tripole.mx025.Ct.to.mx'//trim(res)//'.Ct.neareststod.nc'
         logmsg = 'creating weight file '//trim(fwgt)
         print '(a)',trim(logmsg)
+        call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
+             weightFile=trim(fwgt), regridmethod=method,                 &
+             ignoreDegenerate=.true., unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
+        if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+             line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
 
+        method=ESMF_REGRIDMETHOD_BILINEAR
+        fdst = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
+        fwgt = trim(dirout)//'/'//'tripole.mx025.Ct.to.mx'//trim(res)//'.Ct.bilinear.nc'
+        logmsg = 'creating weight file '//trim(fwgt)
+        print '(a)',trim(logmsg)
         call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
              weightFile=trim(fwgt), regridmethod=method,                 &
              ignoreDegenerate=.true., unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
@@ -537,6 +547,17 @@ program gen_fixgrid
      end if
   end if
 
+  ! tripole Ct->tripole Bu for CICE are only for CICE IC creation
+  fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
+  fdst = trim(dirout)//'/'//'Bu.mx'//trim(res)//'_SCRIP.nc'
+  fwgt = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.Ct.to.Bu.bilinear.nc'
+  logmsg = 'creating weight file '//trim(fwgt)
+  print '(a)',trim(logmsg)
+  call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
+       weightFile=trim(fwgt), regridmethod=method,                 &
+       ignoreDegenerate=.true., unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
+  if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+       line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   !---------------------------------------------------------------------
   !
   !---------------------------------------------------------------------
