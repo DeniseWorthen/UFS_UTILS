@@ -25,14 +25,7 @@ var NAVTREE =
 [
   [ "ocnice_prep", "index.html", [
     [ "Introduction", "index.html#autotoc_md1", [
-      [ "Creating Fix and IC files required for the Coupled Model", "index.html#autotoc_md2", null ],
-      [ "Background:", "index.html#autotoc_md3", [
-        [ "MOM6 grids", "index.html#autotoc_md4", null ],
-        [ "Rotation angles", "index.html#autotoc_md5", null ],
-        [ "SCRIP format files", "index.html#autotoc_md6", null ]
-      ] ],
-      [ "Generating the grid files", "index.html#autotoc_md7", null ],
-      [ "The generated files", "index.html#autotoc_md8", null ]
+      [ "Creating a warm-start file for MOM6 or CICE6 from a restart file at higher resolution", "index.html#autotoc_md2", null ]
     ] ],
     [ "README", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_utils_dw_sorc_ocnice_prep_8fd_docs_README.html", null ],
     [ "Data Types List", "annotated.html", [
