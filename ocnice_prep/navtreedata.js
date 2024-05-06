@@ -25,7 +25,10 @@ var NAVTREE =
 [
   [ "ocnice_prep", "index.html", [
     [ "Introduction", "index.html#autotoc_md1", [
-      [ "Creating a warm-start file for MOM6 or CICE6 from a restart file at higher resolution", "index.html#autotoc_md2", null ]
+      [ "Creating a warm-start file for MOM6 or CICE6 from a restart file at higher resolution", "index.html#autotoc_md2", null ],
+      [ "Remapping procedure", "index.html#autotoc_md3", null ],
+      [ "Required files", "index.html#autotoc_md4", null ],
+      [ "Pre-generation of MOM6 restart file", "index.html#autotoc_md5", null ]
     ] ],
     [ "README", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_utils_dw_sorc_ocnice_prep_8fd_docs_README.html", null ],
     [ "Data Types List", "annotated.html", [
