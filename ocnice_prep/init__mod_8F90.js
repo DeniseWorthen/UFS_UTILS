@@ -1,9 +1,8 @@
 var init__mod_8F90 =
 [
     [ "vardefs", "structinit__mod_1_1vardefs.html", "structinit__mod_1_1vardefs" ],
-    [ "readcsv", "init__mod_8F90.html#accb3274d73a9b2cc4814b4229ccdfe65", null ],
-    [ "readnml", "init__mod_8F90.html#ae8fc34e1b47f4b6f4ec0f21359a41b31", null ],
-    [ "angvar", "init__mod_8F90.html#afdd70fa6872a7fdd926411d33e90cba1", null ],
+    [ "readcsv", "init__mod_8F90.html#a347504571584677d09f00d62e8ff1116", null ],
+    [ "readnml", "init__mod_8F90.html#a56b1b366e113e069293b2b0e424b27d3", null ],
     [ "debug", "init__mod_8F90.html#adc6556df96f84421a9bc9de762478b79", null ],
     [ "do_ocnprep", "init__mod_8F90.html#a8e289b800853d3abb1ee89f2fd1b96f7", null ],
     [ "fdst", "init__mod_8F90.html#a9a8601c053113fd39e7cb78ed5ad23e8", null ],

@@ -98,21 +98,25 @@ $(document).ready(function(){initNavTree('namespaceset__soilveg__snippet__mod.ht
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:abb7f94fb9d70a9d0277344b931c25915"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceset__soilveg__snippet__mod.html#abb7f94fb9d70a9d0277344b931c25915">set_soilveg</a> (isot, ivet, maxsmc, bb, satpsi, iret)</td></tr>
-<tr class="memdesc:abb7f94fb9d70a9d0277344b931c25915"><td class="mdescLeft">&#160;</td><td class="mdescRight">This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment.f90.  <a href="#abb7f94fb9d70a9d0277344b931c25915">More...</a><br /></td></tr>
-<tr class="separator:abb7f94fb9d70a9d0277344b931c25915"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b91fb88321a153998f21440768d15f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceset__soilveg__snippet__mod.html#a60b91fb88321a153998f21440768d15f">set_soilveg_noah</a> (isot, ivet, maxsmc, bb, satpsi, iret)</td></tr>
+<tr class="memdesc:a60b91fb88321a153998f21440768d15f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment.f90.  <a href="#a60b91fb88321a153998f21440768d15f">More...</a><br /></td></tr>
+<tr class="separator:a60b91fb88321a153998f21440768d15f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c53b6418a4112112221288294929808"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceset__soilveg__snippet__mod.html#a5c53b6418a4112112221288294929808">set_soilveg_noahmp</a> (isot, ivet, maxsmc, bb, satpsi, iret)</td></tr>
+<tr class="memdesc:a5c53b6418a4112112221288294929808"><td class="mdescLeft">&#160;</td><td class="mdescRight">This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment.f90 for noah-mp.  <a href="#a5c53b6418a4112112221288294929808">More...</a><br /></td></tr>
+<tr class="separator:a5c53b6418a4112112221288294929808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Below was extracted from namelist_soilveg.f and set_soilveg.f (couldn't get above to compile for doxygen) </p>
+<p>Add Noah-MP LSM soil and veg params needed for global_cycle Noah-MP related parameters were extracted from noahmp_table.f isot (soil type) = 1: STATSGO must be selected if NoahMP is used ivet (vegetation type) = 1: IBGP is used by UFS offline Land DA for Noah-MP as of 07/13/2023 </p><dl class="section author"><dt>Author</dt><dd>Yuan Xue </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="abb7f94fb9d70a9d0277344b931c25915"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb7f94fb9d70a9d0277344b931c25915">&#9670;&nbsp;</a></span>set_soilveg()</h2>
+<a id="a60b91fb88321a153998f21440768d15f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b91fb88321a153998f21440768d15f">&#9670;&nbsp;</a></span>set_soilveg_noah()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public set_soilveg_snippet_mod::set_soilveg </td>
+          <td class="memname">subroutine, public set_soilveg_snippet_mod::set_soilveg_noah </td>
           <td>(</td>
           <td class="paramtype">integer, intent(in)&#160;</td>
           <td class="paramname"><em>isot</em>, </td>
@@ -168,7 +172,74 @@ Functions/Subroutines</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="set__soilveg__snippet_8f90_source.html#l00027">27</a> of file <a class="el" href="set__soilveg__snippet_8f90_source.html">set_soilveg_snippet.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="set__soilveg__snippet_8f90_source.html#l00035">35</a> of file <a class="el" href="set__soilveg__snippet_8f90_source.html">set_soilveg_snippet.f90</a>.</p>
+
+</div>
+</div>
+<a id="a5c53b6418a4112112221288294929808"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c53b6418a4112112221288294929808">&#9670;&nbsp;</a></span>set_soilveg_noahmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public set_soilveg_snippet_mod::set_soilveg_noahmp </td>
+          <td>(</td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>isot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>ivet</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(30), intent(out)&#160;</td>
+          <td class="paramname"><em>maxsmc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(30), intent(out)&#160;</td>
+          <td class="paramname"><em>bb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(30), intent(out)&#160;</td>
+          <td class="paramname"><em>satpsi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(out)&#160;</td>
+          <td class="paramname"><em>iret</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment.f90 for noah-mp. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">isot</td><td>Soil type </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ivet</td><td>Vegetation type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">maxsmc</td><td>Maximum soil moisture for each soil type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bb</td><td>B exponent for each soil type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">satpsi</td><td>Saturated matric potential for each soil type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">iret</td><td>Return integer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="set__soilveg__snippet_8f90_source.html#l00107">107</a> of file <a class="el" href="set__soilveg__snippet_8f90_source.html">set_soilveg_snippet.f90</a>.</p>
 
 </div>
 </div>

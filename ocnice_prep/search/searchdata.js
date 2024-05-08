@@ -4,7 +4,7 @@ var indexSectionsWithContent =
   1: "dgprv",
   2: "aiou",
   3: "cdgnoprsv",
-  4: "abcdefghilmnorsuvw",
+  4: "bcdefghilmnorsuvw",
   5: "or"
 };
 

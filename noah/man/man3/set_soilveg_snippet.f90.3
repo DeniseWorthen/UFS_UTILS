@@ -1,8 +1,8 @@
-.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/lsm_routines.fd/noah.fd/set_soilveg_snippet.f90" 3 "Mon May 6 2024" "Version 1.13.0" "noah" \" -*- nroff -*-
+.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/lsm_routines.fd/noah.fd/set_soilveg_snippet.f90" 3 "Wed May 8 2024" "Version 1.13.0" "noah" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/lsm_routines.fd/noah.fd/set_soilveg_snippet.f90 \- Routine to set Noah LSM soil and veg params needed for sflx_snippet\&.  
+/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/lsm_routines.fd/noah.fd/set_soilveg_snippet.f90 \- Routine to set Noah LSM soil and veg params needed for sflx_snippet\&.  
 
 .SH SYNOPSIS
 .br
@@ -19,9 +19,13 @@
 
 .in +1c
 .ti -1c
-.RI "subroutine, public \fBset_soilveg_snippet_mod::set_soilveg\fP (isot, ivet, maxsmc, bb, satpsi, iret)"
+.RI "subroutine, public \fBset_soilveg_snippet_mod::set_soilveg_noah\fP (isot, ivet, maxsmc, bb, satpsi, iret)"
 .br
 .RI "This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment\&.f90\&. "
+.ti -1c
+.RI "subroutine, public \fBset_soilveg_snippet_mod::set_soilveg_noahmp\fP (isot, ivet, maxsmc, bb, satpsi, iret)"
+.br
+.RI "This subroutine initializes soil and vegetation parameters needed in global_cycle/land_increment\&.f90 for noah-mp\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 

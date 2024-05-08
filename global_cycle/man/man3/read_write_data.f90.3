@@ -1,8 +1,8 @@
-.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/global_cycle.fd/read_write_data.f90" 3 "Mon May 6 2024" "Version 1.13.0" "global_cycle" \" -*- nroff -*-
+.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/global_cycle.fd/read_write_data.f90" 3 "Wed May 8 2024" "Version 1.13.0" "global_cycle" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/global_cycle.fd/read_write_data.f90 \- Contains utility routines that read and write data\&.  
+/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/global_cycle.fd/read_write_data.f90 \- Contains utility routines that read and write data\&.  
 
 .SH SYNOPSIS
 .br
@@ -42,7 +42,7 @@
 .br
 .RI "If a NetCDF call returns an error, print out a user-supplied message and the NetCDF library message\&. "
 .ti -1c
-.RI "subroutine, public \fBread_write_data::read_data\fP (LSOIL, LENSFC, DO_NSST, INC_FILE, IS_NOAHMP, TSFFCS, SMCFCS, SWEFCS, STCFCS, TG3FCS, ZORFCS, CVFCS, CVBFCS, CVTFCS, ALBFCS, VEGFCS, SLIFCS, CNPFCS, F10M, VETFCS, SOTFCS, ALFFCS, USTAR, FMM, FHH, SIHFCS, SICFCS, SITFCS, TPRCP, SRFLAG, SNDFCS, VMNFCS, VMXFCS, SLCFCS, SLPFCS, ABSFCS, T2M, Q2M, SLMASK, ZSOIL, NSST)"
+.RI "subroutine, public \fBread_write_data::read_data\fP (LSOIL, LENSFC, DO_NSST, DO_SNO_INC_JEDI, DO_SOI_INC_JEDI, INC_FILE, IS_NOAHMP, TSFFCS, SMCFCS, SWEFCS, STCFCS, TG3FCS, ZORFCS, CVFCS, CVBFCS, CVTFCS, ALBFCS, VEGFCS, SLIFCS, CNPFCS, F10M, VETFCS, SOTFCS, ALFFCS, USTAR, FMM, FHH, SIHFCS, SICFCS, SITFCS, TPRCP, SRFLAG, SNDFCS, VMNFCS, VMXFCS, SLCFCS, STCINC, SLCINC, SLPFCS, ABSFCS, T2M, Q2M, SLMASK, ZSOIL, NSST)"
 .br
 .RI "Read the first guess surface records and nsst records (if selected) for a single cubed-sphere tile\&. "
 .ti -1c
@@ -66,7 +66,7 @@
 .br
 .RI "Remove the checksum attribute from a netcdf record\&. "
 .ti -1c
-.RI "subroutine, public \fBread_write_data::write_data\fP (lensfc, idim, jdim, lsoil, do_nsst, nsst, slifcs, tsffcs, vegfcs, swefcs, tg3fcs, zorfcs, albfcs, alffcs, cnpfcs, f10m, t2m, q2m, vetfcs, sotfcs, ustar, fmm, fhh, sicfcs, sihfcs, sitfcs, tprcp, srflag, swdfcs, vmnfcs, vmxfcs, slpfcs, absfcs, slcfcs, smcfcs, stcfcs)"
+.RI "subroutine, public \fBread_write_data::write_data\fP (lensfc, idim, jdim, lsoil, do_nsst, inc_file, nsst, slifcs, tsffcs, vegfcs, swefcs, tg3fcs, zorfcs, albfcs, alffcs, cnpfcs, f10m, t2m, q2m, vetfcs, sotfcs, ustar, fmm, fhh, sicfcs, sihfcs, sitfcs, tprcp, srflag, swdfcs, vmnfcs, vmxfcs, slpfcs, absfcs, slcfcs, smcfcs, stcfcs, stcinc, slcinc)"
 .br
 .RI "Update surface records - and nsst records if selected - on a single cubed-sphere tile to a pre-existing model restart file (in netcdf)\&. "
 .in -1c

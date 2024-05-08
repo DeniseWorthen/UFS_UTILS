@@ -1,4 +1,4 @@
-.TH "utils_esmf_mod::remaprh" 3 "Mon May 6 2024" "Version 1.13.0" "ocnice_prep" \" -*- nroff -*-
+.TH "utils_esmf_mod::remaprh" 3 "Wed May 8 2024" "Version 1.13.0" "ocnice_prep" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -28,7 +28,7 @@ utils_esmf_mod::remaprh
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line 28 of file utils_esmf_mod\&.F90\&.
+Definition at line 26 of file utils_esmf_mod\&.F90\&.
 .SH "Member Function/Subroutine Documentation"
 .PP 
 .SS "subroutine utils_esmf_mod::remaprh::remaprh1d (integer, intent(in) kk, real(kind=8), dimension(:), intent(in) src_field, real(kind=8), dimension(:), intent(out) dst_field, integer, intent(out) rc)\fC [private]\fP"
@@ -54,7 +54,7 @@ Denise.Worthen@noaa.gov
 .PP
 
 .PP
-Definition at line 130 of file utils_esmf_mod\&.F90\&.
+Definition at line 129 of file utils_esmf_mod\&.F90\&.
 .SS "subroutine utils_esmf_mod::remaprh::remaprh1ddyn (integer, intent(in) kk, real(kind=8), dimension(:), intent(in) src_field, real(kind=8), dimension(:), intent(out) dst_field, real(kind=8), dimension(:), intent(in) hmask, integer, intent(out) rc)\fC [private]\fP"
 
 .PP
@@ -66,7 +66,7 @@ Remap a field of nlen via ESMF RH with dynamic masking\&.
 .br
 \fIsrc_field\fP the field on the source grid 
 .br
-\fIhmask\fP the mask field to use with dynamic masking (optional) 
+\fIhmask\fP the mask field to use with dynamic masking 
 .br
 \fIdst_field\fP the field on the destination grid 
 .br
@@ -80,7 +80,7 @@ Denise.Worthen@noaa.gov
 .PP
 
 .PP
-Definition at line 233 of file utils_esmf_mod\&.F90\&.
+Definition at line 238 of file utils_esmf_mod\&.F90\&.
 .SS "subroutine utils_esmf_mod::remaprh::remaprh2d (real(kind=8), dimension(:,:), intent(in) src_field, real(kind=8), dimension(:,:), intent(out) dst_field, integer, intent(out) rc)\fC [private]\fP"
 
 .PP
@@ -102,7 +102,7 @@ Denise.Worthen@noaa.gov
 .PP
 
 .PP
-Definition at line 179 of file utils_esmf_mod\&.F90\&.
+Definition at line 181 of file utils_esmf_mod\&.F90\&.
 .SS "subroutine utils_esmf_mod::remaprh::remaprh2ddyn (integer, intent(in) kk, real(kind=8), dimension(:,:), intent(in) src_field, real(kind=8), dimension(:,:), intent(out) dst_field, real(kind=8), dimension(:), intent(in) hmask, integer, intent(out) rc)\fC [private]\fP"
 
 .PP
@@ -114,7 +114,7 @@ Remap a packed field of nflds,nlen via ESMF RH with dyanmic masking\&.
 .br
 \fIsrc_field\fP the field on the source grid 
 .br
-\fIhmask\fP the mask field to use with dynamic masking (optional) 
+\fIhmask\fP the mask field to use with dynamic masking 
 .br
 \fIdst_field\fP the field on the destination grid 
 .br
@@ -128,7 +128,7 @@ Denise.Worthen@noaa.gov
 .PP
 
 .PP
-Definition at line 290 of file utils_esmf_mod\&.F90\&.
+Definition at line 297 of file utils_esmf_mod\&.F90\&.
 
 .SH "Author"
 .PP 
