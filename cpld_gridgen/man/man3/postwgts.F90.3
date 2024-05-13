@@ -1,8 +1,8 @@
-.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/cpld_gridgen.fd/postwgts.F90" 3 "Fri May 10 2024" "Version 1.13.0" "cpld_gridgen" \" -*- nroff -*-
+.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/cpld_gridgen.fd/postwgts.F90" 3 "Mon May 13 2024" "Version 1.13.0" "cpld_gridgen" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/addoitest/sorc/cpld_gridgen.fd/postwgts.F90 \- Create the ESMF weights for post\&.  
+/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/cpld_gridgen.fd/postwgts.F90 \- Create the ESMF weights for post\&.  
 
 .SH SYNOPSIS
 .br
@@ -13,7 +13,7 @@
 .ti -1c
 .RI "subroutine \fBpostwgts::make_postwgts\fP"
 .br
-.RI "Create the ESMF weights files to remap velocity points from their native stagger location to the center (Ct) location\&. "
+.RI "Create the ESMF weights file to remap from the Ct location to a rectilinear grid\&. "
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -41,7 +41,7 @@ Definition in file \fBpostwgts\&.F90\fP\&.
 .SS "subroutine postwgts::make_postwgts ()"
 
 .PP
-Create the ESMF weights files to remap velocity points from their native stagger location to the center (Ct) location\&. Create the ESMF weights file to remap from the Ct location to a rectilinear grid
+Create the ESMF weights file to remap from the Ct location to a rectilinear grid\&. 
 .PP
 \fBAuthor:\fP
 .RS 4
@@ -50,7 +50,7 @@ Denise.Worthen@noaa.gov
 .PP
 
 .PP
-Definition at line 25 of file postwgts\&.F90\&.
+Definition at line 24 of file postwgts\&.F90\&.
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for cpld_gridgen from the source code\&.

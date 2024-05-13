@@ -176,7 +176,7 @@ The generated files</h2>
 <p><br />
 </p>
 <ul>
-<li>Executing the script for the 1/4 deg OCN/ICE resolution will result in the following files being produced in the output location:</li>
+<li>Executing the script for the 1/4 deg OCN/ICE (<code>mx025</code>) resolution will result in the following files being produced in the output location:</li>
 </ul>
 <a class="anchor" id="foutmx025"></a>
 <table class="doxtable">
@@ -206,12 +206,6 @@ The generated files</h2>
 <tr>
 <th>File name </th><th>Function </th></tr>
 <tr>
-<td row="1">tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc </td><td>the ESMF weights for mapping OCN or ICE <br />
- output fields from the various stagger <br />
- locations on the tripole grid to the <br />
- center (Ct) stagger location on the <br />
- same tripole grid using bilinear mapping </td></tr>
-<tr>
 <td row="2">tripole.mx025.Ct.to.rect.[destination resolution].[bilinear][conserve].nc </td><td>the ESMF weights for mapping variables <br />
  on the center (Ct) stagger location on <br />
  the tripole grid to a rectilinear grid <br />
@@ -229,13 +223,13 @@ The generated files</h2>
 <tr>
 <th>File name </th><th>Function </th></tr>
 <tr>
-<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.neareststod.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br />
- a lower tripole destination resolution using nearest <br />
- source-to-destination mapping </td></tr>
-<tr>
-<td row="1">tripole.mx025.Ct.to.mx[destination resolution].Ct.bilinear.nc </td><td>the ESMF weights for mapping 1/4 deg tripole ICs to <br />
- a lower tripole destination resolution using <br />
- bilinear mapping </td></tr>
+<td row="1">tripole.mx025.[Cu][Cv][Bu].to.Ct.bilinear.nc </td><td><p class="starttd">the ESMF weights for mapping OCN or ICE <br />
+ output fields from the various stagger <br />
+ locations on the tripole grid to the <br />
+ center (Ct) stagger location on the <br />
+ same tripole grid using bilinear mapping</p>
+<p class="endtd"></p>
+</td></tr>
 <tr>
 <td row="1">tripole.[destination resolution].Ct.to.[Cu][Cv][Bu].bilinear.nc </td><td>the ESMF weights for mapping downscaled IC values on a <br />
  tripole grid from Ct locations to the native stagger locations </td></tr>
