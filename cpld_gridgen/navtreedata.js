@@ -33,7 +33,8 @@ var NAVTREE =
           [ "SCRIP format files", "index.html#autotoc_md6", null ]
         ] ],
         [ "Generating the grid files", "index.html#autotoc_md7", null ],
-        [ "The generated files", "index.html#autotoc_md8", null ]
+        [ "Using ESMF weights for warmstart generation or for ocnicepost", "index.html#autotoc_md8", null ],
+        [ "The generated files", "index.html#autotoc_md9", null ]
       ] ]
     ] ],
     [ "README", "md__scratch1_NCEPDEV_nems_Denise_8Worthen_WORK_utils_dw_sorc_cpld_gridgen_8fd_docs_README.html", null ],
