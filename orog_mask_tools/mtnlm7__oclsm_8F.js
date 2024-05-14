@@ -17,7 +17,7 @@ var mtnlm7__oclsm_8F =
     [ "makemt2", "mtnlm7__oclsm_8F.html#a472c912d4223f6f777ea1fbf67935b87", null ],
     [ "makeoa", "mtnlm7__oclsm_8F.html#a8d7cd780bcd1d914b6e8365d54690970", null ],
     [ "makeoa2", "mtnlm7__oclsm_8F.html#a6f9bd0fd0ad95d5d2de1467d3edd40ac", null ],
-    [ "makeoa3", "mtnlm7__oclsm_8F.html#a9453ed7e298514aafffdbb0f3b2583da", null ],
+    [ "makeoa3", "mtnlm7__oclsm_8F.html#a6c60e14e03c3ec63e3bf65c83c8364db", null ],
     [ "makepc", "mtnlm7__oclsm_8F.html#af47841465b730e24743a7e479ad93a59", null ],
     [ "makepc2", "mtnlm7__oclsm_8F.html#aad0edacce3fd25c6cc31a59176da25f2", null ],
     [ "maxmin", "mtnlm7__oclsm_8F.html#a8648e114af02377f94e03cc40412de58", null ],
@@ -26,11 +26,10 @@ var mtnlm7__oclsm_8F =
     [ "mnmxja", "mtnlm7__oclsm_8F.html#aa54e80b7136f9cc0d224515945c960f0", null ],
     [ "nanc", "mtnlm7__oclsm_8F.html#ae8df58dcb775885e68d83118c2f449af", null ],
     [ "read_g", "mtnlm7__oclsm_8F.html#a7198602abfbb7e104451b506546c02a6", null ],
-    [ "revers", "mtnlm7__oclsm_8F.html#a03310f2d7922aab7f39b22448fc8ec2f", null ],
     [ "rg2gg", "mtnlm7__oclsm_8F.html#a77b3e5e25f53c7c59daa7639c0b2dc2b", null ],
     [ "spfft1", "mtnlm7__oclsm_8F.html#ac63643472eda83948c0b249b611346d6", null ],
     [ "spherical_angle", "mtnlm7__oclsm_8F.html#a09845caa8530e4792b7d7dbeac0609b7", null ],
     [ "spherical_distance", "mtnlm7__oclsm_8F.html#af72c017d12f741c8cecd92603d4dfa0c", null ],
-    [ "tersub", "mtnlm7__oclsm_8F.html#a3a60aeb22197da09fe866bca7e83b8bd", null ],
+    [ "tersub", "mtnlm7__oclsm_8F.html#a7351963e38a49ac3ff796e272b1bc0f6", null ],
     [ "timef", "mtnlm7__oclsm_8F.html#a6e5afa4168cab2cdedef3c01e086494f", null ]
 ];
