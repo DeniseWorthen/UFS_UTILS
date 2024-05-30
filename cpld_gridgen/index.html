@@ -97,13 +97,13 @@ Introduction</h1>
 <p>The cpld_gengrid program is part of the <a href="https://github.com/ufs-community/UFS_UTILS">UFS_UTILS</a> project.</p>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Creating Fix and IC files required for the Coupled Model</h2>
-<p>For the UFS coupled model applications, the following fix files are required, either for IC warmstart creation, at runtime, or for post-processing.</p>
+<p>For the UFS coupled model application S2S or S2SW, the following fix files are required:</p>
 <ul>
 <li>The CICE6 grid and mask file</li>
 <li>The mesh file for the desired OCN/ICE resolution, which is identical for MOM6 and CICE6.</li>
 <li>The mapped ocean mask on the FV3 tiles</li>
-<li>The ESMF regridding weights required to map a 1/4 deg MOM6 or CICE6 tripole restart file to a lower tripole resolution.</li>
-<li>The latitude,longitude,depth and mask arrays required by WW3 to create a mod_def file for a tripole grid.</li>
+<li>The ESMF regridding weights required to create the CICE6 IC from CPC (SIS2) reanalysis or to map a 1/4 deg MOM6 or CICE6 tripole restart file to a lower tripole resolution.</li>
+<li>The latitude,longitude,depth and mask arrays required by WW3 to create a mod_def file.</li>
 <li>The ESMF regridding weights required to remap the CICE6 or MOM6 output from tripole grid to a rectilinear grid (optional).</li>
 </ul>
 <p>Since MOM6 creates the model grid at runtime (including adjusting the land mask, if required), the required files for CICE and UFSAtm must be created in a pre-processing step using only the MOM6 supergrid, topography and land mask files as input. This allows the mapped ocean mask (used for creating of the ATM ICs) and the CICE6 grid and mask files to be consistent with the run-time configuration of MOM6.</p>
