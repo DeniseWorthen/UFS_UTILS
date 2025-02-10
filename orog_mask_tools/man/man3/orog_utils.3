@@ -1,4 +1,4 @@
-.TH "orog_utils" 3 "Thu Oct 17 2024" "Version 1.13.0" "orog_mask_tools" \" -*- nroff -*-
+.TH "orog_utils" 3 "Mon Feb 10 2025" "Version 1.13.0" "orog_mask_tools" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -188,7 +188,7 @@ Determine the location of a cubed-sphere point within the high-resolution orogra
 .br
 \fInpts\fP Number of vertices to describe the cubed-sphere point\&. 
 .br
-\fIlonO\fP The longitudes of the cubed-sphere vertices\&. 
+\fIlonO\fP The longitudes of the cubed-sphere vertices\&. Must range from 0 - 360\&. 
 .br
 \fIlatO\fP The latitudes of the cubed-sphere vertices\&. 
 .br
@@ -210,7 +210,7 @@ GFDL programmer
 .PP
 
 .PP
-Definition at line 714 of file orog_utils\&.F90\&.
+Definition at line 691 of file orog_utils\&.F90\&.
 .PP
 Referenced by make_mask(), makemt2(), makeoa2(), and makepc2()\&.
 .SS "real function, public orog_utils::get_lat_angle (real, intent(in) dy)"
@@ -309,7 +309,7 @@ GFDL Programmer
 .PP
 
 .PP
-Definition at line 816 of file orog_utils\&.F90\&.
+Definition at line 793 of file orog_utils\&.F90\&.
 .PP
 Referenced by makeoa2()\&.
 .SS "subroutine, public orog_utils::get_xnsum2 (real, intent(in) lon1, real, intent(in) lat1, real, intent(in) lon2, real, intent(in) lat2, integer, intent(in) imn, integer, intent(in) jmn, real, dimension(jmn), intent(in) glat, integer, dimension(imn,jmn), intent(in) zavg, real, intent(in) delxn, real, intent(out) xnsum1, real, intent(out) xnsum2, real, intent(out) hc)"
@@ -351,7 +351,7 @@ GFDL Programmer
 .PP
 
 .PP
-Definition at line 927 of file orog_utils\&.F90\&.
+Definition at line 904 of file orog_utils\&.F90\&.
 .PP
 Referenced by makeoa2()\&.
 .SS "subroutine, public orog_utils::get_xnsum3 (real, intent(in) lon1, real, intent(in) lat1, real, intent(in) lon2, real, intent(in) lat2, integer, intent(in) imn, integer, intent(in) jmn, real, dimension(jmn), intent(in) glat, integer, dimension(imn,jmn), intent(in) zavg, real, intent(in) delxn, real, intent(out) xnsum1, real, intent(out) xnsum2, real, intent(in) HC)"
@@ -393,7 +393,7 @@ GFDL Programmer
 .PP
 
 .PP
-Definition at line 1029 of file orog_utils\&.F90\&.
+Definition at line 1006 of file orog_utils\&.F90\&.
 .PP
 Referenced by makeoa2()\&.
 .SS "logical function, public orog_utils::inside_a_polygon (real, intent(in) lon1, real, intent(in) lat1, integer, intent(in) npts, real, dimension(npts), intent(in) lon2, real, dimension(npts), intent(in) lat2)"
@@ -573,7 +573,7 @@ Mark Iredell
 .PP
 
 .PP
-Definition at line 1087 of file orog_utils\&.F90\&.
+Definition at line 1064 of file orog_utils\&.F90\&.
 .PP
 Referenced by tersub()\&.
 .SS "subroutine, public orog_utils::transpose_mask (integer, intent(in) imn, integer, intent(in) jmn, integer(1), dimension(imn,jmn), intent(inout) mask)"

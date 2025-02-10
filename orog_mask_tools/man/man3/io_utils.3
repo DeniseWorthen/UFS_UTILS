@@ -1,4 +1,4 @@
-.TH "io_utils" 3 "Thu Oct 17 2024" "Version 1.13.0" "orog_mask_tools" \" -*- nroff -*-
+.TH "io_utils" 3 "Mon Feb 10 2025" "Version 1.13.0" "orog_mask_tools" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -61,7 +61,7 @@ George Gayno NOAA/EMC
 
 .SH "Function/Subroutine Documentation"
 .PP 
-.SS "subroutine io_utils::netcdf_err (integer, intent(in) err, character(len=*), intent(in) string)\fC [private]\fP"
+.SS "subroutine io_utils::netcdf_err (integer, intent(in) err, character(len=*), intent(in) string)"
 
 .PP
 Check NetCDF error code and output the error message\&. 
@@ -80,7 +80,7 @@ Jordan Alpert NOAA/EMC
 .PP
 
 .PP
-Definition at line 239 of file io_utils\&.F90\&.
+Definition at line 240 of file io_utils\&.F90\&.
 .PP
 Referenced by qc_orog_by_ramp(), read_global_mask(), read_global_orog(), read_mask(), read_mdl_dims(), read_mdl_grid_file(), write_mask_netcdf(), and write_netcdf()\&.
 .SS "subroutine, public io_utils::qc_orog_by_ramp (integer, intent(in) imn, integer, intent(in) jmn, integer, dimension(imn,jmn), intent(inout) zavg, integer, dimension(imn,jmn), intent(inout) zslm)"
@@ -106,7 +106,7 @@ G\&. Gayno
 .PP
 
 .PP
-Definition at line 628 of file io_utils\&.F90\&.
+Definition at line 669 of file io_utils\&.F90\&.
 .PP
 References netcdf_err()\&.
 .PP
@@ -132,7 +132,7 @@ G\&. Gayno NOAA/EMC
 .PP
 
 .PP
-Definition at line 590 of file io_utils\&.F90\&.
+Definition at line 611 of file io_utils\&.F90\&.
 .PP
 References netcdf_err(), and orog_utils::transpose_mask()\&.
 .PP
@@ -158,7 +158,7 @@ Jordan Alpert NOAA/EMC
 .PP
 
 .PP
-Definition at line 551 of file io_utils\&.F90\&.
+Definition at line 552 of file io_utils\&.F90\&.
 .PP
 References netcdf_err(), and orog_utils::transpose_orog()\&.
 .PP
@@ -190,7 +190,7 @@ George Gayno NOAA/EMC
 .PP
 
 .PP
-Definition at line 354 of file io_utils\&.F90\&.
+Definition at line 357 of file io_utils\&.F90\&.
 .PP
 References lake_frac(), and netcdf_err()\&.
 .PP
@@ -216,7 +216,7 @@ George Gayno NOAA/EMC
 .PP
 
 .PP
-Definition at line 400 of file io_utils\&.F90\&.
+Definition at line 402 of file io_utils\&.F90\&.
 .PP
 References netcdf_err()\&.
 .PP
@@ -258,7 +258,7 @@ George Gayno NOAA/EMC
 .PP
 
 .PP
-Definition at line 453 of file io_utils\&.F90\&.
+Definition at line 454 of file io_utils\&.F90\&.
 .PP
 References orog_utils::find_nearest_pole_points(), orog_utils::find_poles(), and netcdf_err()\&.
 .PP
@@ -294,7 +294,7 @@ George Gayno NOAA/EMC
 .PP
 
 .PP
-Definition at line 265 of file io_utils\&.F90\&.
+Definition at line 267 of file io_utils\&.F90\&.
 .PP
 References netcdf_err()\&.
 .PP

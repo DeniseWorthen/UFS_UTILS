@@ -247,7 +247,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00487">487</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00453">io_utils::read_mdl_grid_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00454">io_utils::read_mdl_grid_file()</a>.</p>
 
 </div>
 </div>
@@ -324,7 +324,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00411">411</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00453">io_utils::read_mdl_grid_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00454">io_utils::read_mdl_grid_file()</a>.</p>
 
 </div>
 </div>
@@ -409,7 +409,7 @@ Variables</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">imn</td><td>'i' dimension of the high-resolution orography data set. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">jmn</td><td>'j' dimension of the high-resolution orography data set. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">npts</td><td>Number of vertices to describe the cubed-sphere point. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">lonO</td><td>The longitudes of the cubed-sphere vertices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lonO</td><td>The longitudes of the cubed-sphere vertices. Must range from 0 - 360. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">latO</td><td>The latitudes of the cubed-sphere vertices. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">delxn</td><td>Resolution of the high-resolution orography data set. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">jst</td><td>Starting 'j' index on the high-resolution grid. </td></tr>
@@ -421,9 +421,9 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>GFDL programmer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00714">714</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00691">691</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00409">make_mask()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00547">makemt2()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>, and <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00772">makepc2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00409">make_mask()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00531">makemt2()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>, and <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00770">makepc2()</a>.</p>
 
 </div>
 </div>
@@ -457,7 +457,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="orog__utils_8F90_source.html#l00014">earth_radius</a>, and <a class="el" href="orog__utils_8F90_source.html#l00016">rad2deg</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>.</p>
 
 </div>
 </div>
@@ -502,7 +502,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="orog__utils_8F90_source.html#l00017">deg2rad</a>, <a class="el" href="orog__utils_8F90_source.html#l00014">earth_radius</a>, and <a class="el" href="orog__utils_8F90_source.html#l00016">rad2deg</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>.</p>
 
 </div>
 </div>
@@ -599,9 +599,9 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>get_xnsum The number of high-res points above the mean orography. </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>GFDL Programmer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00816">816</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00793">793</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>.</p>
 
 </div>
 </div>
@@ -712,9 +712,9 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>GFDL Programmer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00927">927</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00904">904</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>.</p>
 
 </div>
 </div>
@@ -825,9 +825,9 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>GFDL Programmer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l01029">1029</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l01006">1006</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>.</p>
 
 </div>
 </div>
@@ -893,7 +893,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="orog__utils_8F90_source.html#l00101">latlon2xyz()</a>, <a class="el" href="orog__utils_8F90_source.html#l00015">pi</a>, and <a class="el" href="orog__utils_8F90_source.html#l00262">spherical_angle()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00409">make_mask()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00547">makemt2()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01028">makeoa2()</a>, and <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00772">makepc2()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00409">make_mask()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00531">makemt2()</a>, <a class="el" href="mtnlm7__oclsm_8F90_source.html#l01026">makeoa2()</a>, and <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00770">makepc2()</a>.</p>
 
 </div>
 </div>
@@ -1200,7 +1200,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>timef </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Mark Iredell </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l01087">1087</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l01064">1064</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="mtnlm7__oclsm_8F90_source.html#l00119">tersub()</a>.</p>
 
@@ -1251,7 +1251,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00177">177</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00590">io_utils::read_global_mask()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00611">io_utils::read_global_mask()</a>.</p>
 
 </div>
 </div>
@@ -1300,7 +1300,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="orog__utils_8F90_source.html#l00220">220</a> of file <a class="el" href="orog__utils_8F90_source.html">orog_utils.F90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00551">io_utils::read_global_orog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="io__utils_8F90_source.html#l00552">io_utils::read_global_orog()</a>.</p>
 
 </div>
 </div>
