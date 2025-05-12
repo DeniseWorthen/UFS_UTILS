@@ -189,7 +189,6 @@ contains
     end if
 
     if (allocated(b3d)) then
-       n=1
        do n = 1,nbilin3d
           vname = trim(b3d(n)%var_name)
           vunit = trim(b3d(n)%units)
