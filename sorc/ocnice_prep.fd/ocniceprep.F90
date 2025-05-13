@@ -402,7 +402,6 @@ program ocniceprep
      end do
   end if
   if (allocated(rgb3d)) then
-     n=1
      do n = 1,nbilin3d
         do k = 1,nlevs
            out3d(:,:,k) = reshape(rgb3d(n,k,:), (/nxr,nyr/))

@@ -19,17 +19,13 @@ usage() {
     echo
     echo "  -m compare against the new baseline"
     echo
-    echo "  -d run scripts for DATM meshes only"
-    echo
     echo "  -h display this help and exit"
     echo
     echo "  Examples"
     echo
     echo "    './rt.sh -b'  build exe file. compare against the existing baseline"
     echo "    './rt.sh -bc' build exe file. create a new baseline"
-    echo "    './rt.sh -dc' run datm script. create a new baseline"
     echo "    './rt.sh -m'  do not build exe file. compare against the new baseline"
-    echo "    './rt.sh -dm' run datm script. compare against the new baseline"
     echo
 }
 
@@ -110,7 +106,7 @@ NEW_BASELINE_ROOT=$STMP/CPLD_GRIDGEN/BASELINE
 
 BUILD_EXE=false
 CREATE_BASELINE=false
-while getopts :bcmdh opt; do
+while getopts :bcmh opt; do
     case $opt in
         b)
             BUILD_EXE=true
@@ -120,9 +116,6 @@ while getopts :bcmdh opt; do
             ;;
         m)
             BASELINE_ROOT=$NEW_BASELINE_ROOT
-            ;;
-        d)
-            DATM_ONLY=true
             ;;
         h)
             usage_and_exit 0
@@ -167,8 +160,6 @@ if [[ $BUILD_EXE = true ]]; then
         set -x
         cd $PATHRT
     fi
-elif [[ $DATM_ONLY = true ]]; then
-    cd $PATHRT
 else
     if [[ ! -f $PATHTR/exec/cpld_gridgen ]]; then
        error "cpld_gridgen exe file is not found in $PATHTR/exe/. Try -b to build or -h for help."
@@ -218,7 +209,7 @@ while read -r line || [ "$line" ]; do
 
   cp $PATHRT/parm/grid.nml.IN $RUNDIR
   cp $PATHTR/exec/cpld_gridgen $RUNDIR
-
+  
   if [[ $target = wcoss2 ]]; then
     tests[$i]=$(qsub -V -o $PATHRT/run_${TEST_NAME}.log -e $PATHRT/run_${TEST_NAME}.log -q $QUEUE  -A $ACCOUNT \
        -l walltime=00:${WLCLK}:00 -N $TEST_NAME -l select=1:ncpus=1:mem=12GB -v RESNAME=$TEST_NAME,ATMLIST="'$ATMLIST'" ./cpld_gridgen.sh)
