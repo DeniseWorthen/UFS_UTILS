@@ -104,6 +104,7 @@ contains
     nxr = dstdims(1); nyr = dstdims(2)
     fsrc = '' ; fdst = ''
     if (nxt == 1440 .and. nyt == 1080) fsrc = 'mx025'    ! 1/4deg tripole
+    if (nxt ==  720 .and. nyt ==  576) fsrc = 'mx050'    ! 1/2deg tripole
     if (nxt ==  360 .and. nyt ==  320) fsrc = 'mx100'    ! 1deg tripole
     if (len_trim(fsrc) == 0) then
        rc = 1
@@ -118,6 +119,12 @@ contains
     if (len_trim(fdst) == 0) then
        rc = 1
        write(errmsg,'(a)')'FATAL ERROR: destination grid dimensions invalid'
+       return
+    end if
+
+    if (trim(fsrc) .eq. trim(fdst)) then
+       rc = 1
+       write(errmsg,'(a)')'FATAL ERROR: Source and destination grids must differ'
        return
     end if
 
