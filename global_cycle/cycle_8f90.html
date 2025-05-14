@@ -133,9 +133,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a9ccda063fdf438966bca8efde5c6cd03"><td class="memItemLeft" align="right" valign="top">program&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cycle_8f90.html#a9ccda063fdf438966bca8efde5c6cd03">sfc_drv</a></td></tr>
 <tr class="memdesc:a9ccda063fdf438966bca8efde5c6cd03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stand alone surface/NSST cycle driver for the cubed-sphere grid.  <a href="#a9ccda063fdf438966bca8efde5c6cd03">More...</a><br /></td></tr>
 <tr class="separator:a9ccda063fdf438966bca8efde5c6cd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6a36c7ea36884692de56e4643fa16ef"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cycle_8f90.html#af6a36c7ea36884692de56e4643fa16ef">sfcdrv</a> (LUGB, IDIM, JDIM, LENSFC, LSOIL, DELTSFC, IY, IM, ID, IH, FH, IALB, USE_UFO, DO_NSST, DO_SFCCYCLE, DO_LNDINC, FRAC_GRID, ZSEA1, ZSEA2, ISOT, IVEGSRC, MYRANK)</td></tr>
-<tr class="memdesc:af6a36c7ea36884692de56e4643fa16ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver routine for updating the surface fields.  <a href="#af6a36c7ea36884692de56e4643fa16ef">More...</a><br /></td></tr>
-<tr class="separator:af6a36c7ea36884692de56e4643fa16ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af316a696be201a7a964797bd76829aeb"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cycle_8f90.html#af316a696be201a7a964797bd76829aeb">sfcdrv</a> (LUGB, IDIM, JDIM, LENSFC, LSOIL, DELTSFC, IY, IM, ID, IH, FH, IALB, USE_UFO, DO_NSST, DO_SFCCYCLE, DO_LANDINCR, FRAC_GRID, ZSEA1, ZSEA2, ISOT, IVEGSRC, MYRANK)</td></tr>
+<tr class="memdesc:af316a696be201a7a964797bd76829aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver routine for updating the surface fields.  <a href="#af316a696be201a7a964797bd76829aeb">More...</a><br /></td></tr>
+<tr class="separator:af316a696be201a7a964797bd76829aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade32d73a7d3d2ee2e9813674aea1f797"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cycle_8f90.html#ade32d73a7d3d2ee2e9813674aea1f797">tf_thaw_set</a> (tf_ij, mask_ij, itile, jtile, tice, tclm, tf_thaw, nx, ny, nset_thaw_s, nset_thaw_i, nset_thaw_c)</td></tr>
 <tr class="memdesc:ade32d73a7d3d2ee2e9813674aea1f797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the background reference temperature (tf) for points where the ice has just melted.  <a href="#ade32d73a7d3d2ee2e9813674aea1f797">More...</a><br /></td></tr>
 <tr class="separator:ade32d73a7d3d2ee2e9813674aea1f797"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -553,7 +553,7 @@ Functions/Subroutines</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="cycle_8f90_source.html#l01827">1827</a> of file <a class="el" href="cycle_8f90_source.html">cycle.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01960">read_write_data::get_dim_nc()</a>, <a class="el" href="cycle_8f90_source.html#l01887">get_sal_clm_ta()</a>, <a class="el" href="cycle_8f90_source.html#l02021">get_tim_wei()</a>, and <a class="el" href="cycle_8f90_source.html#l01933">intp_tile()</a>.</p>
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01970">read_write_data::get_dim_nc()</a>, <a class="el" href="cycle_8f90_source.html#l01887">get_sal_clm_ta()</a>, <a class="el" href="cycle_8f90_source.html#l02021">get_tim_wei()</a>, and <a class="el" href="cycle_8f90_source.html#l01933">intp_tile()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
 
@@ -647,7 +647,7 @@ Functions/Subroutines</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="cycle_8f90_source.html#l01887">1887</a> of file <a class="el" href="cycle_8f90_source.html">cycle.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01889">read_write_data::read_salclm_gfs_nc()</a>.</p>
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01899">read_write_data::read_salclm_gfs_nc()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01827">get_sal_clm()</a>.</p>
 
@@ -747,7 +747,7 @@ Functions/Subroutines</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="cycle_8f90_source.html#l01710">1710</a> of file <a class="el" href="cycle_8f90_source.html">cycle.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01831">read_write_data::get_tf_clm_dim()</a>, <a class="el" href="cycle_8f90_source.html#l01779">get_tf_clm_ta()</a>, <a class="el" href="cycle_8f90_source.html#l02021">get_tim_wei()</a>, and <a class="el" href="cycle_8f90_source.html#l01933">intp_tile()</a>.</p>
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01841">read_write_data::get_tf_clm_dim()</a>, <a class="el" href="cycle_8f90_source.html#l01779">get_tf_clm_ta()</a>, <a class="el" href="cycle_8f90_source.html#l02021">get_tim_wei()</a>, and <a class="el" href="cycle_8f90_source.html#l01933">intp_tile()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
 
@@ -849,7 +849,7 @@ Functions/Subroutines</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="cycle_8f90_source.html#l01779">1779</a> of file <a class="el" href="cycle_8f90_source.html">cycle.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01689">read_write_data::read_tf_clim_grb()</a>.</p>
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01699">read_write_data::read_tf_clim_grb()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01710">get_tf_clm()</a>.</p>
 
@@ -1109,7 +1109,7 @@ Functions/Subroutines</h2></td></tr>
 <p>Each cubed-sphere tile runs independently on its own mpi task. The surface update component runs with threads. The NSST update component in not threaded.</p>
 <p>There are three main options (which can be called in combination):</p><ol type="1">
 <li>Update the surface fields with sfccylce (do_sfccycle = .true.)</li>
-<li>Update the land states with increments read in from file (do_lndinc = .true.) Can read in either a GSI-output increment file and regrid it, or (preferred) a file on the native model grid ( either produced by JEDI, or pre- regridded from a GSI-output file)</li>
+<li>Update the land states with increments read in from file (do_landincr = .true.) Can read in either a GSI-output increment file and regrid it, or (preferred) a file on the native model grid ( either produced by JEDI, or pre- regridded from a GSI-output file)</li>
 <li>Update the NSST field, several options:</li>
 </ol>
 <p>3a. Update the NSST TREF field using GSI increments on the Gaussian grid. All other NSST fields are cycled. Invoke this option by setting namelist variable DONST=.true. and NST_FILE to the name of the GSI increment file.</p>
@@ -1136,7 +1136,7 @@ Functions/Subroutines</h2></td></tr>
 <li>FH Forecast hour</li>
 <li>DELTSFC Cycling frequency in hours.</li>
 <li>IALB Use modis albedo when '1'. Use brigleb when '0'.</li>
-<li>USE_UFO Adjust sst and soil substrate temperature for differences between the filtered and unfiltered terrain. -DONST Call routines to process NSST records. -DO_SFCCYCLE Call sfccycle routine to update surface fields -DO_LNDINC Call routines to add land increments to sfc restarts (includes do_soi_inc and/or do_sno_inc) -DO_SOI_INC Apply increments to soil states. Requires DO_LNDINC=.true. -DO_SNO_INC Apply increments to snow states. Requires DO_LNDINC=.true. (NOTE: oudated, coded here for Noah LSM only). -INTERP_LNDINC Land increment is on Gaussian grid (from GSI) and should be regridded to the native model grid -LSOIL_INCR Number of soil layers (from top) to apply soil increments to. LSOIL_INCR is currently set to 3 by default. Extra cautions are needed on layer#3 across permafrost regions due to over sensitivity of moisture change when temperature approaches tfreez. Please feel free to contact Yuan Xue (<a href="#" onclick="location.href='mai'+'lto:'+'yua'+'n.'+'xue'+'@n'+'oaa'+'.g'+'ov'; return false;">yuan.<span style="display: none;">.nosp@m.</span>xue@<span style="display: none;">.nosp@m.</span>noaa.<span style="display: none;">.nosp@m.</span>gov</a>) for further concerns regarding this issue.</li>
+<li>USE_UFO Adjust sst and soil substrate temperature for differences between the filtered and unfiltered terrain. -DONST Call routines to process NSST records. -DO_SFCCYCLE Call sfccycle routine to update surface fields -DO_LANDINCR Call routines to add land increments to sfc restarts (includes do_soilincr and/or do_snowincr) -DO_SOILINCR Apply increments to soil states. Requires DO_LANDINCR=.true. -DO_SNOWINCR Apply increments to snow states. Requires DO_LANDINCR=.true. (NOTE: oudated, coded here for Noah LSM only). -INTERP_LANDINCR Land increment is on Gaussian grid (from GSI) and should be regridded to the native model grid -LSOIL_INCR Number of soil layers (from top) to apply soil increments to. LSOIL_INCR is currently set to 3 by default. Extra cautions are needed on layer#3 across permafrost regions due to over sensitivity of moisture change when temperature approaches tfreez. Please feel free to contact Yuan Xue (<a href="#" onclick="location.href='mai'+'lto:'+'yua'+'n.'+'xue'+'@n'+'oaa'+'.g'+'ov'; return false;">yuan.<span style="display: none;">.nosp@m.</span>xue@<span style="display: none;">.nosp@m.</span>noaa.<span style="display: none;">.nosp@m.</span>gov</a>) for further concerns regarding this issue.</li>
 <li>ISOT Use statsgo soil type when '1'. Use zobler when '0'.</li>
 <li>IVEGSRC Use igbp veg type when '1'. Use sib when '2'.</li>
 <li>ZSEA1/2_MM When running with NSST model, this is the lower/ upper bound of depth of sea temperature. In whole mm.</li>
@@ -1152,8 +1152,8 @@ Functions/Subroutines</h2></td></tr>
 
 </div>
 </div>
-<a id="af6a36c7ea36884692de56e4643fa16ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6a36c7ea36884692de56e4643fa16ef">&#9670;&nbsp;</a></span>sfcdrv()</h2>
+<a id="af316a696be201a7a964797bd76829aeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af316a696be201a7a964797bd76829aeb">&#9670;&nbsp;</a></span>sfcdrv()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1252,7 +1252,7 @@ Functions/Subroutines</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>DO_LNDINC</em>, </td>
+          <td class="paramname"><em>DO_LANDINCR</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1393,7 +1393,7 @@ Functions/Subroutines</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">USE_UFO</td><td>When true, adjust SST and soil temperature for differences between the filtered and unfiltered terrain. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">DO_NSST</td><td>When true, process NSST records. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">DO_SFCCYCLE</td><td>Call sfccycle routine to update surface fields </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">DO_LNDINC</td><td>Read in land increment files, and add increments to requested states. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">DO_LANDINCR</td><td>Read in land increment files, and add increments to requested states. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">FRAC_GRID</td><td>When true, run with fractional grid. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ZSEA1</td><td>When running NSST model, this is the lower bound of depth of sea temperature. In whole mm. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ZSEA2</td><td>When running NSST model, this is the upper bound of depth of sea temperature. In whole mm. </td></tr>
@@ -1407,7 +1407,7 @@ Functions/Subroutines</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="cycle_8f90_source.html#l00312">312</a> of file <a class="el" href="cycle_8f90_source.html">cycle.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, <a class="el" href="cycle_8f90_source.html#l01827">get_sal_clm()</a>, <a class="el" href="cycle_8f90_source.html#l01710">get_tf_clm()</a>, <a class="el" href="read__write__data_8f90_source.html#l01096">read_write_data::read_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00909">read_write_data::read_gsi_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00733">read_write_data::read_lat_lon_orog()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00132">read_write_data::write_data()</a>.</p>
+<p class="reference">References <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, <a class="el" href="cycle_8f90_source.html#l01827">get_sal_clm()</a>, <a class="el" href="cycle_8f90_source.html#l01710">get_tf_clm()</a>, <a class="el" href="read__write__data_8f90_source.html#l01098">read_write_data::read_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00909">read_write_data::read_gsi_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00733">read_write_data::read_lat_lon_orog()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00132">read_write_data::write_data()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00102">sfc_drv()</a>.</p>
 

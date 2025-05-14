@@ -1,4 +1,4 @@
-.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/global_cycle.fd/cycle.f90" 3 "Mon Feb 10 2025" "Version 1.13.0" "global_cycle" \" -*- nroff -*-
+.TH "/scratch1/NCEPDEV/nems/Denise.Worthen/WORK/utils_dw/sorc/global_cycle.fd/cycle.f90" 3 "Wed May 14 2025" "Version 1.13.0" "global_cycle" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -55,7 +55,7 @@
 .br
 .RI "Stand alone surface/NSST cycle driver for the cubed-sphere grid\&. "
 .ti -1c
-.RI "subroutine \fBsfcdrv\fP (LUGB, IDIM, JDIM, LENSFC, LSOIL, DELTSFC, IY, IM, ID, IH, FH, IALB, USE_UFO, DO_NSST, DO_SFCCYCLE, DO_LNDINC, FRAC_GRID, ZSEA1, ZSEA2, ISOT, IVEGSRC, MYRANK)"
+.RI "subroutine \fBsfcdrv\fP (LUGB, IDIM, JDIM, LENSFC, LSOIL, DELTSFC, IY, IM, ID, IH, FH, IALB, USE_UFO, DO_NSST, DO_SFCCYCLE, DO_LANDINCR, FRAC_GRID, ZSEA1, ZSEA2, ISOT, IVEGSRC, MYRANK)"
 .br
 .RI "Driver routine for updating the surface fields\&. "
 .ti -1c
@@ -486,7 +486,7 @@ There are three main options (which can be called in combination):
 .IP "1." 4
 Update the surface fields with sfccylce (do_sfccycle = \&.true\&.)
 .IP "2." 4
-Update the land states with increments read in from file (do_lndinc = \&.true\&.) Can read in either a GSI-output increment file and regrid it, or (preferred) a file on the native model grid ( either produced by JEDI, or pre- regridded from a GSI-output file)
+Update the land states with increments read in from file (do_landincr = \&.true\&.) Can read in either a GSI-output increment file and regrid it, or (preferred) a file on the native model grid ( either produced by JEDI, or pre- regridded from a GSI-output file)
 .IP "3." 4
 Update the NSST field, several options:
 .PP
@@ -536,7 +536,7 @@ DELTSFC Cycling frequency in hours\&.
 .IP "\(bu" 2
 IALB Use modis albedo when '1'\&. Use brigleb when '0'\&.
 .IP "\(bu" 2
-USE_UFO Adjust sst and soil substrate temperature for differences between the filtered and unfiltered terrain\&. -DONST Call routines to process NSST records\&. -DO_SFCCYCLE Call sfccycle routine to update surface fields -DO_LNDINC Call routines to add land increments to sfc restarts (includes do_soi_inc and/or do_sno_inc) -DO_SOI_INC Apply increments to soil states\&. Requires DO_LNDINC=\&.true\&. -DO_SNO_INC Apply increments to snow states\&. Requires DO_LNDINC=\&.true\&. (NOTE: oudated, coded here for Noah LSM only)\&. -INTERP_LNDINC Land increment is on Gaussian grid (from GSI) and should be regridded to the native model grid -LSOIL_INCR Number of soil layers (from top) to apply soil increments to\&. LSOIL_INCR is currently set to 3 by default\&. Extra cautions are needed on layer#3 across permafrost regions due to over sensitivity of moisture change when temperature approaches tfreez\&. Please feel free to contact Yuan Xue (yuan.xue@noaa.gov) for further concerns regarding this issue\&.
+USE_UFO Adjust sst and soil substrate temperature for differences between the filtered and unfiltered terrain\&. -DONST Call routines to process NSST records\&. -DO_SFCCYCLE Call sfccycle routine to update surface fields -DO_LANDINCR Call routines to add land increments to sfc restarts (includes do_soilincr and/or do_snowincr) -DO_SOILINCR Apply increments to soil states\&. Requires DO_LANDINCR=\&.true\&. -DO_SNOWINCR Apply increments to snow states\&. Requires DO_LANDINCR=\&.true\&. (NOTE: oudated, coded here for Noah LSM only)\&. -INTERP_LANDINCR Land increment is on Gaussian grid (from GSI) and should be regridded to the native model grid -LSOIL_INCR Number of soil layers (from top) to apply soil increments to\&. LSOIL_INCR is currently set to 3 by default\&. Extra cautions are needed on layer#3 across permafrost regions due to over sensitivity of moisture change when temperature approaches tfreez\&. Please feel free to contact Yuan Xue (yuan.xue@noaa.gov) for further concerns regarding this issue\&.
 .IP "\(bu" 2
 ISOT Use statsgo soil type when '1'\&. Use zobler when '0'\&.
 .IP "\(bu" 2
@@ -564,7 +564,7 @@ Mark Iredell NOAA/EMC
 Definition at line 102 of file cycle\&.f90\&.
 .PP
 References num_parthds(), and sfcdrv()\&.
-.SS "subroutine sfcdrv (integer, intent(in) LUGB, integer, intent(in) IDIM, integer, intent(in) JDIM, integer, intent(in) LENSFC, integer, intent(in) LSOIL, real, intent(in) DELTSFC, integer, intent(in) IY, integer, intent(in) IM, integer, intent(in) ID, integer, intent(in) IH, real, intent(in) FH, integer, intent(in) IALB, logical, intent(in) USE_UFO, logical, intent(in) DO_NSST, logical, intent(in) DO_SFCCYCLE, logical, intent(in) DO_LNDINC, logical, intent(in) FRAC_GRID, real, intent(in) ZSEA1, real, intent(in) ZSEA2, integer, intent(in) ISOT, integer, intent(in) IVEGSRC, integer, intent(in) MYRANK)"
+.SS "subroutine sfcdrv (integer, intent(in) LUGB, integer, intent(in) IDIM, integer, intent(in) JDIM, integer, intent(in) LENSFC, integer, intent(in) LSOIL, real, intent(in) DELTSFC, integer, intent(in) IY, integer, intent(in) IM, integer, intent(in) ID, integer, intent(in) IH, real, intent(in) FH, integer, intent(in) IALB, logical, intent(in) USE_UFO, logical, intent(in) DO_NSST, logical, intent(in) DO_SFCCYCLE, logical, intent(in) DO_LANDINCR, logical, intent(in) FRAC_GRID, real, intent(in) ZSEA1, real, intent(in) ZSEA2, integer, intent(in) ISOT, integer, intent(in) IVEGSRC, integer, intent(in) MYRANK)"
 
 .PP
 Driver routine for updating the surface fields\&. This program runs in two different modes:
@@ -679,7 +679,7 @@ Variables  Land  Sea ----------   Surface temperature  Forecast  Analysis   Albe
 .br
 \fIDO_SFCCYCLE\fP Call sfccycle routine to update surface fields 
 .br
-\fIDO_LNDINC\fP Read in land increment files, and add increments to requested states\&. 
+\fIDO_LANDINCR\fP Read in land increment files, and add increments to requested states\&. 
 .br
 \fIFRAC_GRID\fP When true, run with fractional grid\&. 
 .br

@@ -344,9 +344,9 @@ zm</td>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>Xu Li NOAA/EMC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01960">1960</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01970">1970</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
 
-<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l01997">nc_check()</a>.</p>
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l02007">nc_check()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01827">get_sal_clm()</a>.</p>
 
@@ -397,7 +397,7 @@ zm</td>
 <dl class="section author"><dt>Author</dt><dd>Xu Li NOAA/EMC </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2019-03-13 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01831">1831</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01841">1841</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01710">get_tf_clm()</a>.</p>
 
@@ -429,9 +429,9 @@ zm</td>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>Xu Li NOAA/EMC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01997">1997</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l02007">2007</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="read__write__data_8f90_source.html#l01960">get_dim_nc()</a>, and <a class="el" href="read__write__data_8f90_source.html#l01889">read_salclm_gfs_nc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="read__write__data_8f90_source.html#l01970">get_dim_nc()</a>, and <a class="el" href="read__write__data_8f90_source.html#l01899">read_salclm_gfs_nc()</a>.</p>
 
 </div>
 </div>
@@ -474,7 +474,7 @@ zm</td>
 
 <p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00876">876</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="read__write__data_8f90_source.html#l01096">read_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00733">read_lat_lon_orog()</a>, <a class="el" href="read__write__data_8f90_source.html#l00693">remove_checksum()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00132">write_data()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="read__write__data_8f90_source.html#l01098">read_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>, <a class="el" href="read__write__data_8f90_source.html#l00733">read_lat_lon_orog()</a>, <a class="el" href="read__write__data_8f90_source.html#l00693">remove_checksum()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00132">write_data()</a>.</p>
 
 </div>
 </div>
@@ -757,3 +757,873 @@ zm</td>
 </div><div class="memdoc">
 
 <p>Read the first guess surface records and nsst records (if selected) for a single cubed-sphere tile. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">LSOIL</td><td>Number of soil layers. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">LENSFC</td><td>Total number of points on a tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">DO_NSST</td><td>When true, nsst fields are read. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">IS_NOAHMP</td><td>When true, process for the Noah-MP LSM. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">FNAME_INC</td><td>Name of the increment file. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">TSFFCS</td><td>Skin Temperature. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SMCFCS</td><td>Total volumetric soil moisture. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SWEFCS</td><td>Snow water equivalent. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">STCFCS</td><td>Soil temperature. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">TG3FCS</td><td>Soil substrate temperature. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ZORFCS</td><td>Roughness length. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">CVFCS</td><td>Cloud cover. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">CVBFCS</td><td>Cloud base. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">CVTFCS</td><td>Cloud top. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ALBFCS</td><td>Snow-free albedo. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SLIFCS</td><td>Land-sea mask including ice flag. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">VEGFCS</td><td>Vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">CNPFCS</td><td>Plant canopy moisture content. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">F10M</td><td>log((z0+10)/z0). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">VETFCS</td><td>Vegetation type. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SOTFCS</td><td>Soil type. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ALFFCS</td><td>Fractional coverage for strong/weak zenith angle dependent albedo. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">USTAR</td><td>Friction velocity. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">FMM</td><td>log((z0+z1)/z0). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">FHH</td><td>log((ztmax+z1)/ztmax). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SIHFCS</td><td>Sea ice depth. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SICFCS</td><td>Sea ice concentration. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SITFCS</td><td>Sea ice temperature. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">TPRCP</td><td>Precipitation. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SRFLAG</td><td>Snow/rain flag. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SNDFCS</td><td>Snow depth. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">VMNFCS</td><td>Minimum vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">VMXFCS</td><td>Maximum vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SLCFCS</td><td>Liquid portion of volumetric soil moisture. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SLPFCS</td><td>Slope type. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ABSFCS</td><td>Maximum snow albedo. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">T2M</td><td>Two-meter air temperature. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">Q2M</td><td>Two-meter specific humidity. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">SLMASK</td><td>Land-sea mask without ice flag. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ZSOIL</td><td>Soil layer thickness. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">NSST</td><td>Data structure containing nsst fields. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">SLCINC</td><td>Liquid soil moisture increments on the cubed-sphere tiles </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">STCINC</td><td>Soil temperature increments on the cubed-sphere tiles </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">LSOIL_INCR</td><td>Number of soil layers (from top) to apply soil increments to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>George Gayno NOAA/EMC </dd>
+<dd>
+Yuan Xue: add capability to read soil related increments on the cubed-sphere tiles directly </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01098">1098</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l00876">netcdf_err()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
+
+</div>
+</div>
+<a id="a6d1969abebaa42aa2fcf733fc62ac656"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d1969abebaa42aa2fcf733fc62ac656">&#9670;&nbsp;</a></span>read_gsi_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public read_write_data::read_gsi_data </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>GSI_FILE</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">character(len=3), intent(in)&#160;</td>
+          <td class="paramname"><em>FILE_TYPE</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in), optional&#160;</td>
+          <td class="paramname"><em>LSOIL</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read increment file from the GSI containing either the foundation temperature increments and mask, or the soil increments. </p>
+<p>The data is in NetCDF and on a gaussian grid. The grid contains two extra rows for each pole. The interpolation from gaussian to native grid assumes no pole points, so these are removed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">GSI_FILE</td><td>Path/name of the GSI file to be read. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">FILE_TYPE</td><td>file-type to be read in, 'NST' or 'LND'. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">LSOIL</td><td>Number of model soil levels.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>George Gayno NOAA/EMC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00909">909</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l00049">dtref_gaus</a>, <a class="el" href="read__write__data_8f90_source.html#l00038">idim_gaus</a>, <a class="el" href="read__write__data_8f90_source.html#l00040">jdim_gaus</a>, <a class="el" href="read__write__data_8f90_source.html#l00876">netcdf_err()</a>, <a class="el" href="read__write__data_8f90_source.html#l00055">slc_inc_gaus</a>, <a class="el" href="read__write__data_8f90_source.html#l00042">slmsk_gaus</a>, <a class="el" href="read__write__data_8f90_source.html#l00045">soilsnow_gaus</a>, and <a class="el" href="read__write__data_8f90_source.html#l00052">stc_inc_gaus</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
+
+</div>
+</div>
+<a id="ae20246264d3a55cc067a12fd72259449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae20246264d3a55cc067a12fd72259449">&#9670;&nbsp;</a></span>read_lat_lon_orog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public read_write_data::read_lat_lon_orog </td>
+          <td>(</td>
+          <td class="paramtype">real, dimension(ijdim), intent(out)&#160;</td>
+          <td class="paramname"><em>RLA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(ijdim), intent(out)&#160;</td>
+          <td class="paramname"><em>RLO</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(ijdim), intent(out)&#160;</td>
+          <td class="paramname"><em>OROG</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(ijdim), intent(out)&#160;</td>
+          <td class="paramname"><em>OROG_UF</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">character(len=5), intent(out)&#160;</td>
+          <td class="paramname"><em>TILE_NUM</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>IDIM</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>JDIM</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>IJDIM</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(kind=kind_io8), dimension(ijdim), intent(out), optional&#160;</td>
+          <td class="paramname"><em>LANDFRAC</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read latitude and longitude for the cubed-sphere tile from the 'grid' file. </p>
+<p>Read the filtered and unfiltered orography and optionally the land fraction from the 'orography' file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">IDIM</td><td>'i' dimension of cubed-sphere tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">JDIM</td><td>'j' dimension of cubed-sphere tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">IJDIM</td><td>Total number of points on the cubed-sphere tile. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">RLA</td><td>Latitude on the cubed-sphere tile. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">RLO</td><td>Longitude on the cubed-sphere tile. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">OROG</td><td>Filtered orography. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">OROG_UF</td><td>Unfiltered orography. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">TILE_NUM</td><td>Cubed-sphere tile number </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">LANDFRAC</td><td>Land fraction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>George Gayno NOAA/EMC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00733">733</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l00876">netcdf_err()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
+
+</div>
+</div>
+<a id="ad4c51126bd4bdc11cb03cb957d7ee4b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c51126bd4bdc11cb03cb957d7ee4b7">&#9670;&nbsp;</a></span>read_salclm_gfs_nc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public read_write_data::read_salclm_gfs_nc </td>
+          <td>(</td>
+          <td class="paramtype">character (len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(nlon,nlat), intent(out)&#160;</td>
+          <td class="paramname"><em>sal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(nlat), intent(out)&#160;</td>
+          <td class="paramname"><em>xlats</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(nlon), intent(out)&#160;</td>
+          <td class="paramname"><em>xlons</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>nlat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>nlon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>itime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the woa05 salinity monthly climatology file. </p>
+<p>The file is NetCDF.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>The name of the climatology file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nlat</td><td>The 'j' dimension of the data in the file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nlon</td><td>The 'i' dimension of the data in the file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">itime</td><td>The monthly record to read. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">xlats</td><td>The latitude of the data points. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">xlons</td><td>The longitude of the data points. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">sal</td><td>The salinity. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Xu Li NOAA/EMC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01899">1899</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l02007">nc_check()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01887">get_sal_clm_ta()</a>.</p>
+
+</div>
+</div>
+<a id="a73938d3200cc556007d6fcd8335e5950"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73938d3200cc556007d6fcd8335e5950">&#9670;&nbsp;</a></span>read_tf_clim_grb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public read_write_data::read_tf_clim_grb </td>
+          <td>(</td>
+          <td class="paramtype">character(*), intent(in)&#160;</td>
+          <td class="paramname"><em>file_sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(mlon_sst,mlat_sst), intent(out)&#160;</td>
+          <td class="paramname"><em>sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(mlat_sst), intent(out)&#160;</td>
+          <td class="paramname"><em>rlats_sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(mlon_sst), intent(out)&#160;</td>
+          <td class="paramname"><em>rlons_sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>mlat_sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>mlon_sst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>mon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read a GRIB1 sst climatological analysis file. </p>
+<p>Read the sst analysis and save it as an expanded and transposed array.</p>
+<dl class="section note"><dt>Note</dt><dd>The data is stored from north to south, but this routine flips the poles.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_sst</td><td>File name of the sst file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mlat_sst</td><td>'j' dimension of the sst data. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mlon_sst</td><td>'i' dimension of the sst data. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mon</td><td>The month of the year. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">sst</td><td>The sst analysis data. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rlats_sst</td><td>The latitudes of the sst data points. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rlons_sst</td><td>The longitudes of the sst data points. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>Xu Li NOAA/EMC </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2019-03-13 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l01699">1699</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l01779">get_tf_clm_ta()</a>.</p>
+
+</div>
+</div>
+<a id="adb650e52830630a1a047d4c08582fc09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb650e52830630a1a047d4c08582fc09">&#9670;&nbsp;</a></span>remove_checksum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine read_write_data::remove_checksum </td>
+          <td>(</td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>ncid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>id_var</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove the checksum attribute from a netcdf record. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ncid</td><td>netcdf file id </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">id_var</td><td>netcdf variable id.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>George Gayno NCEP/EMC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00693">693</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l00876">netcdf_err()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="read__write__data_8f90_source.html#l00132">write_data()</a>.</p>
+
+</div>
+</div>
+<a id="a78f8e1a070418ec7be9d6b61f36ba04a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f8e1a070418ec7be9d6b61f36ba04a">&#9670;&nbsp;</a></span>write_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public read_write_data::write_data </td>
+          <td>(</td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>lensfc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>idim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>jdim</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>lsoil</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical, intent(in)&#160;</td>
+          <td class="paramname"><em>do_nsst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical, intent(in)&#160;</td>
+          <td class="paramname"><em>inc_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="namespaceread__write__data.html#structread__write__data_1_1nsst__data">nsst_data</a>), intent(in)&#160;</td>
+          <td class="paramname"><em>nsst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>slifcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>tsffcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>vegfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>swefcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>tg3fcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>zorfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,4), intent(in), optional&#160;</td>
+          <td class="paramname"><em>albfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,2), intent(in), optional&#160;</td>
+          <td class="paramname"><em>alffcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>cnpfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>f10m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>t2m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>q2m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>vetfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>sotfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>ustar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>fmm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>fhh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>sicfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>sihfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>sitfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>tprcp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>srflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>swdfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>vmnfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>vmxfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>slpfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc), intent(in), optional&#160;</td>
+          <td class="paramname"><em>absfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,lsoil), intent(in), optional&#160;</td>
+          <td class="paramname"><em>slcfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,lsoil), intent(in), optional&#160;</td>
+          <td class="paramname"><em>smcfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,lsoil), intent(in), optional&#160;</td>
+          <td class="paramname"><em>stcfcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,lsoil), intent(in), optional&#160;</td>
+          <td class="paramname"><em>stcinc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real, dimension(lensfc,lsoil), intent(in), optional&#160;</td>
+          <td class="paramname"><em>slcinc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update surface records - and nsst records if selected - on a single cubed-sphere tile to a pre-existing model restart file (in netcdf). </p>
+<dl class="section note"><dt>Note</dt><dd>The model restart files contain an additional snow field - snow cover (snocvr). That field is required for bit identical reproducability. If that record does not exist, the model will compute it as an initialization step. Because this program does not contain the snow cover algorithm, it will let the model compute it.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">idim</td><td>'i' dimension of a tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">jdim</td><td>'j' dimension of a tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lensfc</td><td>Total number of points on a tile. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lsoil</td><td>Number of soil layers. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">do_nsst</td><td>When true, nsst fields were processed. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inc_file</td><td>When true, write out increments to files </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nsst</td><td>Data structure containing nsst fields. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slifcs</td><td>Land-sea mask. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tsffcs</td><td>Skin temperature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vegfcs</td><td>Vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">swefcs</td><td>Snow water equivalent </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tg3fcs</td><td>Soil substrate temperature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">zorfcs</td><td>Roughness length. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">albfcs</td><td>Snow-free albedo. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">alffcs</td><td>Fractional coverage for strong/weak zenith angle dependent albedo. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cnpfcs</td><td>Plant canopy moisture content. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">f10m</td><td>log((z0+10)/z0). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t2m</td><td>Two-meter air temperature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">q2m</td><td>Two-meter specific humidity. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vetfcs</td><td>Vegetation type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sotfcs</td><td>Soil type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ustar</td><td>Friction velocity. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fmm</td><td>log((z0+z1)/z0). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fhh</td><td>log(ztmax+z1)/ztmax). See model routine sfc_diff.f for details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sicfcs</td><td>Sea ice concentraton. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sihfcs</td><td>Sea ice depth. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sitfcs</td><td>Sea ice temperature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tprcp</td><td>Precipitation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">srflag</td><td>Snow/rain flag. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">swdfcs</td><td>Physical snow depth. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vmnfcs</td><td>Minimum vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vmxfcs</td><td>Maximum vegetation greenness. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slpfcs</td><td>Slope type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">absfcs</td><td>Maximum snow albedo. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slcfcs</td><td>Liquid portion of volumetric soil moisture. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smcfcs</td><td>Total volumetric soil moisture. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stcfcs</td><td>Soil temperature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stcinc</td><td>Soil temperature increments on the cubed-sphere tiles </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slcinc</td><td>Liquid soil moisture increments on the cubed-sphere tiles</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section author"><dt>Author</dt><dd>George Gayno NOAA/EMC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00132">132</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">References <a class="el" href="read__write__data_8f90_source.html#l00876">netcdf_err()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00693">remove_checksum()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00312">sfcdrv()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a96ba581cd167445e0133d86f2a7569e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96ba581cd167445e0133d86f2a7569e2">&#9670;&nbsp;</a></span>dtref_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real, dimension(:,:), allocatable, public read_write_data::dtref_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GSI foundation temperature increment on the gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00049">49</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="af5e603c8d4e3997a208e7fd52fecd9e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5e603c8d4e3997a208e7fd52fecd9e4">&#9670;&nbsp;</a></span>idim_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, public read_write_data::idim_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>'i' dimension of GSI gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00038">38</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, <a class="el" href="land__increments_8f90_source.html#l00048">land_increments::gaussian_to_fv3_interp()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="a03d7375fccaa09034896f7ddadadc809"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03d7375fccaa09034896f7ddadadc809">&#9670;&nbsp;</a></span>jdim_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, public read_write_data::jdim_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>'j' dimension of GSI gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00040">40</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, <a class="el" href="land__increments_8f90_source.html#l00048">land_increments::gaussian_to_fv3_interp()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="a560294b16bc810254e517d16f10b291d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a560294b16bc810254e517d16f10b291d">&#9670;&nbsp;</a></span>slc_inc_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real, dimension(:,:,:), allocatable, public read_write_data::slc_inc_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GSI soil moisture increments on the gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00055">55</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="land__increments_8f90_source.html#l00048">land_increments::gaussian_to_fv3_interp()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="ad2b83239d88d44b0ba2cc7e2579bc1bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2b83239d88d44b0ba2cc7e2579bc1bc">&#9670;&nbsp;</a></span>slmsk_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, dimension(:,:), allocatable, public read_write_data::slmsk_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GSI land mask on the gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00042">42</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cycle_8f90_source.html#l00924">adjust_nsst()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="a4059afb89bc1698e4d8a8b150ed04dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4059afb89bc1698e4d8a8b150ed04dab">&#9670;&nbsp;</a></span>soilsnow_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, dimension(:,:), allocatable, public read_write_data::soilsnow_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GSI soil / snow mask for land on the gaussian grid. </p>
+<p>1 - soil, 2 - snow, 0 - not land </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00045">45</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="land__increments_8f90_source.html#l00048">land_increments::gaussian_to_fv3_interp()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+<a id="a67d6b10871e4cacea3222d135d03f6c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d6b10871e4cacea3222d135d03f6c1">&#9670;&nbsp;</a></span>stc_inc_gaus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real, dimension(:,:,:), allocatable, public read_write_data::stc_inc_gaus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GSI soil temperature increments on the gaussian grid. </p>
+
+<p class="definition">Definition at line <a class="el" href="read__write__data_8f90_source.html#l00052">52</a> of file <a class="el" href="read__write__data_8f90_source.html">read_write_data.f90</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="land__increments_8f90_source.html#l00048">land_increments::gaussian_to_fv3_interp()</a>, and <a class="el" href="read__write__data_8f90_source.html#l00909">read_gsi_data()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceread__write__data.html">read_write_data</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
+</body>
+</html>
