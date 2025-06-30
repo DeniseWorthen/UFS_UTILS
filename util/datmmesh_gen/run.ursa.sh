@@ -3,7 +3,7 @@
 # Edit account (-A) setting as required !
 
 #SBATCH -J datmmesh_gen
-#SBATCH -A fv3-cpu
+#SBATCH --account=nems
 #SBATCH --open-mode=truncate
 #SBATCH -o log
 #SBATCH -e log
@@ -37,19 +37,26 @@ module list
 export OUTPUT_DIR=/scratch4/NCEPDEV/stmp/$USER/datmmesh_gen
 mkdir -p $OUTPUT_DIR
 
-export NX=3072
-export NY=1536
-export N2S=.false.
-${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
+# export NX=3072
+# export NY=1536
+# export N2S=.false.
+# ${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
 
-export NX=1760
-export NY=880
-export N2S=.false.
-${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
+# export NX=1760
+# export NY=880
+# export N2S=.false.
+# ${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
 
-export NX=1536
-export NY=768
-export N2S=.true.
+# export NX=1536
+# export NY=768
+# export N2S=.true.
+# ${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
+
+#MERRA2
+export NX=576
+export NY=361
+export N2S=.false.
+export CAP=.true.
 ${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
 
 exit
