@@ -59,4 +59,8 @@ export N2S=.false.
 export CAP=.true.
 ${UFS_DIR}/util/datmmesh_gen/datmmesh.sh
 
+
+#MODIS...just stashing info here; needs source file!
+# ncks --rgr skl=modis.skl.nc --rgr scrip=AQUA_MODIS.9km.SCRIP.nc --rgr latlon=2160,4320#lon_typ=180_wst AQUA_MODIS.20111001.L3m.DAY.CHL.chlor_a.9km.nc test.nc
+# AQUA_MODIS.9km.SCRIP.nc can then be converted to ESMF mesh
 exit
