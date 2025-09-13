@@ -27,7 +27,7 @@ program gen_fixgrid
   use postwgts,          only: make_postwgts
   use tripolegrid,       only: write_tripolegrid
   use cicegrid,          only: write_cicegrid
-  use scripgrid,         only: write_scripgrid
+  use scripgrid,         only: write_scripgrid, reshape_staggers
   use topoedits,         only: add_topoedits, apply_topoedits
   use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
   use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
@@ -40,9 +40,11 @@ program gen_fixgrid
   type(MPI_Comm) :: mpic  ! mpi_f08
   real(dbl_kind) :: dxT, dyT
 
-  real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
-  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
+  real(dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
+  real(dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
 
+  real(dbl_kind),    allocatable, dimension(:)   :: cnlons, cnlats
+  real(dbl_kind),    allocatable, dimension(:,:) :: crlons, crlats
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
 
@@ -68,7 +70,7 @@ program gen_fixgrid
   character(len= 6) :: cnx
 
   !-------------------------------------------------------------------------
-  ! Initialize esmf environment. Everything except the generation of the 
+  ! Initialize esmf environment. Everything except the generation of the
   ! ESMF weights is done on the root PE.
   !-------------------------------------------------------------------------
 
@@ -423,25 +425,37 @@ program gen_fixgrid
      deallocate(ulon, ulat, htn, hte)
 
      ! write SCRIP files for generation of positional weights
+     allocate(cnlons(1:ni*nj), cnlats(1:ni*nj))
+     allocate(crlons(4,1:ni*nj), crlats(4,1:ni*nj))
      do k = 1,nv
         cstagger = trim(staggerlocs(k))
         fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
         logmsg = 'creating SCRIP file '//trim(fdst)
         print '(a)',trim(logmsg)
-        call write_scripgrid(trim(fdst),trim(cstagger))
+        if (cstagger == 'Ct') call reshape_staggers(lonCt,latCt,lonCt_vert,latCt_vert, &
+             cnlons,cnlats,crlons,crlats)
+        if (cstagger == 'Cu') call reshape_staggers(lonCu,latCu,lonCu_vert,latCu_vert, &
+	     cnlons,cnlats,crlons,crlats)
+        if (cstagger == 'Cv') call reshape_staggers(lonCv,latCv,lonCv_vert,latCv_vert, &
+	     cnlons,cnlats,crlons,crlats)
+        if (cstagger == 'Bu') call reshape_staggers(lonBu,latBu,lonBu_vert,latBu_vert, &
+	     cnlons,cnlats,crlons,crlats)
+        call write_scripgrid(trim(fdst),ni,nj,cnlons,cnlats,crlons,crlats)
+
+        ! write SCRIP file with land mask, used for mapped ocean mask and  mesh creation
+        if (cstagger == 'Ct') then
+           fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
+           logmsg = 'creating SCRIP file '//trim(fdst)
+           print '(a)',trim(logmsg)
+           call write_scripgrid(trim(fdst),ni,nj,cnlons,cnlats,crlons,crlats, &
+                imask=reshape(int(wet4),(/ni*nj/)))
+        end if
      end do
+     deallocate(latCt_vert, lonCt_vert)
      deallocate(latCv_vert, lonCv_vert)
      deallocate(latCu_vert, lonCu_vert)
      deallocate(latBu_vert, lonBu_vert)
-
-     ! write SCRIP file with land mask, used for mapped ocean mask
-     ! and  mesh creation
-     cstagger = trim(staggerlocs(1))
-     fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
-     logmsg = 'creating SCRIP file '//trim(fdst)
-     print '(a)',trim(logmsg)
-     call write_scripgrid(trim(fdst),trim(cstagger),imask=int(wet4))
-     deallocate(latCt_vert, lonCt_vert)
+     deallocate(cnlons, cnlats, crlons, crlats)
 
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
@@ -484,6 +498,7 @@ program gen_fixgrid
 
      nvalid = size(catm)
   end if ! if (maintask)
+
   !---------------------------------------------------------------------
   ! set up for parallel work
   !---------------------------------------------------------------------
