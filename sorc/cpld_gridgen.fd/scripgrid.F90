@@ -15,7 +15,7 @@ module scripgrid
   implicit none
   private
 
-  public :: reshade_staggers
+  public :: reshape_staggers
   public :: write_scripgrid
 
 contains
@@ -34,7 +34,7 @@ contains
     character(len=*) , intent(in)           :: fname
     integer(int_kind), intent(in)           :: idim,jdim
     real(dbl_kind)   , intent(in)           :: cnlons(:),cnlats(:)
-    real(dbl_kind)   , intent(in)           :: cnlons(:,:),cnlats(:)
+    real(dbl_kind)   , intent(in)           :: crlons(:,:),crlats(:,:)
     integer(int_kind), intent(in), optional :: imask(:)
 
     ! local variables
@@ -147,16 +147,16 @@ contains
     real(dbl_kind), dimension(:),     intent(out) :: cnlons, cnlats
     real(dbl_kind), dimension(:,:),   intent(out) :: crlons, crlats
 
-    integer :: idim, jdim, kdim
+    integer :: k, idim, jdim, kdim
     real(dbl_kind), allocatable, dimension(:,:) :: tmp
 
     !---------------------------------------------------------------------
     !
     !---------------------------------------------------------------------
 
-    idim = size(cnlons,1)
-    jdim = size(cnlons,2)
-    kdim = size(crlons,3)
+    idim = size(lons,1)
+    jdim = size(lons,2)
+    kdim = size(vlons,3)
 
     allocate(tmp(1:idim,1:jdim))
 
@@ -168,11 +168,12 @@ contains
 
     cnlons = reshape(lons, (/idim*jdim/))
     cnlats = reshape(lats, (/idim*jdim/))
-    do n = 1,kdim
-       tmp(:,:) = vlons(:,:,n)
-       crlons(n,:) = reshape(tmp, (/idim*jdim/))
-       tmp(:,:) = vlats(:,:,n)
-       crlats(n,:) = reshape(tmp, (/idim*jdim/))
+    do k = 1,kdim
+       tmp(:,:) = vlons(:,:,k)
+       crlons(k,:) = reshape(tmp, (/idim*jdim/))
+       tmp(:,:) = vlats(:,:,k)
+       crlats(k,:) = reshape(tmp, (/idim*jdim/))
     end do
+
   end subroutine reshape_staggers
 end module scripgrid
