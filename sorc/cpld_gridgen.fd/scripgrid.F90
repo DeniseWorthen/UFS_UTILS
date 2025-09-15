@@ -9,7 +9,7 @@ module scripgrid
 
   use gengrid_kinds, only: dbl_kind,int_kind,CM
   use charstrings,   only: logmsg
-  use vartypedefs,   only: maxvars, scripvars, scripvars_typedefine
+  use vartypedefs,   only: maxvars, scripvars
   use netcdf
 
   implicit none
@@ -55,10 +55,7 @@ contains
     !
     !---------------------------------------------------------------------
 
-    ! define the output variables and file name
-    call scripvars_typedefine
     gdims(:) = (/idim,jdim/)
-
     allocate(cnmask(idim*jdim))
     if(present(imask))then
        cnmask = imask

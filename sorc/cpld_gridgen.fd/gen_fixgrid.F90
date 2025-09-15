@@ -20,18 +20,20 @@ program gen_fixgrid
 
   use grdvars
   use inputnml
-  use gengrid_kinds,     only: CL, CS, dbl_kind, real_kind, int_kind
-  use angles,            only: find_ang, find_angq, find_angchk
-  use vertices,          only: fill_vertices, fill_bottom, fill_top
-  use mapped_mask,       only: make_frac_land
-  use postwgts,          only: make_postwgts
-  use tripolegrid,       only: write_tripolegrid
-  use cicegrid,          only: write_cicegrid
-  use scripgrid,         only: write_scripgrid, reshape_staggers
-  use topoedits,         only: add_topoedits, apply_topoedits
-  use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
-  use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
-  use debugprint,        only: checkseam, checkxlatlon, checkpoint
+  use gengrid_kinds, only: CL, CS, dbl_kind, real_kind, int_kind
+  use angles,        only: find_ang, find_angq, find_angchk
+  use vertices,      only: fill_vertices, fill_bottom, fill_top
+  use mapped_mask,   only: make_frac_land
+  use postwgts,      only: make_postwgts
+  use tripolegrid,   only: write_tripolegrid
+  use cicegrid,      only: write_cicegrid
+  use scripgrid,     only: write_scripgrid, reshape_staggers
+  use topoedits,     only: add_topoedits, apply_topoedits
+  use charstrings,   only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
+  use charstrings,   only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
+  use debugprint,    only: checkseam, checkxlatlon, checkpoint
+  use vartypedefs,   only: scripvars_typedefine
+  use weights4rhs,   only: addmask2grid
   use netcdf
 
   implicit none
@@ -61,14 +63,19 @@ program gen_fixgrid
   logical :: maintask
 
   type(ESMF_RegridMethod_Flag) :: method
-  type(ESMF_VM) :: vm
-
+  type(ESMF_VM)                :: vm
+  type(ESMF_Grid)              :: AtmGrid
+  type(ESMF_Mesh)              :: AtmMesh
   !WW3 file format for mod_def generation
   character(len= 6) :: i4fmt = '(i4.4)'
   character(len=CS) :: form1
   character(len=CS) :: form2
   character(len= 6) :: cnx
 
+  ! debug
+  !integer :: ndims, nelements, nnodes
+  !real(dbl_kind), allocatable :: ownedElemCoords(:), ownedElemCoords_x(:), ownedElemCoords_y(:)
+  !real(dbl_kind), allocatable :: nodeCoords(:)
   !-------------------------------------------------------------------------
   ! Initialize esmf environment. Everything except the generation of the
   ! ESMF weights is done on the root PE.
@@ -79,11 +86,18 @@ program gen_fixgrid
   call ESMF_VMGet(vm, localPet=localPet, peCount=nPet, mpiCommunicator=int_mpic, rc=rc)
   if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
        line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
   mpic%mpi_val = int_mpic
   maintask = .false.
   if (localPet == 0) maintask=.true.
   if (maintask) then
-     print '(a,i4,a)','Running on = ',npet,' tasks'
+
+     if (mod(nPet,6) /= 0) then
+        print '(a)', 'nPets not a multiple of 6; Aborting '
+        call ESMF_Finalize(endflag=ESMF_END_ABORT)
+     else
+        print '(a,i4,a)','Running on = ',npet,' tasks'
+     end if
      !---------------------------------------------------------------------
      !
      !---------------------------------------------------------------------
@@ -424,6 +438,8 @@ program gen_fixgrid
      call write_cicegrid(trim(fdst))
      deallocate(ulon, ulat, htn, hte)
 
+     ! define the output variables and file name
+     call scripvars_typedefine
      ! write SCRIP files for generation of positional weights
      allocate(cnlons(1:ni*nj), cnlats(1:ni*nj))
      allocate(crlons(4,1:ni*nj), crlats(4,1:ni*nj))
@@ -497,6 +513,17 @@ program gen_fixgrid
      deallocate(wet4, wet8)
 
      nvalid = size(catm)
+
+     !---------------------------------------------------------------------
+     ! clean up
+     !---------------------------------------------------------------------
+
+     deallocate(x, y, dx, dy)
+     deallocate(areaCt, anglet, angle, angchk)
+     deallocate(latCt, lonCt)
+     deallocate(latCv, lonCv)
+     deallocate(latCu, lonCu)
+     deallocate(latBu, lonBu)
   end if ! if (maintask)
 
   !---------------------------------------------------------------------
@@ -542,9 +569,8 @@ program gen_fixgrid
      call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end if
   !---------------------------------------------------------------------
-  ! use ESMF regridding to produce mapped ocean mask; first generate
-  ! conservative regrid weights from ocean to tiles; then generate the
-  ! tiled files containing the mapped ocean mask
+  ! use ESMF regridding to generate conservative regrid weights from
+  ! ocean to tiles
   !---------------------------------------------------------------------
 
   do n = 1,size(catm)
@@ -570,11 +596,16 @@ program gen_fixgrid
           netcdf4fileFlag=.true., tileFilePath=trim(fv3dir)//'/'//trim(atmres)//'/', rc=rc)
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+     !atmGrid = ESMF_GridCreateMosaic('/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/test/C384_mosaic.new.nc', &
+     !     staggerLocList = (/ESMF_STAGGERLOC_CENTER, ESMF_STAGGERLOC_CORNER/), rc=rc)
+     !if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+     !     line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
-
+#ifdef test
   !---------------------------------------------------------------------
-  ! use ESMF to create positional weights for mapping a field from its
-  ! native stagger location (Cu,Cv,Bu) onto the center (Ct) grid location
+  ! use ESMF to create positional weights for mapping a tripole field
+  ! from its native stagger location (Cu,Cv,Bu) onto the center (Ct)
+  ! grid location
   !---------------------------------------------------------------------
 
   method=ESMF_REGRIDMETHOD_BILINEAR
@@ -595,9 +626,9 @@ program gen_fixgrid
   end do
 
   !---------------------------------------------------------------------
-  ! use ESMF to create positional weights for mapping a field from the
-  ! center (Ct) grid location back to the native stagger location
-  ! (Cu,Cv,Bu).
+  ! use ESMF to create positional weights for mapping a tripole field
+  ! from the center (Ct) grid location back to the native stagger location
+  ! (Cu,Cv,Bu)
   !---------------------------------------------------------------------
 
   method=ESMF_REGRIDMETHOD_BILINEAR
@@ -616,11 +647,13 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
-
   if(do_postwgts)call make_postwgts(maintask)
+#endif
+
   if (maintask) then
      !---------------------------------------------------------------------
-     ! make mapped ocean mask file and clean up
+     ! make mapped ocean mask file; the mapped ocean mask file is required
+     ! to add the mask to the AtmGrid
      !---------------------------------------------------------------------
 
      do n = 1,size(catm)
@@ -638,16 +671,36 @@ program gen_fixgrid
         print '(a)',trim(logmsg)
         call make_frac_land(trim(fsrc), trim(fwgt))
      end do
-
-     !---------------------------------------------------------------------
-     ! clean up
-     !---------------------------------------------------------------------
-
-     deallocate(x, y, dx, dy)
-     deallocate(areaCt, anglet, angle, angchk)
-     deallocate(latCt, lonCt)
-     deallocate(latCv, lonCv)
-     deallocate(latCu, lonCu)
-     deallocate(latBu, lonBu)
   endif ! if (maintask)
+
+  !---------------------------------------------------------------------
+  !
+  !---------------------------------------------------------------------
+
+  do n = 1,size(catm)
+     npx = catm(n)
+     if (npx < 100) then
+        write(atmres,'(a,i2)')'C',npx
+     elseif (npx < 1000) then
+        write(atmres,'(a,i3)')'C',npx
+     else
+        write(atmres,'(a,i4)')'C',npx
+     end if
+
+     fsrc = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
+     logmsg = 'creating AtmGrid from '//trim(fsrc)
+     if (maintask) print '(a)',trim(logmsg)
+
+     atmGrid = ESMF_GridCreateMosaic(filename=trim(fsrc),    &
+          tileFilePath=trim(fv3dir)//'/'//trim(atmres)//'/', &
+          staggerLocList = (/ESMF_STAGGERLOC_CENTER, ESMF_STAGGERLOC_CORNER/), rc=rc)
+     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+          line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+     fsrc = trim(dirout)//'/'//trim(atmres)//'.mx'//trim(res)//'.tile*.nc'
+     logmsg = 'adding land_frac from  '//trim(fsrc)//' to grid'
+     if (maintask) print '(a)',trim(logmsg)
+     call addmask2grid(trim(fsrc), 'land_frac', atmGrid)
+  end do
+
 end program gen_fixgrid

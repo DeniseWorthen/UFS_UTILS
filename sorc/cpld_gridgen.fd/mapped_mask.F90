@@ -8,8 +8,9 @@
 module mapped_mask
 
   use gengrid_kinds, only : dbl_kind,int_kind,CL,CM,CS
-  use grdvars,       only : ni,nj,npx
+  use grdvars,       only : npx
   use charstrings,   only : dirout,res,atmres,logmsg
+  use scripgrid,     only : write_scripgrid
   use netcdf
 
   implicit none
@@ -31,15 +32,17 @@ contains
     integer, parameter :: ntile = 6
     integer(int_kind) :: n_a, n_b, n_s
 
-    integer(int_kind), allocatable, dimension(:) :: col, row
-    real(dbl_kind), allocatable, dimension(:) :: S
-    real(dbl_kind), allocatable, dimension(:) :: lat1d, lon1d
+    integer(int_kind), allocatable, dimension(:)   :: col, row
+    real(dbl_kind),    allocatable, dimension(:)   :: S
+    real(dbl_kind),    allocatable, dimension(:)   :: lats, lons
+    !real(dbl_kind),    allocatable, dimension(:,:) :: vlats, vlons
 
-    integer(int_kind), allocatable, dimension(:) :: src_field
-    real(dbl_kind), allocatable, dimension(:) :: dst_field
+    integer(int_kind), allocatable, dimension(:)   :: src_field
+    real(dbl_kind),    allocatable, dimension(:)   :: dst_field
+    !integer(int_kind), allocatable, dimension(:)   :: dst_imask
 
-    real(dbl_kind), allocatable, dimension(:,:)   :: dst2d
-    real(dbl_kind), allocatable, dimension(:,:)   :: lat2d,lon2d
+    real(dbl_kind),    allocatable, dimension(:,:) :: dst2d
+    real(dbl_kind),    allocatable, dimension(:,:) :: lat2d,lon2d
 
     character(len=CS) :: ctile
     character(len=CL) :: fdst
@@ -64,8 +67,10 @@ contains
     allocate(row(1:n_s))
     allocate(  S(1:n_s))
 
-    allocate(lat1d(1:n_b))
-    allocate(lon1d(1:n_b))
+    allocate(lats(1:n_b))
+    allocate(lons(1:n_b))
+    !allocate(vlons(4,1:n_b))
+    !allocate(vlats(4,1:n_b))
 
     rc = nf90_inq_varid(ncid, 'col', id)
     rc = nf90_get_var(ncid,     id, col)
@@ -75,18 +80,36 @@ contains
     rc = nf90_get_var(ncid,      id,  S)
 
     ! 1d-tiled lat,lon
-    rc = nf90_inq_varid(ncid, 'yc_b',     id)
-    rc = nf90_get_var(ncid,       id,  lat1d)
-    rc = nf90_inq_varid(ncid, 'xc_b',     id)
-    rc = nf90_get_var(ncid,       id,  lon1d)
-    rc = nf90_close(ncid)
+    rc = nf90_inq_varid(ncid, 'yc_b',    id)
+    !print *,trim(nf90_strerror(rc))
+    rc = nf90_get_var(ncid,       id,  lats)
+    !print *,trim(nf90_strerror(rc))
 
+    rc = nf90_inq_varid(ncid, 'xc_b',    id)
+    !print *,trim(nf90_strerror(rc))
+    rc = nf90_get_var(ncid,       id,  lons)
+    !print *,trim(nf90_strerror(rc))
+
+    ! rc = nf90_inq_varid(ncid, 'yv_b',    id)
+    ! print *,trim(nf90_strerror(rc))
+    ! rc = nf90_get_var(ncid,       id, vlats)
+    ! print *,trim(nf90_strerror(rc))
+
+    ! rc = nf90_inq_varid(ncid, 'xv_b',    id)
+    ! print *,trim(nf90_strerror(rc))
+    ! rc = nf90_get_var(ncid,       id, vlons)
+    ! print *,trim(nf90_strerror(rc))
+    ! rc = nf90_close(ncid)
+
+    ! print '(a,4g15.7)','XXXX lats,lons',minval(lats),maxval(lats),minval(lons),maxval(lons)
+    !print '(a,4g15.7)','XXXX vlats,vlons',minval(vlats),maxval(vlats),minval(vlons),maxval(vlons)
     !---------------------------------------------------------------------
     ! retrieve 1-d land mask from the SCRIP file and map it
     !---------------------------------------------------------------------
 
     allocate(src_field(1:n_a))
     allocate(dst_field(1:n_b))
+    !allocate(dst_imask(1:n_b))
 
     rc = nf90_open(trim(src), nf90_nowrite, ncid)
 
@@ -100,6 +123,13 @@ contains
        ii = row(i); jj = col(i)
        dst_field(ii) = dst_field(ii) + S(i)*real(src_field(jj),dbl_kind)
     enddo
+    !print *,'mapped mask min,max = ',minval(dst_field),maxval(dst_field)
+
+    ! write a SCRIP for ATM with the mapped land mask
+    !fdst= trim(dirout)//'/'//trim(atmres)//'_SCRIP_land.nc'
+    !logmsg = 'creating SCRIP file '//trim(fdst)
+    !print '(a)',trim(logmsg)
+    !call write_scripgrid(trim(fdst),npx*npx,6,lons,lats,vlons,vlats,imask=dst_imask)
 
     !---------------------------------------------------------------------
     !
@@ -111,7 +141,6 @@ contains
     do i = 0,ntile-1
        istr = i*npx*npx+1
        iend = istr+npx*npx-1
-       !print *,i,istr,iend
 
        write(ctile,'(a5,i1)')'.tile',i+1
        fdst = trim(dirout)//'/'//trim(atmres)//'.mx'//trim(res)//trim(ctile)//'.nc'
@@ -119,8 +148,8 @@ contains
        print '(a)',trim(logmsg)
 
        dst2d(:,:) = reshape(dst_field(istr:iend), (/npx,npx/))
-       lat2d(:,:) = reshape(    lat1d(istr:iend), (/npx,npx/))
-       lon2d(:,:) = reshape(    lon1d(istr:iend), (/npx,npx/))
+       lat2d(:,:) = reshape(    lats(istr:iend), (/npx,npx/))
+       lon2d(:,:) = reshape(    lons(istr:iend), (/npx,npx/))
 
        rc = nf90_create(trim(fdst), nf90_64bit_offset, ncid)
        rc = nf90_def_dim(ncid, 'grid_xt', npx, idimid)
@@ -148,7 +177,7 @@ contains
     ! clean up
     !---------------------------------------------------------------------
 
-    deallocate(col, row, S, lat1d, lon1d, src_field, dst_field)
+    deallocate(col, row, S, lats, lons, src_field, dst_field)
     deallocate(dst2d,lon2d,lat2d)
 
   end subroutine make_frac_land
