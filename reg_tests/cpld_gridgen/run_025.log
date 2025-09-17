@@ -1,0 +1,383 @@
++ SECONDS=0
++ set +x
+BEGIN cpld_gridgen.sh
++ cd /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025
++ RESNAME=025
++ TEST_NAME=025
++ ATMLIST=3072
++ DEBUG=.false.
++ MASKEDIT=.false.
++ DO_POSTWGTS=.true.
++ MOSAICDIR_PATH=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog
++ FIXDIR_PATH=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025
++ [[ 3072 -eq -1 ]]
++ ATMRESLIST=3072
++ APRUN=srun
++ '[' 025 = 900 ']'
++ '[' 025 = 500 ']'
++ '[' 025 = 100 ']'
++ '[' 025 = 050 ']'
++ '[' 025 = 025 ']'
++ NI=1440
++ NJ=1080
++ TOPOGFILE=ocean_topog.nc
++ EDITSFILE=All_edits.nc
++ '[' .true. == .true. ']'
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/rect.9p00_SCRIP.nc -G latlon=20,40#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/rect.5p00_SCRIP.nc -G latlon=36,72#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/rect.1p00_SCRIP.nc -G latlon=181,360#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/rect.0p50_SCRIP.nc -G latlon=361,720#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/rect.0p25_SCRIP.nc -G latlon=721,1440#lon_typ=grn_ctr#lat_typ=cap
++ edit_namelist
++ sed -e s/NI_GLB/1440/g -e s/NJ_GLB/1080/g -e 's|FIXDIR|/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025|g' -e 's|OUTDIR|/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025|g' -e 's|MOSAICDIR|/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog|g' -e s/TOPOGFILE/ocean_topog.nc/g -e s/EDITSFILE/All_edits.nc/g -e s/RESNAME/025/g -e s/DO_MASKEDIT/.false./g -e s/DO_DEBUG/.false./g -e s/DO_POSTWGTS/.true./g -e s/ATMRESLIST/3072/g
++ srun ./cpld_gridgen
+Running on =   12 tasks
+ output grid requested   1440  1080
+ supergrid size used   2880  2160
+ output grid tag 025
+ supergrid source directory /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025
+ output grid directory /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025
+ atm mosaic directory /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog
+ MOM6 topography file ocean_topog.nc
+ MOM6 edits file All_edits.nc
+ editmask flag  F
+ debug flag  F
+ do_postwgts flag  T
+ 
+iVertCt      0    -1    -1     0
+jVertCt      0     0    -1    -1
+ 
+iVertCu      1     0     0     1
+jVertCu      0     0    -1    -1
+ 
+iVertCv      0    -1    -1     0
+jVertCv      1     1     0     0
+ 
+iVertBu      1     0     0     1
+jVertBu      1     1     0     0
+ 
+reading ocean mask from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025/ocean_mask.nc
+reading ocean topography from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025/ocean_topog.nc
+using topo edits file /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025/All_edits.nc to adjust bathymetry 
+Ocean topography edit:     1 1167  819  664.73->  800.00
+Ocean topography edit:     2 1167  818  728.35->  800.00
+Ocean topography edit:     3 1167  817  557.18->  800.00
+Ocean topography edit:     4 1168  817  763.71->  800.00
+Ocean topography edit:     5 1169  817  584.82->  800.00
+Ocean topography edit:     6 1169  816  771.28->  800.00
+Ocean topography edit:     7 1169  815  623.90->  800.00
+Ocean topography edit:     8 1170  815  754.62->  800.00
+Ocean topography edit:     9 1177  658  227.78->  280.00
+Ocean topography edit:    10 1178  658  201.30->  280.00
+Ocean topography edit:    11 1179  658  179.89->  280.00
+Ocean topography edit:    12  954  551  685.97->  730.00
+Ocean topography edit:    13  953  551  679.21->  730.00
+Ocean topography edit:    14  953  552  188.74->   40.00
+Ocean topography edit:    15  954  553   98.68->   40.00
+Ocean topography edit:    16  955  554  230.73->   40.00
+Ocean topography edit:    17  955  555  134.81->   40.00
+Ocean topography edit:    18  956  556  257.78->   40.00
+Ocean topography edit:    19  957  559  495.10->   40.00
+Ocean topography edit:    20  957  560  148.92->   40.00
+Ocean topography edit:    21  957  561  343.66->   40.00
+Ocean topography edit:    22  956  558  705.76->  900.00
+Ocean topography edit:    23  957  562  831.60->  950.00
+Ocean topography edit:    24  957  565  609.99->  800.00
+Ocean topography edit:    25  956  566  897.07-> 1000.00
+Ocean topography edit:    26  945  579 1365.65-> 1850.00
+Ocean topography edit:    27  945  578 1234.00-> 1850.00
+Ocean topography edit:    28  943  576 1656.42-> 1400.00
+Ocean topography edit:    29  890  596  394.39->  500.00
+Ocean topography edit:    30  889  596  375.17->  500.00
+Ocean topography edit:    31  889  597  222.70->  500.00
+Ocean topography edit:    32  888  597  436.80->  500.00
+Ocean topography edit:    33  887  597  349.77->  500.00
+Ocean topography edit:    34  886  597  169.91->  500.00
+Ocean topography edit:    35  886  598  411.25->  500.00
+Ocean topography edit:    36  885  598  405.56->  500.00
+Ocean topography edit:    37  885  599  462.69->  500.00
+Ocean topography edit:    38  884  599  470.05->  500.00
+Ocean topography edit:    39  883  599  456.70->  500.00
+Ocean topography edit:    40  884  601  457.40->  500.00
+Ocean topography edit:    41  882  602  339.21->  500.00
+Ocean topography edit:    42  882  619  610.68->  700.00
+Ocean topography edit:    43  882  618  627.58->  730.00
+Ocean topography edit:    44  882  617  624.95->  730.00
+Ocean topography edit:    45  882  616  630.68->  730.00
+Ocean topography edit:    46  882  615  646.24->  730.00
+Ocean topography edit:    47  882  614  669.98->  730.00
+Ocean topography edit:    48  882  613  692.16->  730.00
+Ocean topography edit:    49  882  612  718.72->  730.00
+Ocean topography edit:    50  880  606  681.07->  730.00
+Ocean topography edit:    51  879  605  706.24->  730.00
+Ocean topography edit:    52  879  603  329.73->  730.00
+Ocean topography edit:    53  885  614  466.71->  600.00
+Ocean topography edit:    54  886  614  360.50->  600.00
+Ocean topography edit:    55  882  620  625.10->  710.00
+Ocean topography edit:    56  882  621  651.12->  710.00
+Ocean topography edit:    57  882  622  667.51->  710.00
+Ocean topography edit:    58  882  623  700.03->  710.00
+Ocean topography edit:    59 1425  613   51.14->   80.00
+Ocean topography edit:    60 1370  561  151.45->  180.00
+Ocean topography edit:    61 1370  560   97.29->  180.00
+Ocean topography edit:    62 1371  560   68.19->  180.00
+Ocean topography edit:    63 1371  559   93.68->  180.00
+Ocean topography edit:    64 1371  558   80.73->  180.00
+Ocean topography edit:    65 1372  558  127.90->  180.00
+Ocean topography edit:    66 1372  557   41.25->  180.00
+Ocean topography edit:    67 1373  557   96.19->  180.00
+Ocean topography edit:    68 1373  556   60.64->  180.00
+Ocean topography edit:    69 1374  556   32.38->  180.00
+Ocean topography edit:    70 1374  555  112.89->  180.00
+Ocean topography edit:    71 1374  554   31.54->  180.00
+Ocean topography edit:    72 1167  809  599.70->  540.00
+Ocean topography edit:    73 1168  808  598.73->  510.00
+Ocean topography edit:    74 1169  808  647.22->  530.00
+Ocean topography edit:    75 1170  807  583.86->  610.00
+Ocean topography edit:    76 1171  806  544.52->  500.00
+Ocean topography edit:    77 1172  806  513.92->  460.00
+Ocean topography edit:    78 1173  806  553.43->  490.00
+Ocean topography edit:    79 1174  806  528.28->  330.00
+Ocean topography edit:    80 1175  805  499.22->  450.00
+Applying topo limits to ensure that min_depth < D(x,y) < max_depth 
+Using min_depth =     9.50
+Using max_depth =  6500.00
+reading supergrid from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/025/ocean_hgrid.nc
+max lat in super grid        90.00
+poles found at i =    360  1080       90.00       90.00
+ANGLET min,max:        -1.57        1.57
+ANGLET edges i=1,i=ni:        -1.57        1.57
+ANGLE min,max:        -1.57        1.57
+ANGLE edges i=1,i=ni:         1.57       -1.57
+ANGCHK min,max:        -1.56        1.56
+ANGCHK edges i=1,i=ni:        -1.56        1.56
+min vals of hte at folds  0.00000E+00 0.00000E+00
+min vals of hte at folds  0.52601E+04 0.52601E+04
+==> writing tripole grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/tripole.mx025.nc
+==> writing CICE grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/grid_cice_NEMS_mx025.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Ct.mx025_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Ct.mx025_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Cu.mx025_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Cu.mx025_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Cv.mx025_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Cv.mx025_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Bu.mx025_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Bu.mx025_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Ct.mx025_SCRIP_land.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Ct.mx025_SCRIP_land.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2270741/025/Ct.mx025.to.C3072.nc
+slurmstepd: error: Detected 1 oom_kill event in StepId=2615078.5. Some of the step tasks have been OOM Killed.
+srun: error: u01c15: task 0: Out Of Memory
+srun: Terminating StepId=2615078.5
+slurmstepd: error: *** STEP 2615078.5 ON u01c15 CANCELLED AT 2025-08-25T21:33:03 ***
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000014AE094CC730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F653B6  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF3F1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000014AE094B75D0  Unknown               Unknown  Unknown
+libc.so.6          000014AE094B7680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000014ABC4256730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F653B6  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF3F1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000014ABC42415D0  Unknown               Unknown  Unknown
+libc.so.6          000014ABC4241680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          00001548CFEB1730  Unknown               Unknown  Unknown
+libc.so.6          00001548CFF0A092  Unknown               Unknown  Unknown
+libc.so.6          00001548CFF0CE55  free                  Unknown  Unknown
+cpld_gridgen       0000000000ABF56D  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1FF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          00001548CFE9C5D0  Unknown               Unknown  Unknown
+libc.so.6          00001548CFE9C680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          00001488F39BC730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F653C3  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF3F1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          00001488F39A75D0  Unknown               Unknown  Unknown
+libc.so.6          00001488F39A7680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          00001553CD6CB730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F653B6  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF3F1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          00001553CD6B65D0  Unknown               Unknown  Unknown
+libc.so.6          00001553CD6B6680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000014671B567730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F6080A  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63CE1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63EBF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD255  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000014671B5525D0  Unknown               Unknown  Unknown
+libc.so.6          000014671B552680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000014FC44D94730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F74429  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63CA3  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63EBF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD255  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000014FC44D7F5D0  Unknown               Unknown  Unknown
+libc.so.6          000014FC44D7F680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          0000155512437730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F60B75  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F60B1C  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63CE1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63EBF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD255  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          00001555124225D0  Unknown               Unknown  Unknown
+libc.so.6          0000155512422680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          0000150010A89730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F6080A  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63CE1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000F63EBF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD255  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          0000150010A745D0  Unknown               Unknown  Unknown
+libc.so.6          0000150010A74680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000014D09971D730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7E6E7  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7E94C  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7DFE8  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF4BF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF396  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000014D0997085D0  Unknown               Unknown  Unknown
+libc.so.6          000014D099708680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+libc.so.6          000015531D519730  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7E3E1  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7E94C  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7E94C  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000E7DFE8  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF4BF  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABF396  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000ABD1B5  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000AB24BA  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000A9D060  Unknown               Unknown  Unknown
+cpld_gridgen       0000000000893AED  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A3AAB  Unknown               Unknown  Unknown
+cpld_gridgen       00000000007A368F  Unknown               Unknown  Unknown
+cpld_gridgen       000000000079EFDC  Unknown               Unknown  Unknown
+cpld_gridgen       000000000046D08B  Unknown               Unknown  Unknown
+cpld_gridgen       00000000004353BE  gen_fixgrid               552  gen_fixgrid.F90
+cpld_gridgen       00000000004284ED  Unknown               Unknown  Unknown
+libc.so.6          000015531D5045D0  Unknown               Unknown  Unknown
+libc.so.6          000015531D504680  __libc_start_main     Unknown  Unknown
+cpld_gridgen       0000000000428405  Unknown               Unknown  Unknown

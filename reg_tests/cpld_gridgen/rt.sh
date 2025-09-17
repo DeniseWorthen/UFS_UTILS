@@ -49,7 +49,8 @@ echo "Machine: $target"
 set -x
 
 MOM6_version=20250128
-
+CICE6_version=20240416
+WW3_version=20250508
 # Adjust STMP, ACCOUNT and QUEUE as needed.
 
 if [[ $target = ursa ]]; then
@@ -58,6 +59,8 @@ if [[ $target = ursa ]]; then
   QUEUE=${QUEUE:-batch}
   WLCLK=40
   export MOM6_FIXDIR=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/${MOM6_version}
+  export TRIPOLE_MESHDIR=/scratch3/NCEPDEV/global/role.glopara/fix/cice/${CICE6_version}
+  export WW3_MESHDIR=/scratch3/NCEPDEV/global/role.glopara/fix/wave/${WW3_version}
   export NCCMP=nccmp
   BASELINE_ROOT=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data
   PARTITION=''

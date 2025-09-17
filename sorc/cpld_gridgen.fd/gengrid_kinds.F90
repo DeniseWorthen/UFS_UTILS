@@ -9,6 +9,7 @@ module gengrid_kinds
 
   implicit none
 
+  integer,parameter :: ispval    = -987987                ! spval for RH mask values
   integer,parameter :: real_kind = selected_real_kind( 6) !< 4 byte real
   integer,parameter ::  dbl_kind = selected_real_kind(12) !< 8 byte real
 
