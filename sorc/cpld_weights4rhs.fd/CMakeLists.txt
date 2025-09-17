@@ -4,7 +4,7 @@
 # George Gayno, Mark Potts, Kyle Gerheiser
 
 set(lib_src
-    weights4rhs_mod.F90)
+    weights4rhs.F90)
 
 set(exe_src genweights.F90)
 
@@ -14,7 +14,7 @@ elseif(CMAKE_Fortran_COMPILER_ID MATCHES "^(GNU)$")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffree-line-length-0 -fdefault-real-8")
 endif()
 
-set(exe_name oiprep)
+set(exe_name wts4rh)
 
 add_library(wts4rh_lib STATIC ${lib_src})
 add_executable(${exe_name} ${exe_src})

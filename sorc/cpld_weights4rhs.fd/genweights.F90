@@ -7,6 +7,8 @@ program genweights
   type(MPI_Comm) :: mpic  ! mpi_f08
   type(ESMF_VM) :: vm
 
+  integer :: int_mpic
+  integer :: rc
   integer :: localPet, nPet
   logical :: maintask
 
