@@ -3,65 +3,71 @@ set -eux
 
 APRUN=${APRUN:-"srun"}
 
-ATMRES=C96
-OCNRES=100
-WAVRES=global_270k
+#ATMRES=C96
+#OCNRES=100
+#WAVRES=global_270k
 
-wavdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
-fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
-icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
+ATMRES=C1152
+OCNRES=025
+WAVRES=uglo_15km
+
+#URSA
+#wavdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
+#fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
+#icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
+
+#GAEA
+wavdir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/wave/20250508
+#wavdir=/gpfs/f6/bil-fire8/world-shared/role.epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
+fv3dir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/orog/20240917
+icedir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/cice/20240416
 
 focnmesh=$icedir/${OCNRES}/'mesh.mx'${OCNRES}'.nc'
 fwavmesh=$wavdir/'mesh.'${WAVRES}'.nc'
 fmosaic=$fv3dir/${ATMRES}/${ATMRES}'_mosaic.nc'
 ftilepath=$fv3dir/${ATMRES}
 
+#defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
+defaultopts=' --src_loc center --dst_loc center --weight_only '
+#defaultopts=' --src_loc center --dst_loc center --no_log --checkFlag '
 
-defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
 
-# a->o
-#ftag=${ATMRES}'.to.'${OCNRES}
-
-#for exp in ${ftag}.bilnr ${ftag}.patch_uv3d
-#         opts=' -s '$
-
-for exp in a2o_bilin a2o_patch a2w_bilin; do
+#for exp in a2o_bilin a2o_patch a2w_bilin; do
 #for exp in w2o o2w a2o_bilin; do
 
+for exp in a2o_bilin a2o_patch a2w_bilin w2o o2w a2o_bilin; do
     case $exp in
         w2o)
             mapindex=bilnr_nstod
-            ftag=${WAVRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            ftag='map.'${WAVRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p none --extrap_method neareststod '
             opts='-s '${fwavmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
             ;;
         o2w)
             mapindex=bilnr_nstod
-            ftag='mx'${OCNRES}'.to.'${WAVRES}'.'$mapindex'.nc'
+            ftag='map.mx'${OCNRES}'.to.'${WAVRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p none --extrap_method neareststod '
-            opts='-s '${fwavmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            opts='-s '${focnmesh}' -d '${fwavmesh}' -w '${ftag}'  '${mapping}
             ;;
         a2o_bilin)
             mapindex=bilnr
-            ftag=${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            ftag='map.'${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p all '
             opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
             ;;
         a2o_patch)
             mapindex=patch_uv3d
-            ftag=${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            ftag='map.'${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m patch -p all '
 	    opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
             ;;
         a2w_bilin)
             mapindex=bilnr
-            ftag=${ATMRES}'.to.'${WAVRES}'.'$mapindex'.nc'
+            ftag='map.'${ATMRES}'.to.'${WAVRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p none '
             opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${fwavmesh}' -w '${ftag}'  '${mapping}
-            ;;
+	    ;;
     esac
-
-    echo "ESMF_RegridWeightGen "${opts} ${defaultopts}
 
     ${APRUN} ESMF_RegridWeightGen ${opts} ${defaultopts}
 
