@@ -1,0 +1,80 @@
+#!/bin/bash
+set -eux
+
+APRUN=${APRUN:-"srun"}
+
+ATMRES=C96
+OCNRES=100
+WAVRES=global_270k
+
+wavdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
+fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
+icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
+
+focnmesh=$icedir/${OCNRES}/'mesh.mx'${OCNRES}'.nc'
+fwavmesh=$wavdir/'mesh.'${WAVRES}'.nc'
+fmosaic=$fv3dir/${ATMRES}/${ATMRES}'_mosaic.nc'
+ftilepath=$fv3dir/${ATMRES}
+
+
+defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
+
+# a->o
+#ftag=${ATMRES}'.to.'${OCNRES}
+
+#for exp in ${ftag}.bilnr ${ftag}.patch_uv3d
+#         opts=' -s '$
+
+for exp in a2o_bilin a2o_patch a2w_bilin; do
+#for exp in w2o o2w a2o_bilin; do
+
+    case $exp in
+        w2o)
+            mapindex=bilnr_nstod
+            ftag=${WAVRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            mapping='-m bilinear -p none --extrap_method neareststod '
+            opts='-s '${fwavmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            ;;
+        o2w)
+            mapindex=bilnr_nstod
+            ftag='mx'${OCNRES}'.to.'${WAVRES}'.'$mapindex'.nc'
+            mapping='-m bilinear -p none --extrap_method neareststod '
+            opts='-s '${fwavmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            ;;
+        a2o_bilin)
+            mapindex=bilnr
+            ftag=${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            mapping='-m bilinear -p all '
+            opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            ;;
+        a2o_patch)
+            mapindex=patch_uv3d
+            ftag=${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
+            mapping='-m patch -p all '
+	    opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            ;;
+        a2w_bilin)
+            mapindex=bilnr
+            ftag=${ATMRES}'.to.'${WAVRES}'.'$mapindex'.nc'
+            mapping='-m bilinear -p none '
+            opts='-s '${fmosaic}' --tilefile_path '${ftilepath}' -d '${fwavmesh}' -w '${ftag}'  '${mapping}
+            ;;
+    esac
+
+    echo "ESMF_RegridWeightGen "${opts} ${defaultopts}
+
+    ${APRUN} ESMF_RegridWeightGen ${opts} ${defaultopts}
+
+done
+
+#FDIMS=${NX}x${NY}
+#FDST=${OUTPUT_DIR}/datm.${FDIMS}.SCRIP.nc
+#if [ $N2S == .true. ]; then
+#    ncremap -g ${FDST} -G ttl='DATM grid '${FDIMS}#latlon=${NY},${NX}#lon_typ=grn_ctr#lat_typ=gss#lat_drc=n2s
+#else
+#    ncremap -g ${FDST} -G ttl='DATM grid '${FDIMS}#latlon=${NY},${NX}#lon_typ=grn_ctr#lat_typ=gss
+#fi
+
+#FSRC=${OUTPUT_DIR}/datm.${FDIMS}.SCRIP.nc
+#FDST=${OUTPUT_DIR}/mesh.datm.${FDIMS}.nc
+#$APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
