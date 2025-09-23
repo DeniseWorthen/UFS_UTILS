@@ -76,7 +76,7 @@ contains
     ! src:dst
 
     !a->o
-    ftag = trim(atmres)//'.to.'//trim(wavres)
+    ftag = trim(atmres)//'.to.'//trim(ocnres)
     do nn = 1,na2omaps
        maptype = trim(a2omaps(nn))
        fwgt = trim(fdir)//'/'//trim(ftag)//'.'//trim(maptype)//'.nc'
