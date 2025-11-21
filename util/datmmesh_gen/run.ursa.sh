@@ -3,7 +3,7 @@
 # Edit account (-A) setting as required !
 
 #SBATCH -J datmmesh_gen
-#SBATCH -A fv3-cpu
+#SBATCH -A nems
 #SBATCH --open-mode=truncate
 #SBATCH -o log
 #SBATCH -e log

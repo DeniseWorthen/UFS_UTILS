@@ -13,22 +13,23 @@ WAVRES=uglo_15km
 
 #URSA
 #wavdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
-#fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
-#icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
+fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
+icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
+wavdir=/scratch3/NCEPDEV/global/role.glopara/fix/wave/20250508
 
 #GAEA
-wavdir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/wave/20250508
+#wavdir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/wave/20250508
 #wavdir=/gpfs/f6/bil-fire8/world-shared/role.epic/UFS-WM_RT/NEMSfv3gfs/input-data-20250507/WW3_input_data_20250807
-fv3dir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/orog/20240917
-icedir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/cice/20240416
+#fv3dir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/orog/20240917
+#icedir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/cice/20240416
 
 focnmesh=$icedir/${OCNRES}/'mesh.mx'${OCNRES}'.nc'
 fwavmesh=$wavdir/'mesh.'${WAVRES}'.nc'
 fmosaic=$fv3dir/${ATMRES}/${ATMRES}'_mosaic.nc'
 ftilepath=$fv3dir/${ATMRES}
 
-#defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
-defaultopts=' --src_loc center --dst_loc center --weight_only '
+defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
+#defaultopts=' --src_loc center --dst_loc center --weight_only '
 #defaultopts=' --src_loc center --dst_loc center --no_log --checkFlag '
 
 
