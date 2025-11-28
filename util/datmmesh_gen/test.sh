@@ -3,15 +3,40 @@ set -eux
 
 APRUN=${APRUN:-"srun"}
 
-ATMRES=1760x880
-#OCNRES=100
-OCNRES=008
+# Parse command-line arguments
+if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+    echo "Usage: $0 <ATMRES> [OCNRES] [WAVRES]" >&2
+    exit 1
+fi
+
+ATMRES=$1
+OCNRES=${2:-}
+WAVRES=${3:-}
+
+#orog_ver
+#ice_ver
+#wav_ver
+#datm_ver
+
+if [ $machine = "ursa" ]; then
+    FIX_DIR="/scratch3/NCEPDEV/global/role.glopara/fix"
+elif [ $machine = "jet" ]; then
+    FIX_DIR="/lfs5/HFIP/hfv3gfs/glopara/FIX/fix"
+elif [ $machine = "orion" -o $machine = "hercules" ]; then
+    FIX_DIR="/work2/noaa/global/role-global/fix"
+elif [ $machine = "wcoss2" ]; then
+    FIX_DIR="/lfs/h2/emc/global/noscrub/emc.global/FIX/fix"
+elif [ $machine = "gaeac6" ]; then
+    FIX_DIR="/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix"
+fi
+
 
 #URSA
-atmdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS
+fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
+datmdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS
 icedir=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE
 #icedir=/scratch3/NCEPDEV/global/role.glopara/fix/cice/20240416
-#wavdir=/scratch3/NCEPDEV/global/role.glopara/fix/wave/20250508
+wavdir=/scratch3/NCEPDEV/global/role.glopara/fix/wave/20250508
 
 #GAEA
 #wavdir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/wave/20250508
@@ -19,18 +44,53 @@ icedir=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE
 #fv3dir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/orog/20240917
 #icedir=/gpfs/f6/drsa-precip3/world-shared/role.glopara/fix/cice/20240416
 
-fatmmesh=$atmdir/mesh.datm.1760x880.nc
-focnmesh=$icedir/${OCNRES}/'mesh.mx'${OCNRES}'.nc'
+# Set ATM mesh based on ATMRES
+if [[ $ATMRES == C* ]]; then
+    # FV3 cube-sphere grid
+    fmosaic="${fv3dir}/${ATMRES}/${ATMRES}_mosaic.nc"
+    ftilepath="${fv3dir}/${ATMRES}"
+    fatmmesh=""
+else
+    # DATM unstructured mesh
+    fatmmesh="${datmdir}/mesh.datm.${ATMRES}.nc"
+    fmosaic=""
+    ftilepath=""
+fi
 
-#defaultopts=' --src_loc center --dst_loc center --weight_only --no_log '
-defaultopts=' --src_loc center --dst_loc center --weight_only '
-#defaultopts=' --src_loc center --dst_loc center --no_log --checkFlag '
+# Set ocean mesh if OCNRES is provided
+if [ -n "${OCNRES}" ]; then
+    focnmesh=$icedir/${OCNRES}/'mesh.mx'${OCNRES}'.nc'
+fi
 
+# Set wave mesh if WAVRES is provided
+if [ -n "${WAVRES}" ]; then
+    fwavmesh="${wavdir}/mesh.${WAVRES}.nc"
+fi
 
-#for exp in a2o_bilin a2o_patch a2w_bilin; do
-#for exp in w2o o2w a2o_bilin; do
+# Set srcopt based on ATM mesh type
+if [ -n "${fmosaic}" ] && [ -n "${ftilepath}" ]; then
+    srcopt="-s ${fmosaic} --tilefile_path ${ftilepath}"
+elif [ -n "${fatmmesh}" ]; then
+    srcopt="-s ${fatmmesh}"
+else
+    echo "Error: no ATM grid specified (set fmosaic+ftilepath or fatmmesh)" >&2
+    exit 1
+fi
 
-for exp in a2o_bilin a2o_consf a2o_patch; do
+defaultopts=' --src_loc center --dst_loc center --weight_only --no_log'
+#defaultopts=' --src_loc center --dst_loc center --checkFlag '
+
+for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w; do
+    # Skip ocean-related mappings if OCNRES not provided
+    if [ -z "${OCNRES}" ] && [[ $exp == *o* ]]; then
+        continue
+    fi
+
+    # Skip wave-related mappings if WAVRES not provided
+    if [ -z "${WAVRES}" ] && [[ $exp == *w* ]]; then
+        continue
+    fi
+
     case $exp in
         w2o)
             mapindex=bilnr_nstod
@@ -48,40 +108,28 @@ for exp in a2o_bilin a2o_consf a2o_patch; do
             mapindex=bilnr
             ftag='map.'${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p all '
-            opts='-s '${fatmmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            opts="${srcopt} -d ${focnmesh} -w ${ftag} ${mapping}"
             ;;
         a2o_consf)
             mapindex=consf
             ftag='map.'${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m conserve --norm_type fracarea '
-            opts='-s '${fatmmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+            opts="${srcopt} -d ${focnmesh} -w ${ftag} ${mapping}"
             ;;
         a2o_patch)
-            mapindex=patch
+            mapindex='patch'
             ftag='map.'${ATMRES}'.to.mx'${OCNRES}'.'$mapindex'.nc'
             mapping='-m patch -p all '
-	    opts='-s '${fatmmesh}' -d '${focnmesh}' -w '${ftag}'  '${mapping}
+	    opts="${srcopt} -d ${focnmesh} -w ${ftag} ${mapping}"
             ;;
         a2w_bilin)
             mapindex=bilnr
             ftag='map.'${ATMRES}'.to.'${WAVRES}'.'$mapindex'.nc'
             mapping='-m bilinear -p none '
-            opts='-s '${fatmmesh}' -d '${fwavmesh}' -w '${ftag}'  '${mapping}
+	    opts="${srcopt} -d ${fwavmesh} -w ${ftag} ${mapping}"
 	    ;;
     esac
 
-    ${APRUN} ESMF_RegridWeightGen ${opts} ${defaultopts}
+    ${APRUN} ESMF_RegridWeightGen "${opts}" "${defaultopts}"
 
 done
-
-#FDIMS=${NX}x${NY}
-#FDST=${OUTPUT_DIR}/datm.${FDIMS}.SCRIP.nc
-#if [ $N2S == .true. ]; then
-#    ncremap -g ${FDST} -G ttl='DATM grid '${FDIMS}#latlon=${NY},${NX}#lon_typ=grn_ctr#lat_typ=gss#lat_drc=n2s
-#else
-#    ncremap -g ${FDST} -G ttl='DATM grid '${FDIMS}#latlon=${NY},${NX}#lon_typ=grn_ctr#lat_typ=gss
-#fi
-
-#FSRC=${OUTPUT_DIR}/datm.${FDIMS}.SCRIP.nc
-#FDST=${OUTPUT_DIR}/mesh.datm.${FDIMS}.nc
-#$APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
