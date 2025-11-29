@@ -57,12 +57,12 @@ defaultopts=' --src_loc center --dst_loc center --weight_only --no_log'
 
 for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w; do
     # Skip ocean-related mappings if OCNRES not provided
-    if [ -z "${OCNRES:-}" ] && [[ $exp == *o* ]]; then
+    if [ -z "${OCNRES:-}" ] && [[ ${exp:0:3} == *o* ]]; then
         continue
     fi
 
     # Skip wave-related mappings if WAVRES not provided
-    if [ -z "${WAVRES:-}" ] && [[ $exp == *w* ]]; then
+    if [ -z "${WAVRES:-}" ] && [[ ${exp:0:3} == *w* ]]; then
         continue
     fi
 
