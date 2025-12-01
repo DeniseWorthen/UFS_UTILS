@@ -1,0 +1,225 @@
++ UFS_DIR=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/util/cmeps_mapfiles/../..
++ source /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/util/cmeps_mapfiles/../../sorc/machine-setup.sh
++ module use /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/util/cmeps_mapfiles/../../modulefiles
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ module load build.ursa.intelllvm
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ module list
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+Currently Loaded Modules:
+  1) intel-oneapi-compilers/2024.2.1  26) netcdf-c/4.9.2
+  2) stack-oneapi/2024.2.1            27) netcdf-fortran/4.6.1
+  3) intel-oneapi-mpi/2021.13.1       28) nccmp/1.9.0.1
+  4) stack-intel-oneapi-mpi/2021.13   29) parallel-netcdf/1.12.3
+  5) glibc/2.34                       30) parallelio/2.6.2
+  6) intel-oneapi-runtime/2024.2.1    31) pigz/2.8
+  7) nghttp2/1.63.0                   32) tar/1.34
+  8) zlib/1.2.13                      33) gettext/0.22.5
+  9) curl/8.10.1                      34) sqlite/3.46.0
+ 10) cmake/3.27.9                     35) util-linux-uuid/2.40.2
+ 11) bacio/2.4.1                      36) python/3.11.7
+ 12) libjpeg/2.1.0                    37) python-venv/1.0
+ 13) jasper/2.0.32                    38) py-mpi4py/4.0.1
+ 14) libpng/1.6.37                    39) py-numpy/1.26.4
+ 15) g2/3.5.1                         40) py-pip/23.1.2
+ 16) intel-oneapi-mkl/2024.2.1        41) libyaml/0.2.5
+ 17) ip/5.1.0                         42) py-pyyaml/6.0.2
+ 18) nemsio/2.5.4                     43) esmf/8.6.1
+ 19) sp/2.5.0                         44) antlr/2.7.7
+ 20) w3emc/2.10.0                     45) gsl/2.8
+ 21) sigio/2.3.3                      46) udunits/2.2.28
+ 22) snappy/1.2.1                     47) nco/5.2.4
+ 23) zstd/1.5.6                       48) doxygen/1.11.0
+ 24) c-blosc/1.21.5                   49) build.ursa.intelllvm
+ 25) hdf5/1.14.3
+
+ 
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ export FIX_DIR=/scratch3/NCEPDEV/global/role.glopara/fix
++ FIX_DIR=/scratch3/NCEPDEV/global/role.glopara/fix
++ export orog_ver=20240917
++ orog_ver=20240917
++ export ice_ver=20240416
++ ice_ver=20240416
++ export wav_ver=20250508
++ wav_ver=20250508
++ export OUTPUT_DIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles
++ OUTPUT_DIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles
++ export ATMRES=1760x880
++ ATMRES=1760x880
++ export OCNRES=008
++ OCNRES=008
++ /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/util/cmeps_mapfiles/../../util/cmeps_mapfiles/make_mapfiles.sh
++ APRUN='srun -n 24'
++ ATMRES=1760x880
++ OCNRES=008
++ WAVRES=
++ FIX_DIR=/scratch3/NCEPDEV/global/role.glopara/fix
++ orog_ver=20240917
++ ice_ver=20240416
++ wav_ver=20250508
++ fv3dir=/scratch3/NCEPDEV/global/role.glopara/fix/orog/20240917
++ datmdir=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS
++ wavdir=/scratch3/NCEPDEV/global/role.glopara/fix/wav/20250508
++ icedir=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE
++ [[ 1760x880 == C* ]]
++ fatmmesh=/scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc
++ fmosaic=
++ ftilepath=
++ '[' -n 008 ']'
++ focnmesh=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc
++ '[' -n '' ']'
++ '[' -n '' ']'
++ '[' -n /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc ']'
++ srcopt='-s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc'
++ defaultopts=' --src_loc center --dst_loc center --weight_only --no_log'
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ a2o_bilin == *w* ]]
++ case $exp in
++ mapindex=bilnr
++ ftag=/scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.bilnr.nc
++ mapping='-m bilinear -p all '
++ opts='-s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.bilnr.nc -m bilinear -p all '
++ srun -n 24 ESMF_RegridWeightGen -s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.bilnr.nc -m bilinear -p all --src_loc center --dst_loc center --weight_only --no_log
+ Starting weight generation with these inputs: 
+   Source File: 
+ /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_C
+ DEPS/mesh.datm.1760x880.nc
+   Destination File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc
+   Weight File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.biln
+ r.nc
+     only output weights in the weight file
+   Source File is in ESMF format
+   Source Grid is a global grid
+   Source Grid is an unstructured grid
+   Use the center coordinates of the source grid to do the regrid
+   Destination File is in ESMF format
+   Destination Grid is a global grid
+   Destination Grid is an unstructured grid
+   Use the center coordinates of the destination grid to do the regrid
+   Regrid Method: bilinear
+   Pole option: ALL
+   Line Type: cartesian
+   Norm Type: dstarea
+   Extrap. Method: none
+ 
+ Completed weight generation successfully.
+ 
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ a2o_consf == *w* ]]
++ case $exp in
++ mapindex=consf
++ ftag=/scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.consf.nc
++ mapping='-m conserve --norm_type fracarea '
++ opts='-s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.consf.nc -m conserve --norm_type fracarea '
++ srun -n 24 ESMF_RegridWeightGen -s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.consf.nc -m conserve --norm_type fracarea --src_loc center --dst_loc center --weight_only --no_log
+ Starting weight generation with these inputs: 
+   Source File: 
+ /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_C
+ DEPS/mesh.datm.1760x880.nc
+   Destination File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc
+   Weight File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.cons
+ f.nc
+     only output weights in the weight file
+   Source File is in ESMF format
+   Source Grid is a global grid
+   Source Grid is an unstructured grid
+   Use the center coordinates of the source grid to do the regrid
+   Destination File is in ESMF format
+   Destination Grid is a global grid
+   Destination Grid is an unstructured grid
+   Use the center coordinates of the destination grid to do the regrid
+   Regrid Method: conserve
+   Pole option: NONE
+   Line Type: greatcircle
+   Norm Type: fracarea
+   Extrap. Method: none
+ 
+ Completed weight generation successfully.
+ 
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ a2o_patch == *w* ]]
++ case $exp in
++ mapindex=patch
++ ftag=/scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.patch.nc
++ mapping='-m patch -p all '
++ opts='-s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.patch.nc -m patch -p all '
++ srun -n 24 ESMF_RegridWeightGen -s /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_CDEPS/mesh.datm.1760x880.nc -d /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc -w /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.patch.nc -m patch -p all --src_loc center --dst_loc center --weight_only --no_log
+ Starting weight generation with these inputs: 
+   Source File: 
+ /scratch4/NAGAPE/epic/role-epic/UFS-WM_RT/NEMSfv3gfs/input-data-20251015/DATM_C
+ DEPS/mesh.datm.1760x880.nc
+   Destination File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/008/mesh.mx008.nc
+   Weight File: 
+ /scratch4/NCEPDEV/stmp/Denise.Worthen/cmeps_mapfiles/map.1760x880.to.mx008.patc
+ h.nc
+     only output weights in the weight file
+   Source File is in ESMF format
+   Source Grid is a global grid
+   Source Grid is an unstructured grid
+   Use the center coordinates of the source grid to do the regrid
+   Destination File is in ESMF format
+   Destination Grid is a global grid
+   Destination Grid is an unstructured grid
+   Use the center coordinates of the destination grid to do the regrid
+   Regrid Method: patch
+   Pole option: ALL
+   Line Type: cartesian
+   Norm Type: dstarea
+   Extrap. Method: none
+ 
+ Completed weight generation successfully.
+ 
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ a2w_bilin == *w* ]]
++ continue
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ w2o == *w* ]]
++ continue
++ for exp in a2o_bilin a2o_consf a2o_patch a2w_bilin w2o o2w
++ '[' -z 008 ']'
++ '[' -z '' ']'
++ [[ o2w == *w* ]]
++ continue
++ exit
