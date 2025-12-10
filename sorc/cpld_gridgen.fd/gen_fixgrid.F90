@@ -32,6 +32,7 @@ program gen_fixgrid
   use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
   use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
   use debugprint,        only: checkseam, checkxlatlon, checkpoint
+  use atmmesh,           only: write_atmmesh
   use netcdf
 
   implicit none
@@ -45,6 +46,7 @@ program gen_fixgrid
 
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
+  integer(int_kind), allocatable, dimension(:)   :: atmmask
 
   character(len=CL) :: fsrc, fdst, fwgt
   character(len= 2) :: cstagger
@@ -622,18 +624,33 @@ program gen_fixgrid
         fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
         logmsg = 'creating mapped ocean mask for '//trim(atmres)
         print '(a)',trim(logmsg)
-        call make_frac_land(trim(fsrc), trim(fwgt))
+
+        allocate(atmmask(npx*npx*6))
+        atmmask = 0
+        call make_frac_land(trim(fsrc), trim(fwgt), atmmask)
+
+        ! Create an atm grid, then mesh, then write the mesh
+        !fsrc = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
+        !call write_atmmesh(trim(fsrc),atmres,npx,atmmask)
+        deallocate(atmmask)
      end do
+  end if
+
+     npx=96
+     atmres="C96"
+     fsrc = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
+
+     call write_atmmesh(trim(fsrc),atmres,npx)
 
      !---------------------------------------------------------------------
      ! clean up
      !---------------------------------------------------------------------
 
-     deallocate(x, y, dx, dy)
-     deallocate(areaCt, anglet, angle, angchk)
-     deallocate(latCt, lonCt)
-     deallocate(latCv, lonCv)
-     deallocate(latCu, lonCu)
-     deallocate(latBu, lonBu)
-  endif ! if (maintask)
+  !    deallocate(x, y, dx, dy)
+  !    deallocate(areaCt, anglet, angle, angchk)
+  !    deallocate(latCt, lonCt)
+  !    deallocate(latCv, lonCv)
+  !    deallocate(latCu, lonCu)
+  !    deallocate(latBu, lonBu)
+  ! endif ! if (maintask)
 end program gen_fixgrid

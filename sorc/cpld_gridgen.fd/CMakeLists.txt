@@ -12,6 +12,7 @@ set(lib_src
     grdvars.F90
     inputnml.F90
     mapped_mask.F90
+    atmmesh.F90
     postwgts.F90
     scripgrid.F90
     topoedits.F90

@@ -23,12 +23,15 @@ contains
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine make_frac_land(src, wgt)
+  subroutine make_frac_land(src, wgt, atmmask)
 
-    character(len=*), intent(in) :: src, wgt
+    character(len=*), intent(in)  :: src, wgt
+    integer         , intent(out) :: atmmask(:)
 
     ! local variables
-    integer, parameter :: ntile = 6
+    integer       , parameter :: ntile = 6
+    real(dbl_kind), parameter :: min_land = 1.0e-4
+
     integer(int_kind) :: n_a, n_b, n_s
 
     integer(int_kind), allocatable, dimension(:) :: col, row
@@ -41,6 +44,7 @@ contains
     real(dbl_kind), allocatable, dimension(:,:)   :: dst2d
     real(dbl_kind), allocatable, dimension(:,:)   :: lat2d,lon2d
 
+    real(dbl_kind) :: tmpland
     character(len=CS) :: ctile
     character(len=CL) :: fdst
     integer :: i,ii,jj,id,rc,ncid, dim2(2)
@@ -100,6 +104,14 @@ contains
        ii = row(i); jj = col(i)
        dst_field(ii) = dst_field(ii) + S(i)*real(src_field(jj),dbl_kind)
     enddo
+
+    ! like ocean_merge treatment
+    atmmask = 0
+    do i = 1,n_b
+       tmpland = 1.0 - dst_field(i)
+       if (tmpland <       min_land) atmmask(i) = 0
+       if (tmpland > 1.0 - min_land) atmmask(i) = 1
+    end do
 
     !---------------------------------------------------------------------
     !
