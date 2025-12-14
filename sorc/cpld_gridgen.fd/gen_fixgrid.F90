@@ -559,6 +559,12 @@ program gen_fixgrid
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
 
+  !make use of ....
+  !FieldRedist as a form of gather involving arbitrary distribution
+  ! call atmgrid2mesh
+  ! create atmgrid, add mask item, create an atmmesh; mask is empty at this point
+  !
+  !
   !---------------------------------------------------------------------
   ! use ESMF to create positional weights for mapping a field from its
   ! native stagger location (Cu,Cv,Bu) onto the center (Ct) grid location
