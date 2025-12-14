@@ -27,6 +27,7 @@ module grdvars
                                                                    !! regrid from the tripole grid to a rectilinear
                                                                    !! grid should be generated. Default is false.
   logical :: roottask                                              !< flag indicating whether this is the roottask
+  logical :: regional                                              !< flag indicating regional grid for ATM and MOM6
 
   integer, parameter :: nv = 4.                                    !< the number of vertices for each stagger location
   integer, parameter :: ncoord = 2*4.                              !< the number of coord pairs (lat,lon) for each of
@@ -35,6 +36,8 @@ module grdvars
                                                                    !! vertices of each stagger location
   integer, parameter ::  nvars = ncoord + nverts                   !< the total number of cooridinate variables
 
+
+  integer, parameter :: ntile                                      !< the number of atm tiles (1 or 6)
 
   real(dbl_kind)     :: sg_maxlat                                  !< the maximum latitute present in the supergrid
                                                                    !! file
@@ -189,10 +192,11 @@ contains
     allocate( latCu_vert(ni,nj,nv), lonCu_vert(ni,nj,nv) )
     allocate( latBu_vert(ni,nj,nv), lonBu_vert(ni,nj,nv) )
 
-    allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
-    allocate( xlonCu(ni), xlatCu(ni) )
-    allocate( dlatBu(ni), dlatCv(ni) )
-
+    if (.not. regional) then
+       allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
+       allocate( xlonCu(ni), xlatCu(ni) )
+       allocate( dlatBu(ni), dlatCv(ni) )
+    end if
     allocate( wet4(ni,nj) )
     allocate( wet8(ni,nj) )
 

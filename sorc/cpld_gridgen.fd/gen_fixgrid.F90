@@ -270,128 +270,133 @@ program gen_fixgrid
         enddo
      enddo
 
-     !---------------------------------------------------------------------
-     ! locate the ith index of the two poles on j=nj
-     ! the corner points must lie on the pole
-     !---------------------------------------------------------------------
+     if (regional) then
+        ! TODO
+     else
+        !---------------------------------------------------------------------
+        ! locate the ith index of the two poles on j=nj
+        ! the corner points must lie on the pole
+        !---------------------------------------------------------------------
 
-     ipole = -1
-     j = nj
-     do i = 1,ni/2
-        if(latBu(i,j) .eq. sg_maxlat)ipole(1) = i
-     enddo
-     do i = ni/2+1,ni
-        if(latBu(i,j) .eq. sg_maxlat)ipole(2) = i
-     enddo
-     write(logmsg,'(a,2i6,2f12.2)')'poles found at i = ',ipole, latBu(ipole(1),nj), &
-          latBu(ipole(2),nj)
-     print '(a)',trim(logmsg)
+        ipole = -1
+        j = nj
+        do i = 1,ni/2
+           if(latBu(i,j) .eq. sg_maxlat)ipole(1) = i
+        enddo
+        do i = ni/2+1,ni
+           if(latBu(i,j) .eq. sg_maxlat)ipole(2) = i
+        enddo
+        write(logmsg,'(a,2i6,2f12.2)')'poles found at i = ',ipole, latBu(ipole(1),nj), &
+             latBu(ipole(2),nj)
+        print '(a)',trim(logmsg)
 
-     !---------------------------------------------------------------------
-     ! find the angle on centers using the same procedure as MOM6
-     !---------------------------------------------------------------------
+        !---------------------------------------------------------------------
+        ! find the angle on centers using the same procedure as MOM6
+        !---------------------------------------------------------------------
 
-     call find_ang((/1,ni/),(/1,nj/),lonBu,latBu,lonCt,anglet)
-     write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(anglet),maxval(anglet)
-     print '(a)',trim(logmsg)
-     write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',anglet(1,nj),anglet(ni,nj)
-     print '(a)',trim(logmsg)
+        call find_ang((/1,ni/),(/1,nj/),lonBu,latBu,lonCt,anglet)
+        write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(anglet),maxval(anglet)
+        print '(a)',trim(logmsg)
+        write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',anglet(1,nj),anglet(ni,nj)
+        print '(a)',trim(logmsg)
 
-     xangCt(:) = 0.0
-     do i = 1,ni
-        i2 = ipole(2)+(ipole(1)-i)+1
-        xangCt(i) = -anglet(i2,nj)       ! angle changes sign across seam
-     end do
+        xangCt(:) = 0.0
+        do i = 1,ni
+           i2 = ipole(2)+(ipole(1)-i)+1
+           xangCt(i) = -anglet(i2,nj)       ! angle changes sign across seam
+        end do
 
-     !---------------------------------------------------------------------
-     ! find the angle on corners using the same procedure as CICE6
-     !---------------------------------------------------------------------
+        !---------------------------------------------------------------------
+        ! find the angle on corners using the same procedure as CICE6
+        !---------------------------------------------------------------------
 
-     call find_angq((/1,ni/),(/1,nj/),xangCt,anglet,angle)
-     angle(ni,:) = -angle(1,:)
-     ! reverse angle for CICE
-     angle = -angle
-     write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(angle),maxval(angle)
-     print '(a)',trim(logmsg)
-     write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',angle(1,nj),angle(ni,nj)
-     print '(a)',trim(logmsg)
+        call find_angq((/1,ni/),(/1,nj/),xangCt,anglet,angle)
+        angle(ni,:) = -angle(1,:)
+        ! reverse angle for CICE
+        angle = -angle
+        write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(angle),maxval(angle)
+        print '(a)',trim(logmsg)
+        write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',angle(1,nj),angle(ni,nj)
+        print '(a)',trim(logmsg)
 
-     !---------------------------------------------------------------------
-     ! check the Bu angle
-     !---------------------------------------------------------------------
+        !---------------------------------------------------------------------
+        ! check the Bu angle
+        !---------------------------------------------------------------------
 
-     call find_angchk((/1,ni/),(/1,nj/),angle,angchk)
-     angchk(1,:) = -angchk(ni,:)
-     ! reverse angle for MOM6
-     angchk = -angchk
-     write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
-     print '(a)',trim(logmsg)
-     write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)
-     print '(a)',trim(logmsg)
+        call find_angchk((/1,ni/),(/1,nj/),angle,angchk)
+        angchk(1,:) = -angchk(ni,:)
+        ! reverse angle for MOM6
+        angchk = -angchk
+        write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
+        print '(a)',trim(logmsg)
+        write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)
+        print '(a)',trim(logmsg)
 
-     !---------------------------------------------------------------------
-     ! For the 1/4deg grid, hte at j=720 and j = 1440 is identically=0.0 for
-     ! j > 840 (64.0N). These are land points, but since CICE uses hte to
-     ! generate remaining variables, setting them to zero will cause problems
-     ! For 1deg grid, hte at ni/2 and ni are very small O~10-12, so test for
-     ! hte < 1.0
-     !---------------------------------------------------------------------
+        !---------------------------------------------------------------------
+        ! For the 1/4deg grid, hte at j=720 and j = 1440 is identically=0.0 for
+        ! j > 840 (64.0N). These are land points, but since CICE uses hte to
+        ! generate remaining variables, setting them to zero will cause problems
+        ! For 1deg grid, hte at ni/2 and ni are very small O~10-12, so test for
+        ! hte < 1.0
+        !---------------------------------------------------------------------
 
-     write(logmsg,'(a,2e12.5)')'min vals of hte at folds ', minval(hte(ni/2,:)),minval(hte(ni,:))
-     print '(a)',trim(logmsg)
-     do j = 1,nj
-        ii = ni/2
-        if(hte(ii,j) .le. 1.0)hte(ii,j) = 0.5*(hte(ii-1,j) + hte(ii+1,j))
-        ii = ni
-        if(hte(ii,j) .le. 1.0)hte(ii,j) = 0.5*(hte(ii-1,j) + hte(   1,j))
-     enddo
-     write(logmsg,'(a,2e12.5)')'min vals of hte at folds ', minval(hte(ni/2,:)),minval(hte(ni,:))
-     print '(a)',trim(logmsg)
+        write(logmsg,'(a,2e12.5)')'min vals of hte at folds ', minval(hte(ni/2,:)),minval(hte(ni,:))
+        print '(a)',trim(logmsg)
+        do j = 1,nj
+           ii = ni/2
+           if(hte(ii,j) .le. 1.0)hte(ii,j) = 0.5*(hte(ii-1,j) + hte(ii+1,j))
+           ii = ni
+           if(hte(ii,j) .le. 1.0)hte(ii,j) = 0.5*(hte(ii-1,j) + hte(   1,j))
+        enddo
+        write(logmsg,'(a,2e12.5)')'min vals of hte at folds ', minval(hte(ni/2,:)),minval(hte(ni,:))
+        print '(a)',trim(logmsg)
 
-     !---------------------------------------------------------------------
-     ! find required extended values for setting all vertices
-     !---------------------------------------------------------------------
+        !---------------------------------------------------------------------
+        ! find required extended values for setting all vertices
+        !---------------------------------------------------------------------
 
-     if(debug)call checkseam
+        if(debug)call checkseam
 
-     do i = 1,ni
-        i2 = ipole(2)+(ipole(1)-i)+1
-        xlonCt(i) = lonCt(i2,nj)
-        xlatCt(i) = latCt(i2,nj)
-     enddo
+        do i = 1,ni
+           i2 = ipole(2)+(ipole(1)-i)+1
+           xlonCt(i) = lonCt(i2,nj)
+           xlatCt(i) = latCt(i2,nj)
+        enddo
 
-     do i = 1,ni
-        i2 = ipole(2)+(ipole(1)-i)
-        if(i2 .lt. 1)i2 = ni
-        xlonCu(i) = lonCu(i2,nj)
-        xlatCu(i) = latCu(i2,nj)
-     enddo
+        do i = 1,ni
+           i2 = ipole(2)+(ipole(1)-i)
+           if(i2 .lt. 1)i2 = ni
+           xlonCu(i) = lonCu(i2,nj)
+           xlatCu(i) = latCu(i2,nj)
+        enddo
 
-     if(debug)call checkxlatlon
+        if(debug)call checkxlatlon
 
-     !approx lat at grid bottom
-     do i = 1,ni
-        dlatBu(i) = latBu(i,1) + 2.0*(latCu(i,1) - latBu(i,1))
-        dlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
-     enddo
-
+        !approx lat at grid bottom
+        do i = 1,ni
+           dlatBu(i) = latBu(i,1) + 2.0*(latCu(i,1) - latBu(i,1))
+           dlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
+        enddo
+     end if ! if (regional)
      !---------------------------------------------------------------------
      ! fill grid vertices variables
      !---------------------------------------------------------------------
 
      !Ct and Cu grids align in j
-     call fill_vertices(2,nj  , iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert)
-     call           fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
-
+     call fill_vertices(2,nj  ,iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert)
      call fill_vertices(2,nj  , iVertCu,jVertCu, latCv,lonCv, latCu_vert,lonCu_vert)
-     call           fill_bottom(iVertCu,jVertCu, latCv,lonCv, latCu_vert,lonCu_vert,dlatCv)
+     if (.not. regional) then
+        call fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
+        call fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
+     end if
 
      !Cv and Bu grids align in j
      call fill_vertices(1,nj-1, iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert)
-     call              fill_top(iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert, xlatCu, xlonCu)
-
      call fill_vertices(1,nj-1, iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert)
-     call              fill_top(iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert, xlatCt, xlonCt)
+     if (.not. regional) then
+        call fill_top(iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert, xlatCu, xlonCu)
+        call fill_top(iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert, xlatCt, xlonCt)
+     end if
 
      if(debug)call checkpoint
 
@@ -403,7 +408,13 @@ program gen_fixgrid
      if(minval(lonCv_vert) .lt. -1.e3)stop
      if(minval(latBu_vert) .lt. -1.e3)stop
      if(minval(lonBu_vert) .lt. -1.e3)stop
-     deallocate(xlonCt, xlatCt, xlonCu, xlatCu, dlatBu, dlatCv)
+
+     if (allocated(xlonCt)) deallocate(xlonCt)
+     if (allocated(xlatCt)) deallocate(xlatCt)
+     if (allocated(xlonCu)) deallocate(xlonCu)
+     if (allocated(xlatCu)) deallocate(xlatCu)
+     if (allocated(dlatBu)) deallocate(dlatBu)
+     if (allocated(dlatCv)) deallocate(dlatCv)
 
      !---------------------------------------------------------------------
      ! write out grid file files
@@ -413,10 +424,12 @@ program gen_fixgrid
      call date_and_time(date=cdate)
      history = 'created on '//trim(cdate)//' from '//trim(fsrc)
 
+     !TODO: mx needs to change! what is the naming for regional mom6 grids?
      ! write fix grid
      fdst = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.nc'
      call write_tripolegrid(trim(fdst))
 
+     !TODO: not for regional? what about regional covering Arctic?
      ! write cice grid
      fdst = trim(dirout)//'/'//'grid_cice_NEMS_mx'//trim(res)//'.nc'
      call write_cicegrid(trim(fdst))
@@ -445,7 +458,7 @@ program gen_fixgrid
 
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
-     ! mod_def file
+     ! mod_def file matching MOM6 grid
      !---------------------------------------------------------------------
 
      write(cnx,i4fmt)nx

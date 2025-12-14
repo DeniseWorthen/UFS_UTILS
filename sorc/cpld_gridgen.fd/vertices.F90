@@ -13,7 +13,7 @@
 module vertices
 
   use gengrid_kinds, only : dbl_kind
-  use grdvars,       only : ni,nj,nv
+  use grdvars,       only : ni,nj,nv,regional
 
   implicit none
 
@@ -45,8 +45,10 @@ contains
        do i = 1,ni
           do n = 1,nv
              ii = i + iVert(n); jj = j + jVert(n)
-             if(ii .eq.    0)ii = ni
-             if(ii .eq. ni+1)ii = 1
+             if (.not. regional) then
+                if(ii .eq.    0)ii = ni
+                if(ii .eq. ni+1)ii = 1
+             end if
              latvert(i,j,n)   = lat(ii,jj)
              lonvert(i,j,n)   = lon(ii,jj)
           enddo

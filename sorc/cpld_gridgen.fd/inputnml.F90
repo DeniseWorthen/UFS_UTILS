@@ -31,7 +31,7 @@ contains
     character(len=6)   :: atmreslist(maxatmres) = ''
 
     namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
-         res, editmask, debug, do_postwgts, atmreslist
+         res, editmask, debug, do_postwgts, atmreslist, ntile
 
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
@@ -63,6 +63,14 @@ contains
     ! set supergrid dimensions
     nx = ni*2
     ny = nj*2
+
+    ! Check number for valid number of tiles
+    if (ntile /= 1 .or. ntile /=6) then
+       write (6, '(a)') 'Error: ntile must be 1 or 6 '
+       stop 1
+    end if
+    regional = .false.
+    regional = if (ntile == 1)
 
   end subroutine read_inputnml
 end module inputnml

@@ -8,7 +8,7 @@
 module mapped_mask
 
   use gengrid_kinds, only : dbl_kind,int_kind,CL,CM,CS
-  use grdvars,       only : ni,nj,npx
+  use grdvars,       only : ni,nj,npx,ntile
   use charstrings,   only : dirout,res,atmres,logmsg
   use netcdf
 
@@ -28,7 +28,6 @@ contains
     character(len=*), intent(in) :: src, wgt
 
     ! local variables
-    integer, parameter :: ntile = 6
     integer(int_kind) :: n_a, n_b, n_s
 
     integer(int_kind), allocatable, dimension(:) :: col, row
