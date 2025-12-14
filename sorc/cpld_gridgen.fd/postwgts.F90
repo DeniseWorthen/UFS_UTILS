@@ -9,7 +9,7 @@ module postwgts
   use ESMF
 
   use gengrid_kinds, only : CL,CM,CS
-  use grdvars,       only : nv
+  use grdvars,       only : nv, regional
   use charstrings,   only : dirout, res, logmsg
   use netcdf
 

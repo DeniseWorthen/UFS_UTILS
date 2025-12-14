@@ -14,6 +14,7 @@ module grdvars
   integer :: ni                                                    !< i-dimension of output grid
   integer :: nj                                                    !< j-dimension of output grid
   integer :: npx                                                   !< i or j-dimension of fv3 tile
+  integer :: ntile                                                 !< the number of atm tiles (1 or 6)
 
   integer :: nx                                                    !< i-dimension of MOM6 supergrid
   integer :: ny                                                    !< j-dimension of MOM6 supergrid
@@ -35,9 +36,6 @@ module grdvars
   integer, parameter :: nverts = 2*4.                              !< the number of coord pairs (lat,lon) for the
                                                                    !! vertices of each stagger location
   integer, parameter ::  nvars = ncoord + nverts                   !< the total number of cooridinate variables
-
-
-  integer, parameter :: ntile                                      !< the number of atm tiles (1 or 6)
 
   real(dbl_kind)     :: sg_maxlat                                  !< the maximum latitute present in the supergrid
                                                                    !! file

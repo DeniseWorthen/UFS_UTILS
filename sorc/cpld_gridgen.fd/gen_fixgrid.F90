@@ -29,7 +29,7 @@ program gen_fixgrid
   use cicegrid,      only: write_cicegrid
   use scripgrid,     only: write_scripgrid
   use topoedits,     only: add_topoedits, apply_topoedits
-  use charstrings,   only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
+  use charstrings,   only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile, ocnres
   use charstrings,   only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
   use debugprint,    only: checkseam, checkxlatlon, checkpoint
   use netcdf
@@ -305,7 +305,7 @@ program gen_fixgrid
      print '(a)',trim(logmsg)
 
      if (regional) then
-        xangCt(:) = anglet(:)
+        xangCt(:) = anglet(:,nj)
      else
         xangCt(:) = 0.0
         do i = 1,ni

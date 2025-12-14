@@ -7,8 +7,8 @@
 
 module inputnml
 
-  use grdvars,     only : nx,ny,ni,nj,npx,maxatmres,catm
-  use grdvars,     only : editmask, debug, do_postwgts
+  use grdvars,     only : nx,ny,ni,nj,npx,ntile,maxatmres,catm
+  use grdvars,     only : editmask, debug, do_postwgts, regional
   use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
 
   implicit none
@@ -70,7 +70,7 @@ contains
        stop 1
     end if
     regional = .false.
-    regional = if (ntile == 1)
+    regional = (ntile == 1)
 
   end subroutine read_inputnml
 end module inputnml
