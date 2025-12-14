@@ -20,18 +20,18 @@ program gen_fixgrid
 
   use grdvars
   use inputnml
-  use gengrid_kinds,     only: CL, CS, dbl_kind, real_kind, int_kind
-  use angles,            only: find_ang, find_angq, find_angchk
-  use vertices,          only: fill_vertices, fill_bottom, fill_top
-  use mapped_mask,       only: make_frac_land
-  use postwgts,          only: make_postwgts
-  use tripolegrid,       only: write_tripolegrid
-  use cicegrid,          only: write_cicegrid
-  use scripgrid,         only: write_scripgrid
-  use topoedits,         only: add_topoedits, apply_topoedits
-  use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
-  use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
-  use debugprint,        only: checkseam, checkxlatlon, checkpoint
+  use gengrid_kinds, only: CL, CS, dbl_kind, real_kind, int_kind
+  use angles,        only: find_ang, find_angq, find_angchk
+  use vertices,      only: fill_vertices, fill_bottom, fill_top
+  use mapped_mask,   only: make_frac_land
+  use postwgts,      only: make_postwgts
+  use mastergrid,    only: write_mastergrid
+  use cicegrid,      only: write_cicegrid
+  use scripgrid,     only: write_scripgrid
+  use topoedits,     only: add_topoedits, apply_topoedits
+  use charstrings,   only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
+  use charstrings,   only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
+  use debugprint,    only: checkseam, checkxlatlon, checkpoint
   use netcdf
 
   implicit none
@@ -103,6 +103,11 @@ program gen_fixgrid
 
      call allocate_all
 
+     if (regional) then
+        ocnres = 'mr.'//trim(res)
+     else
+        ocnres = 'mx.'//trim(res)
+     end if
      call ESMF_LogWrite("Starting gen_fixgrid", ESMF_LOGMSG_INFO)
      !---------------------------------------------------------------------
      ! set up the arrays to retrieve the vertices
@@ -270,9 +275,7 @@ program gen_fixgrid
         enddo
      enddo
 
-     if (regional) then
-        ! TODO
-     else
+     if (.not. regional) then
         !---------------------------------------------------------------------
         ! locate the ith index of the two poles on j=nj
         ! the corner points must lie on the pole
@@ -289,49 +292,55 @@ program gen_fixgrid
         write(logmsg,'(a,2i6,2f12.2)')'poles found at i = ',ipole, latBu(ipole(1),nj), &
              latBu(ipole(2),nj)
         print '(a)',trim(logmsg)
+     end if
 
-        !---------------------------------------------------------------------
-        ! find the angle on centers using the same procedure as MOM6
-        !---------------------------------------------------------------------
+     !---------------------------------------------------------------------
+     ! find the angle on centers using the same procedure as MOM6
+     !---------------------------------------------------------------------
 
-        call find_ang((/1,ni/),(/1,nj/),lonBu,latBu,lonCt,anglet)
-        write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(anglet),maxval(anglet)
-        print '(a)',trim(logmsg)
-        write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',anglet(1,nj),anglet(ni,nj)
-        print '(a)',trim(logmsg)
+     call find_ang((/1,ni/),(/1,nj/),lonBu,latBu,lonCt,anglet)
+     write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(anglet),maxval(anglet)
+     print '(a)',trim(logmsg)
+     write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',anglet(1,nj),anglet(ni,nj)
+     print '(a)',trim(logmsg)
 
+     if (regional) then
+        xangCt(:) = anglet(:)
+     else
         xangCt(:) = 0.0
         do i = 1,ni
            i2 = ipole(2)+(ipole(1)-i)+1
            xangCt(i) = -anglet(i2,nj)       ! angle changes sign across seam
         end do
+     end if
 
-        !---------------------------------------------------------------------
-        ! find the angle on corners using the same procedure as CICE6
-        !---------------------------------------------------------------------
+     !---------------------------------------------------------------------
+     ! find the angle on corners using the same procedure as CICE6
+     !---------------------------------------------------------------------
 
-        call find_angq((/1,ni/),(/1,nj/),xangCt,anglet,angle)
-        angle(ni,:) = -angle(1,:)
-        ! reverse angle for CICE
-        angle = -angle
-        write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(angle),maxval(angle)
-        print '(a)',trim(logmsg)
-        write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',angle(1,nj),angle(ni,nj)
-        print '(a)',trim(logmsg)
+     call find_angq((/1,ni/),(/1,nj/),xangCt,anglet,angle)
+     angle(ni,:) = -angle(1,:)
+     ! reverse angle for CICE
+     angle = -angle
+     write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(angle),maxval(angle)
+     print '(a)',trim(logmsg)
+     write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',angle(1,nj),angle(ni,nj)
+     print '(a)',trim(logmsg)
 
-        !---------------------------------------------------------------------
-        ! check the Bu angle
-        !---------------------------------------------------------------------
+     !---------------------------------------------------------------------
+     ! check the Bu angle
+     !---------------------------------------------------------------------
 
-        call find_angchk((/1,ni/),(/1,nj/),angle,angchk)
-        angchk(1,:) = -angchk(ni,:)
-        ! reverse angle for MOM6
-        angchk = -angchk
-        write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
-        print '(a)',trim(logmsg)
-        write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)
-        print '(a)',trim(logmsg)
+     call find_angchk((/1,ni/),(/1,nj/),angle,angchk)
+     angchk(1,:) = -angchk(ni,:)
+     ! reverse angle for MOM6
+     angchk = -angchk
+     write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
+     print '(a)',trim(logmsg)
+     write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)
+     print '(a)',trim(logmsg)
 
+     if (.not. regional) then
         !---------------------------------------------------------------------
         ! For the 1/4deg grid, hte at j=720 and j = 1440 is identically=0.0 for
         ! j > 840 (64.0N). These are land points, but since CICE uses hte to
@@ -377,7 +386,8 @@ program gen_fixgrid
            dlatBu(i) = latBu(i,1) + 2.0*(latCu(i,1) - latBu(i,1))
            dlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
         enddo
-     end if ! if (regional)
+     end if ! if (.not. regional)
+
      !---------------------------------------------------------------------
      ! fill grid vertices variables
      !---------------------------------------------------------------------
@@ -424,21 +434,21 @@ program gen_fixgrid
      call date_and_time(date=cdate)
      history = 'created on '//trim(cdate)//' from '//trim(fsrc)
 
-     !TODO: mx needs to change! what is the naming for regional mom6 grids?
-     ! write fix grid
-     fdst = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.nc'
-     call write_tripolegrid(trim(fdst))
+     if (regional) then
+        fdst = trim(dirout)//'/'//'regional.'//trim(ocnres)//'.nc'
+     else
+        fdst = trim(dirout)//'/'//'tripole.'//trim(ocnres)//'.nc'
+     end if
+     call write_mastergrid(trim(fdst))
 
-     !TODO: not for regional? what about regional covering Arctic?
-     ! write cice grid
-     fdst = trim(dirout)//'/'//'grid_cice_NEMS_mx'//trim(res)//'.nc'
+     fdst = trim(dirout)//'/'//'grid_cice_NEMS_'//trim(ocnres)//'.nc'
      call write_cicegrid(trim(fdst))
      deallocate(ulon, ulat, htn, hte)
 
      ! write SCRIP files for generation of positional weights
      do k = 1,nv
         cstagger = trim(staggerlocs(k))
-        fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
+        fdst = trim(dirout)//'/'//trim(cstagger)//'.'//trim(ocnres)//'_SCRIP.nc'
         logmsg = 'creating SCRIP file '//trim(fdst)
         print '(a)',trim(logmsg)
         call write_scripgrid(trim(fdst),trim(cstagger))
@@ -450,7 +460,7 @@ program gen_fixgrid
      ! write SCRIP file with land mask, used for mapped ocean mask
      ! and  mesh creation
      cstagger = trim(staggerlocs(1))
-     fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
+     fdst= trim(dirout)//'/'//trim(cstagger)//'.'//trim(ocnres)//'_SCRIP_land.nc'
      logmsg = 'creating SCRIP file '//trim(fdst)
      print '(a)',trim(logmsg)
      call write_scripgrid(trim(fdst),trim(cstagger),imask=int(wet4))
@@ -472,12 +482,12 @@ program gen_fixgrid
      !close last row
      ww3mask(:,nj) = 3
 
-     open(unit=21,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_x.inp',form='formatted')
-     open(unit=22,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_y.inp',form='formatted')
-     open(unit=23,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_bottom.inp',form='formatted')
-     open(unit=24,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_mapsta.inp',form='formatted')
-     ! cice0 .ne. cicen requires obstruction map, should be initialized as zeros (w3grid,ln3032)
-     open(unit=25,file=trim(dirout)//'/'//'ww3.mx'//trim(res)//'_obstr.inp',form='formatted')
+     open(unit=21,file=trim(dirout)//'/'//'ww3.'//trim(ocnres)//'_x.inp',form='formatted')
+     open(unit=22,file=trim(dirout)//'/'//'ww3.'//trim(ocnres)//'_y.inp',form='formatted')
+     open(unit=23,file=trim(dirout)//'/'//'ww3.'//trim(ocnres)//'_bottom.inp',form='formatted')
+     open(unit=24,file=trim(dirout)//'/'//'ww3.'//trim(ocnres)//'_mapsta.inp',form='formatted')
+     ! cice0 .ne. cicen requiocnres obstruction map, should be initialized as zeros (w3grid,ln3032)
+     open(unit=25,file=trim(dirout)//'/'//'ww3.'//trim(ocnres)//'_obstr.inp',form='formatted')
 
      do j = 1,nj
         write( 21,trim(form1))lonCt(:,j)
@@ -521,9 +531,15 @@ program gen_fixgrid
      call mpi_abort(mpic, rc)
      call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end if
-  call mpi_bcast(res,    len(res),    MPI_CHARACTER, 0, mpic, ierr)
+  call mpi_bcast(res, len(res), MPI_CHARACTER, 0, mpic, ierr)
   if (ierr /= MPI_SUCCESS) then
      print '(a)',' error in mpi broadcast for res '
+     call mpi_abort(mpic, rc)
+     call ESMF_Finalize(endflag=ESMF_END_ABORT)
+  end if
+  call mpi_bcast(ocnres, len(ocnres), MPI_CHARACTER, 0, mpic, ierr)
+  if (ierr /= MPI_SUCCESS) then
+     print '(a)',' error in mpi broadcast for ocnres '
      call mpi_abort(mpic, rc)
      call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end if
@@ -556,9 +572,9 @@ program gen_fixgrid
      end if
 
      method=ESMF_REGRIDMETHOD_CONSERVE
-     fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
+     fsrc = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP_land.nc'
      fdst = trim(fv3dir)//'/'//trim(atmres)//'/'//trim(atmres)//'_mosaic.nc'
-     fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
+     fwgt = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'.to.'//trim(atmres)//'.nc'
      logmsg = 'creating weight file '//trim(fwgt)
      if (maintask) print '(a)',trim(logmsg)
 
@@ -577,11 +593,15 @@ program gen_fixgrid
   !---------------------------------------------------------------------
 
   method=ESMF_REGRIDMETHOD_BILINEAR
-  fdst = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
+  fdst = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP.nc'
   do k = 2,nv
      cstagger = trim(staggerlocs(k))
-     fsrc = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     fwgt = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.'//trim(cstagger)//'.to.Ct.bilinear.nc'
+     fsrc = trim(dirout)//'/'//trim(cstagger)//'.'//trim(ocnres)//'_SCRIP.nc'
+     if (regional) then
+        fwgt = trim(dirout)//'/'//'regional.'//trim(ocnres)//'.'//trim(cstagger)//'.to.Ct.bilinear.nc'
+     else
+        fwgt = trim(dirout)//'/'//'tripole.'//trim(ocnres)//'.'//trim(cstagger)//'.to.Ct.bilinear.nc'
+     end if
      logmsg = 'creating weight file '//trim(fwgt)
      if (maintask) print '(a)',trim(logmsg)
 
@@ -600,11 +620,15 @@ program gen_fixgrid
   !---------------------------------------------------------------------
 
   method=ESMF_REGRIDMETHOD_BILINEAR
-  fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
+  fsrc = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP.nc'
   do k = 2,nv
      cstagger = trim(staggerlocs(k))
-     fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     fwgt = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.Ct.to.'//trim(cstagger)//'.bilinear.nc'
+     fdst = trim(dirout)//'/'//trim(cstagger)//'.'//trim(ocnres)//'_SCRIP.nc'
+     if (regional) then
+        fwgt = trim(dirout)//'/'//'regional.'//trim(ocnres)//'.Ct.to.'//trim(cstagger)//'.bilinear.nc'
+     else
+        fwgt = trim(dirout)//'/'//'tripole.'//trim(ocnres)//'.Ct.to.'//trim(cstagger)//'.bilinear.nc'
+     endif
      logmsg = 'creating weight file '//trim(fwgt)
      if (maintask) print '(a)',trim(logmsg)
 
@@ -616,7 +640,7 @@ program gen_fixgrid
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
 
-  if(do_postwgts)call make_postwgts(maintask)
+  if(do_postwgts)call make_postwgts(maintask,ocnres)
   if (maintask) then
      !---------------------------------------------------------------------
      ! make mapped ocean mask file and clean up
@@ -631,8 +655,8 @@ program gen_fixgrid
         else
            write(atmres,'(a,i4)')'C',npx
         end if
-        fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
-        fwgt = trim(dirout)//'/'//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
+        fsrc = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP_land.nc'
+        fwgt = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'.to.'//trim(atmres)//'.nc'
         logmsg = 'creating mapped ocean mask for '//trim(atmres)
         print '(a)',trim(logmsg)
         call make_frac_land(trim(fsrc), trim(fwgt))

@@ -15,7 +15,7 @@ set(lib_src
     postwgts.F90
     scripgrid.F90
     topoedits.F90
-    tripolegrid.F90
+    mastergrid.F90
     vartypedefs.F90
     vertices.F90)
 

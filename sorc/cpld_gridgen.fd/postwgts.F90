@@ -2,7 +2,7 @@
 !! @brief Create the ESMF weights for post
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module creates the ESMF weights used to remap from the tripole grid to a rectilinear grid
+!> This module creates the ESMF weights used to remap from the mom6 grid to a rectilinear grid
 !! @author Denise.Worthen@noaa.gov
 module postwgts
 
@@ -22,8 +22,9 @@ contains
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine make_postwgts(maintask)
-    logical, intent(in) :: maintask
+  subroutine make_postwgts(maintask, ocnres)
+    logical,          intent(in) :: maintask
+    character(len=*), intent(in) :: ocnres
 
     ! local variables
     character(len=CL) :: fsrc, fdst, fwgt
@@ -67,7 +68,7 @@ contains
     end if
 
     !---------------------------------------------------------------------
-    ! use ESMF to create the weights from the Ct tripole to the rectilinear
+    ! use ESMF to create the weights from the Ct MOM6 to the rectilinear
     ! grids with conservative and bilinear methods for post; the source
     ! file is always Ct
     !---------------------------------------------------------------------
@@ -79,9 +80,13 @@ contains
        do k = 1,size(methodname)
           if(trim(methodname(k)) .eq. 'bilinear')method=ESMF_REGRIDMETHOD_BILINEAR
           if(trim(methodname(k)) .eq. 'conserve')method=ESMF_REGRIDMETHOD_CONSERVE
-
-          fwgt = trim(dirout)//'/'//'tripole.mx'//trim(res)//'.Ct.to.rect.'//trim(destgrds(nd)) &
-               //'.'//trim(methodname(k))//'.nc'
+          if (regional) then
+             fwgt = trim(dirout)//'/'//'regional.'//trim(ocnres)//'.Ct.to.rect.' &
+                  //trim(destgrds(nd))//'.'//trim(methodname(k))//'.nc'
+          else
+             fwgt = trim(dirout)//'/'//'tripole.'//trim(ocnres)//'.Ct.to.rect.' &
+                  //trim(destgrds(nd))//'.'//trim(methodname(k))//'.nc'
+          endif
           logmsg = 'creating weight file '//trim(fwgt)
           if (maintask) print '(a)',trim(logmsg)
 

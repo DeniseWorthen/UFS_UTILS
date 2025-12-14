@@ -2,7 +2,7 @@
 !! @brief Define the variables for output
 !! @author Denise.Worthen@noaa.gov
 !!
-!> This module defines the attributes for variables written to the tripole, cice and scrip grid files
+!> This module defines the attributes for variables written to the master, cice and scrip grid files
 !! @author Denise.Worthen@noaa.gov
 
 module vartypedefs
@@ -21,13 +21,13 @@ module vartypedefs
      character(len=CM)   ::  vertices    !< A variable's vertices
   end type vardefs
 
-  type(vardefs) ::    fixvars(maxvars)  !< Attribute definitions for the variables written to the main tripole file
+  type(vardefs) ::    fixvars(maxvars)  !< Attribute definitions for the variables written to the main master file
   type(vardefs) ::   cicevars(maxvars)  !< Attribute definitions for the variables written to the CICE grid file
   type(vardefs) ::  scripvars(maxvars)  !< Attribute definitions for the variables written to any SCRIP file
 
 contains
 
-  !> Define the variables written to the tripole grid file
+  !> Define the variables written to the master grid file
   !!
   !! @author Denise.Worthen@noaa.gov
 
