@@ -392,20 +392,25 @@ program gen_fixgrid
      ! fill grid vertices variables
      !---------------------------------------------------------------------
 
+     if (regional) then
+        j1 = 1
+     else
+        j1 = 2
+     end if
      !Ct and Cu grids align in j
-     call fill_vertices(2,nj  ,iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert)
-     call fill_vertices(2,nj  , iVertCu,jVertCu, latCv,lonCv, latCu_vert,lonCu_vert)
+     call fill_vertices(j1, nj, iVertCt, jVertCt, latBu, lonBu, latCt_vert, lonCt_vert)
+     call fill_vertices(j1, nj, iVertCu, jVertCu, latCv, lonCv, latCu_vert, lonCu_vert)
      if (.not. regional) then
-        call fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
-        call fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
+        call fill_bottom(iVertCt, jVertCt, latBu, lonBu, latCt_vert, lonCt_vert, dlatBu)
+        call fill_bottom(iVertCt, jVertCt, latBu, lonBu, latCt_vert, lonCt_vert, dlatBu)
      end if
 
      !Cv and Bu grids align in j
-     call fill_vertices(1,nj-1, iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert)
-     call fill_vertices(1,nj-1, iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert)
+     call fill_vertices(1, nj-1, iVertCv, jVertCv, latCu, lonCu, latCv_vert, lonCv_vert)
+     call fill_vertices(1, nj-1, iVertBu, jVertBu, latCt, lonCt, latBu_vert, lonBu_vert)
      if (.not. regional) then
-        call fill_top(iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert, xlatCu, xlonCu)
-        call fill_top(iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert, xlatCt, xlonCt)
+        call fill_top(iVertCv, jVertCv, latCu, lonCu, latCv_vert, lonCv_vert, xlatCu, xlonCu)
+        call fill_top(iVertBu, jVertBu, latCt, lonCt, latBu_vert, lonBu_vert, xlatCt, xlonCt)
      end if
 
      if(debug)call checkpoint

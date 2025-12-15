@@ -33,6 +33,8 @@ contains
     namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
          res, editmask, debug, do_postwgts, atmreslist, ntile
 
+    ! TODO: check and add / to dirout,dirsrc aka mom6
+
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
     if (rc /= 0) then
