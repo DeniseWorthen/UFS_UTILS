@@ -74,7 +74,7 @@ contains
     !---------------------------------------------------------------------
 
     do nd = 1,ndest
-       fsrc = trim(dirout)//'/'//'Ct.mx'//trim(res)//'_SCRIP.nc'
+       fsrc = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP.nc'
        fdst = trim(dirout)//'/rect.'//trim(destgrds(nd))//'_SCRIP.nc'
 
        do k = 1,size(methodname)
