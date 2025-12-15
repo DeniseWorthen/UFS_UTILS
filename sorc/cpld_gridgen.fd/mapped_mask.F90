@@ -113,7 +113,7 @@ contains
        !print *,i,istr,iend
 
        write(ctile,'(a5,i1)')'.tile',i+1
-       fdst = trim(dirout)//'/'//trim(atmres)//'.'//trim(ocnres)//trim(ctile)//'.nc'
+       fdst = trim(dirout)//trim(atmres)//'.'//trim(ocnres)//trim(ctile)//'.nc'
        logmsg = 'creating mapped ocean mask file '//trim(fdst)
        print '(a)',trim(logmsg)
 

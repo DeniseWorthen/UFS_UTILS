@@ -74,17 +74,17 @@ contains
     !---------------------------------------------------------------------
 
     do nd = 1,ndest
-       fsrc = trim(dirout)//'/'//'Ct.'//trim(ocnres)//'_SCRIP.nc'
-       fdst = trim(dirout)//'/rect.'//trim(destgrds(nd))//'_SCRIP.nc'
+       fsrc = trim(dirout)//'Ct.'//trim(ocnres)//'_SCRIP.nc'
+       fdst = trim(dirout)//'rect.'//trim(destgrds(nd))//'_SCRIP.nc'
 
        do k = 1,size(methodname)
           if(trim(methodname(k)) .eq. 'bilinear')method=ESMF_REGRIDMETHOD_BILINEAR
           if(trim(methodname(k)) .eq. 'conserve')method=ESMF_REGRIDMETHOD_CONSERVE
           if (regional) then
-             fwgt = trim(dirout)//'/'//'regional.'//trim(ocnres)//'.Ct.to.rect.' &
+             fwgt = trim(dirout)//'regional.'//trim(ocnres)//'.Ct.to.rect.' &
                   //trim(destgrds(nd))//'.'//trim(methodname(k))//'.nc'
           else
-             fwgt = trim(dirout)//'/'//'tripole.'//trim(ocnres)//'.Ct.to.rect.' &
+             fwgt = trim(dirout)//'tripole.'//trim(ocnres)//'.Ct.to.rect.' &
                   //trim(destgrds(nd))//'.'//trim(methodname(k))//'.nc'
           endif
           logmsg = 'creating weight file '//trim(fwgt)
