@@ -51,7 +51,7 @@ program gen_fixgrid
 
   integer :: int_mpic
   integer :: rc,ncid,id,xtype
-  integer :: i,j,k,n,i2,j2,nvalid
+  integer :: i,j,k,n,i2,j2,j1,nvalid
   integer :: ii
   integer :: ierr
   integer :: localPet, nPet

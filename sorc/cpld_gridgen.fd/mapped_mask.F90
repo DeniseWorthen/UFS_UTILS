@@ -9,7 +9,7 @@ module mapped_mask
 
   use gengrid_kinds, only : dbl_kind,int_kind,CL,CM,CS
   use grdvars,       only : ni,nj,npx,ntile
-  use charstrings,   only : dirout,res,atmres,logmsg
+  use charstrings,   only : dirout,res,atmres,ocnres,logmsg
   use netcdf
 
   implicit none
