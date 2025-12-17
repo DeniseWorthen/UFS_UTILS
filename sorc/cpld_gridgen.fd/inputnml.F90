@@ -52,6 +52,7 @@ contains
        stop 1
     end if
     close(iounit)
+    print *,ntile
 
     if (dirsrc(len_trim(dirsrc):len_trim(dirsrc)) /= '/') then
        dirsrc = trim(dirsrc)//'/'
@@ -77,7 +78,7 @@ contains
     ny = nj*2
 
     ! Check number for valid number of tiles
-    if (ntile /= 1 .or. ntile /=6) then
+    if (ntile /= 1 .and. ntile /=6) then
        write (6, '(a)') 'Error: ntile must be 1 or 6 '
        stop 1
     end if

@@ -104,6 +104,8 @@ program gen_fixgrid
      call allocate_all
 
      if (regional) then
+        ! appears to start at i=949,j=1250 on global 1/12 grid
+        ! -20 lat,-210 lon
         ocnres = 'mr.'//trim(res)
      else
         ocnres = 'mx.'//trim(res)
@@ -138,6 +140,8 @@ program gen_fixgrid
      !---------------------------------------------------------------------
      ! read the MOM6 land mask
      !---------------------------------------------------------------------
+
+     print *,size(wet4,1),size(wet4,2)
 
      fsrc = trim(dirsrc)//trim(maskfile)
 
@@ -274,7 +278,7 @@ program gen_fixgrid
            areaCt(i,j) = dxT*dyT
         enddo
      enddo
-
+#ifdef test
      if (.not. regional) then
         !---------------------------------------------------------------------
         ! locate the ith index of the two poles on j=nj
@@ -430,7 +434,7 @@ program gen_fixgrid
      if (allocated(xlatCu)) deallocate(xlatCu)
      if (allocated(dlatBu)) deallocate(dlatBu)
      if (allocated(dlatCv)) deallocate(dlatCv)
-
+#endif
      !---------------------------------------------------------------------
      ! write out grid file files
      !---------------------------------------------------------------------
@@ -512,6 +516,8 @@ program gen_fixgrid
 
      nvalid = size(catm)
   end if ! if (maintask)
+#ifdef test
+
   !---------------------------------------------------------------------
   ! set up for parallel work
   !---------------------------------------------------------------------
@@ -678,4 +684,5 @@ program gen_fixgrid
      deallocate(latCu, lonCu)
      deallocate(latBu, lonBu)
   endif ! if (maintask)
+#endif
 end program gen_fixgrid
