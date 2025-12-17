@@ -1,0 +1,158 @@
++ SECONDS=0
++ set +x
+BEGIN cpld_gridgen.sh
++ cd /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ RESNAME=900
++ TEST_NAME=900
++ ATMLIST=12,24
++ DEBUG=.false.
++ MASKEDIT=.false.
++ DO_POSTWGTS=.true.
++ MOSAICDIR_PATH=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog
++ FIXDIR_PATH=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900
++ [[ 12,24 -eq -1 ]]
++ [[ 12,24 -eq -99 ]]
++ ATMRESLIST=12,24
++ APRUN=srun
++ '[' 900 = 900 ']'
++ NI=40
++ NJ=20
++ TOPOGFILE=topog.nc
++ EDITSFILE=none
++ '[' .true. == .true. ']'
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/rect.9p00_SCRIP.nc -G latlon=20,40#lon_typ=grn_ctr#lat_typ=cap
++ '[' 900 = 500 ']'
++ '[' 900 = 100 ']'
++ '[' 900 = 050 ']'
++ '[' 900 = 025 ']'
++ '[' 900 = 008 ']'
++ edit_namelist
++ sed -e s/NI_GLB/40/g -e s/NJ_GLB/20/g -e 's|FIXDIR|/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900|g' -e 's|OUTDIR|/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900|g' -e 's|MOSAICDIR|/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog|g' -e s/TOPOGFILE/topog.nc/g -e s/EDITSFILE/none/g -e s/RESNAME/900/g -e s/DO_MASKEDIT/.false./g -e s/DO_DEBUG/.false./g -e s/DO_POSTWGTS/.true./g -e s/ATMRESLIST/12,24/g
++ srun ./cpld_gridgen
+Running on =   12 tasks
+ output grid requested     40    20
+ supergrid size used     80    40
+ output grid tag 900
+ supergrid source directory /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900/
+ output grid directory /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/
+ atm mosaic directory /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog/
+ MOM6 topography file topog.nc
+ MOM6 edits file none
+ editmask flag  F
+ debug flag  F
+ do_postwgts flag  T
+ 
+iVertCt      0    -1    -1     0
+jVertCt      0     0    -1    -1
+ 
+iVertCu      1     0     0     1
+jVertCu      0     0    -1    -1
+ 
+iVertCv      0    -1    -1     0
+jVertCv      1     1     0     0
+ 
+iVertBu      1     0     0     1
+jVertBu      1     1     0     0
+ 
+reading ocean mask from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900/ocean_mask.nc
+reading ocean topography from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900/topog.nc
+Applying topo limits to ensure that min_depth < D(x,y) < max_depth 
+Using min_depth =     9.50
+Using max_depth =  6500.00
+reading supergrid from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/900/ocean_hgrid.nc
+max lat in super grid        90.00
+poles found at i =     10    30       90.00       90.00
+ANGLET min,max:        -1.27        1.27
+ANGLET edges i=1,i=ni:        -1.27        1.27
+ANGLE min,max:        -1.26        1.26
+ANGLE edges i=1,i=ni:         1.26       -1.26
+ANGCHK min,max:        -1.11        1.11
+ANGCHK edges i=1,i=ni:        -1.11        1.11
+min vals of hte at folds  0.69691E-08 0.69691E-08
+min vals of hte at folds  0.17328E+08 0.17328E+08
+==> writing tripole grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.nc
+==> writing CICE grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/grid_cice_NEMS_mx900.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Cu.mx900_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Cu.mx900_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Cv.mx900_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Cv.mx900_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Bu.mx900_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Bu.mx900_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP_land.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP_land.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900.to.C12.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900.to.C24.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Cu.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Cv.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Bu.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Ct.to.Cu.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Ct.to.Cv.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Ct.to.Bu.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Ct.to.rect.9p00.conserve.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/tripole.mx900.Ct.to.rect.9p00.bilinear.nc
+creating mapped ocean mask for C12
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C12.mx900.tile6.nc
+creating mapped ocean mask for C24
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/C24.mx900.tile6.nc
++ FSRC=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP_land.nc
++ FDST=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/mesh.mx900.nc
++ srun -n 1 ESMF_Scrip2Unstruct /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP_land.nc /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/mesh.mx900.nc 0
+Done converting /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/Ct.mx900_SCRIP_land.nc
++ FSRC=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/grid_cice_NEMS_mx900.nc
++ FDST=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/kmtu_cice_NEMS_mx900.nc
++ ncks -O -v kmt /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/grid_cice_NEMS_mx900.nc /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900/kmtu_cice_NEMS_mx900.nc
++ check_results
++ '[' -o xtrace ']'
++ set_x='set -x'
++ set +x
+
+Working dir = /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
+Baseline dir = /scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/900
+
+Checking test 900 results ....
+Comparing Bu.mx900_SCRIP.nc........OK
+Comparing C12.mx900.tile1.nc........OK
+Comparing C12.mx900.tile2.nc........OK
+Comparing C12.mx900.tile3.nc........OK
+Comparing C12.mx900.tile4.nc........OK
+Comparing C12.mx900.tile5.nc........OK
+Comparing C12.mx900.tile6.nc........OK
+Comparing C24.mx900.tile1.nc........OK
+Comparing C24.mx900.tile2.nc........OK
+Comparing C24.mx900.tile3.nc........OK
+Comparing C24.mx900.tile4.nc........OK
+Comparing C24.mx900.tile5.nc........OK
+Comparing C24.mx900.tile6.nc........OK
+Comparing Ct.mx900.to.C12.nc........OK
+Comparing Ct.mx900.to.C24.nc........OK
+Comparing Ct.mx900_SCRIP.nc........OK
+Comparing Ct.mx900_SCRIP_land.nc........OK
+Comparing Cu.mx900_SCRIP.nc........OK
+Comparing Cv.mx900_SCRIP.nc........OK
+Comparing grid_cice_NEMS_mx900.nc........OK
+Comparing kmtu_cice_NEMS_mx900.nc........OK
+Comparing mesh.mx900.nc........OK
+Comparing rect.9p00_SCRIP.nc........OK
+Comparing tripole.mx900.Bu.to.Ct.bilinear.nc........OK
+Comparing tripole.mx900.Ct.to.Bu.bilinear.nc........OK
+Comparing tripole.mx900.Ct.to.Cu.bilinear.nc........OK
+Comparing tripole.mx900.Ct.to.Cv.bilinear.nc........OK
+Comparing tripole.mx900.Ct.to.rect.9p00.bilinear.nc........OK
+Comparing tripole.mx900.Ct.to.rect.9p00.conserve.nc........OK
+Comparing tripole.mx900.Cu.to.Ct.bilinear.nc........OK
+Comparing tripole.mx900.Cv.to.Ct.bilinear.nc........OK
+Comparing tripole.mx900.nc........OK
+
+Elapsed time: 00h:00m:06s. Have a nice day!

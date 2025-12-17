@@ -1,0 +1,597 @@
+++ uname -s
++ [[ Linux == Darwin ]]
+++++ readlink -f -n ./build_all.sh
++++ dirname /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build_all.sh
+++ cd /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
+++ pwd -P
++ readonly DIR_ROOT=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
++ DIR_ROOT=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
++ source /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/sorc/machine-setup.sh
+++ __ms_function_name=setup__test_function__2970515
+++ eval 'setup__test_function__2970515() { /bin/true ; }'
++++ eval '__text="text" ; if [[ $__text =~ ^(t).* ]] ; then printf "%s" ${.sh.match[1]} ; fi'
++++ cat
+++ __ms_ksh_test=
++++ eval 'if ( set | grep setup__test_function__2970515 | grep -v name > /dev/null 2>&1 ) ; then echo t ; fi '
++++ cat
+++ __ms_bash_test=t
+++ [[ ! -z '' ]]
+++ [[ ! -z t ]]
+++ __ms_shell=bash
+++ target=
++++ echo Denise.Worthen
++++ awk '{ print tolower($0)}'
+++ USERNAME=denise.worthen
+++ [[ -d /lfs5 ]]
+++ [[ -d /lfs/h1 ]]
+++ [[ -d /opt/spack-stack ]]
+++ [[ -d /scratch3 ]]
++++ findmnt -n -o SOURCE /home
+++ mount=10.181.1.11:/home_ursa
+++ [[ 10.181.1.11:/home_ursa =~ ursa ]]
+++ target=ursa
+++ eval module help
+++ unset __ms_shell
+++ unset __ms_ksh_test
+++ unset __ms_bash_test
+++ unset setup__test_function__2970515
+++ unset __ms_function_name
++ target=ursa
++ compiler=intelllvm
++ [[ ursa == \l\i\n\u\x\.\* ]]
++ [[ ursa == \m\a\c\o\s\x\.\* ]]
++ set +x
+
+Currently Loaded Modules:
+  1) intel-oneapi-compilers/2024.2.1  14) libpng/1.6.37              27) netcdf-fortran/4.6.1    40) py-pip/23.1.2
+  2) stack-oneapi/2024.2.1            15) g2/3.5.1                   28) nccmp/1.9.0.1           41) libyaml/0.2.5
+  3) intel-oneapi-mpi/2021.13.1       16) intel-oneapi-mkl/2024.2.1  29) parallel-netcdf/1.12.3  42) py-pyyaml/6.0.2
+  4) stack-intel-oneapi-mpi/2021.13   17) ip/5.1.0                   30) parallelio/2.6.2        43) esmf/8.6.1
+  5) glibc/2.34                       18) nemsio/2.5.4               31) pigz/2.8                44) antlr/2.7.7
+  6) intel-oneapi-runtime/2024.2.1    19) sp/2.5.0                   32) tar/1.34                45) gsl/2.8
+  7) nghttp2/1.63.0                   20) w3emc/2.10.0               33) gettext/0.22.5          46) udunits/2.2.28
+  8) zlib/1.2.13                      21) sigio/2.3.3                34) sqlite/3.46.0           47) nco/5.2.4
+  9) curl/8.10.1                      22) snappy/1.2.1               35) util-linux-uuid/2.40.2  48) doxygen/1.11.0
+ 10) cmake/3.27.9                     23) zstd/1.5.6                 36) python/3.11.7           49) build.ursa.intelllvm
+ 11) bacio/2.4.1                      24) c-blosc/1.21.5             37) python-venv/1.0
+ 12) libjpeg/2.1.0                    25) hdf5/1.14.3                38) py-mpi4py/4.0.1
+ 13) jasper/2.0.32                    26) netcdf-c/4.9.2             39) py-numpy/1.26.4
+
+ 
+
++ [[ ! -d /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/ccpp-physics/physics ]]
++ CMAKE_FLAGS+=' -DCMAKE_BUILD_TYPE=Release'
++ CMAKE_FLAGS+=' -DCMAKE_INSTALL_PREFIX=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw -DCMAKE_INSTALL_BINDIR=exec'
++ CMAKE_FLAGS+=' -DBUILD_TESTING=OFF'
++ CMAKE_OPTS=
++ BUILD_DIR=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build
++ [[ YES =~ [yYtT] ]]
++ rm -rf /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build
++ mkdir -p /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build
++ cd /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build
++ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw -DCMAKE_INSTALL_BINDIR=exec -DBUILD_TESTING=OFF /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
+-- The C compiler identification is IntelLLVM 2024.2.1
+-- The Fortran compiler identification is IntelLLVM 2024.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mpi-2021.13.1-ss72gbndvat3oz22sa6lhmlbjkeabrn4/mpi/2021.13/bin/mpicc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting Fortran compiler ABI info
+-- Detecting Fortran compiler ABI info - done
+-- Check for working Fortran compiler: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mpi-2021.13.1-ss72gbndvat3oz22sa6lhmlbjkeabrn4/mpi/2021.13/bin/mpifc - skipped
+-- Found MPI_C: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mpi-2021.13.1-ss72gbndvat3oz22sa6lhmlbjkeabrn4/mpi/2021.13/bin/mpicc (found version "3.1") 
+-- Found MPI_Fortran: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mpi-2021.13.1-ss72gbndvat3oz22sa6lhmlbjkeabrn4/mpi/2021.13/bin/mpifc (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- Found NetCDF: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-c-4.9.2-idnwcbr/include;/contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-fortran-4.6.1-5fzfhfs/include (found suitable version "4.9.2", minimum required is "4.3.3") found components: C Fortran 
+-- FindNetCDF defines targets:
+--   - NetCDF_VERSION [4.9.2]
+--   - NetCDF_PARALLEL [TRUE]
+--   - NetCDF_C_CONFIG_EXECUTABLE [/contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-c-4.9.2-idnwcbr/bin/nc-config]
+--   - NetCDF::NetCDF_C [SHARED] [Root: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-c-4.9.2-idnwcbr] Lib: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-c-4.9.2-idnwcbr/lib/libnetcdf.so 
+--   - NetCDF_Fortran_CONFIG_EXECUTABLE [/contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-fortran-4.6.1-5fzfhfs/bin/nf-config]
+--   - NetCDF::NetCDF_Fortran [SHARED] [Root: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-fortran-4.6.1-5fzfhfs] Lib: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/netcdf-fortran-4.6.1-5fzfhfs/lib/libnetcdff.so 
+-- Found MPI: TRUE (found version "3.1") found components: C Fortran 
+-- Found ESMF library: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/esmf-8.6.1-giz37pc/lib/libesmf.a
+-- Found ESMF: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/esmf-8.6.1-giz37pc/lib (found suitable version "8.6.1", minimum required is "8.0.0")  
+-- Found OpenMP_Fortran: -fiopenmp (found version "5.0") 
+-- Found OpenMP: TRUE (found version "5.0") found components: Fortran 
+-- Found bacio: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/bacio-2.4.1-ah7c33v/lib/libbacio_4.a (found version "2.4.1")
+-- Found w3emc: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/w3emc-2.10.0-o27swxn/lib64/libw3emc_4.a (found version "2.10.0")
+-- Found bacio: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/bacio-2.4.1-ah7c33v/lib/libbacio_4.a (found version "2.4.1")
+-- Found bacio: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/bacio-2.4.1-ah7c33v/lib/libbacio_4.a (found version "2.4.1")
+-- Found w3emc: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/w3emc-2.10.0-o27swxn/lib64/libw3emc_4.a (found version "2.10.0")
+-- Found MPI: TRUE (found version "3.1") found components: Fortran 
+-- Found nemsio: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/nemsio-2.5.4-usa45yy/lib64/libnemsio.a (found version "2.5.4")
+-- Found sigio: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/sigio-2.3.3-ijtj4go/lib64/libsigio.a (found version "2.3.3")
+-- Found OpenMP_Fortran: -fiopenmp (found version "5.0") 
+-- Looking for Fortran sgemm
+-- Looking for Fortran sgemm - not found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Looking for Fortran sgemm
+-- Looking for Fortran sgemm - found
+-- Found BLAS: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_intel_lp64.so;/apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_intel_thread.so;/apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_core.so;/apps/spack-2024-12/linux-rocky9-x86_64/gcc-11.4.1/intel-oneapi-compilers-2024.2.1-oqhstbmawnrsdw472p4pjsopj547o6xs/compiler/2024.2/lib/libiomp5.so;-lm;-ldl  
+-- Looking for Fortran cheev
+-- Looking for Fortran cheev - found
+-- Found LAPACK: /apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_intel_lp64.so;/apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_intel_thread.so;/apps/spack-2024-12/linux-rocky9-x86_64/oneapi-2024.2.1/intel-oneapi-mkl-2024.2.1-xnoyobr3t3tov375bqiwzuue5fbtjixa/mkl/2024.2/lib/libmkl_core.so;/apps/spack-2024-12/linux-rocky9-x86_64/gcc-11.4.1/intel-oneapi-compilers-2024.2.1-oqhstbmawnrsdw472p4pjsopj547o6xs/compiler/2024.2/lib/libiomp5.so;-lm;-ldl;-lm;-ldl  
+-- Found ip: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/ip-5.1.0-wbal3sn/lib64/libip_4.a (found version "5.1.0")
+-- Found sp: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/sp-2.5.0-aaulxch/lib64/libsp_4.a (found version "2.5.0")
+-- Found ZLIB: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/zlib-1.2.13-mkqknv7/lib/libz.so (found version "1.2.13")  
+-- Found PNG: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/libpng-1.6.37-ghg5tyw/lib64/libpng.so (found version "1.6.37") 
+-- Found g2: /contrib/spack-stack/spack-stack-1.9.2/envs/ue-oneapi-2024.2.1/install/oneapi/2024.2.1/g2-3.5.1-6onncjm/lib64/libg2_4.a (found version "3.5.1")
+-- Configuring done (11.3s)
+-- Generating done (0.9s)
+-- Build files have been written to: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build
++ make -j 8 VERBOSE=
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_ice_blend.fd/CMakeFiles/emcsfc_ice_blend.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_ice_blend.fd/CMakeFiles/emcsfc_ice_blend.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_ice_blend.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_ice_blend.fd/CMakeFiles/emcsfc_ice_blend.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/lsm_routines.fd/noah.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/shave.fd/CMakeFiles/shave.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/shave.fd/CMakeFiles/shave.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/shave.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/shave.fd/CMakeFiles/shave.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/depend.internal".
+Scanning dependencies of target emcsfc_ice_blend
+Scanning dependencies of target shave
+Scanning dependencies of target noah_lsm_routines
+Scanning dependencies of target filter_topo_lib
+Scanning dependencies of target regrid_lib
+Scanning dependencies of target snow2mdl_lib
+Scanning dependencies of target regional_esg_grid
+[  0%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/create_xgrid.c.o
+[  1%] Building Fortran object sorc/emcsfc_ice_blend.fd/CMakeFiles/emcsfc_ice_blend.dir/emcsfc_ice_blend.f90.o
+[  3%] Building Fortran object sorc/grid_tools.fd/shave.fd/CMakeFiles/shave.dir/shave_nc.F90.o
+[  3%] Building Fortran object sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/bulk_snow_module.f90.o
+[  5%] Building Fortran object sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo_lib.dir/utils.F90.o
+[  5%] Building Fortran object sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/utils.F90.o
+[  6%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/program_setup.F90.o
+[  6%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pkind.f90.o
+[  6%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pietc.f90.o
+[  7%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/grib_utils.F90.o
+[  8%] Building Fortran object sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/set_soilveg_snippet.f90.o
+[  9%] Building Fortran object sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/grids_IO.F90.o
+[  9%] Linking Fortran executable shave
+[  9%] Linking Fortran static library libfilter_topo_lib.a
+[ 10%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/gradient_c2l.c.o
+[ 11%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pietc_s.f90.o
+[ 11%] Linking Fortran executable emcsfc_ice_blend
+[ 11%] Built target filter_topo_lib
+[ 11%] Building Fortran object sorc/lsm_routines.fd/noah.fd/CMakeFiles/noah_lsm_routines.dir/sflx_snippet.f90.o
+[ 11%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/interp.c.o
+[ 11%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/model_grid.F90.o
+[ 11%] Built target shave
+[ 12%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/mosaic_util.c.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/global_equiv_resol.fd/CMakeFiles/global_equiv_resol.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/global_equiv_resol.fd/CMakeFiles/global_equiv_resol.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/global_equiv_resol.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/global_equiv_resol.fd/CMakeFiles/global_equiv_resol.dir/depend.internal".
+Scanning dependencies of target global_equiv_resol
+[ 13%] Building Fortran object sorc/grid_tools.fd/global_equiv_resol.fd/CMakeFiles/global_equiv_resol.dir/global_equiv_resol.f90.o
+[ 14%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/mpp.c.o
+[ 15%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pfun.f90.o
+[ 15%] Linking Fortran static library libnoah_lsm_routines.a
+[ 15%] Built target emcsfc_ice_blend
+[ 15%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/mpp_domain.c.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/depend.internal".
+Scanning dependencies of target msis2
+[ 15%] Built target noah_lsm_routines
+[ 15%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_constants.F90.o
+[ 16%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pmat.f90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog_lib.dir/depend.internal".
+Scanning dependencies of target orog_lib
+[ 16%] Building Fortran object sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog_lib.dir/orog_utils.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl_lib.dir/depend.internal".
+Scanning dependencies of target orog_gsl_lib
+[ 16%] Building Fortran object sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl_lib.dir/module_gsl_oro_data_lg_scale.f90.o
+[ 16%] Linking Fortran executable global_equiv_resol
+[ 17%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/snowdat.F90.o
+[ 17%] Building Fortran object sorc/regrid_sfc.fd/CMakeFiles/regrid_lib.dir/readin_setup.F90.o
+[ 18%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/mpp_io.c.o
+[ 19%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_init.F90.o
+[ 19%] Linking Fortran static library libregrid_lib.a
+[ 19%] Built target global_equiv_resol
+[ 19%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/read_mosaic.c.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac_lib.dir/depend.internal".
+Scanning dependencies of target lakefrac_lib
+[ 19%] Built target regrid_lib
+[ 19%] Building Fortran object sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac_lib.dir/enclosure_cnvx.F90.o
+[ 20%] Building Fortran object sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac_lib.dir/find_limit.F90.o
+[ 21%] Building Fortran object sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog_lib.dir/io_utils.F90.o
+[ 22%] Building C object sorc/fre-nctools.fd/shared_lib/CMakeFiles/shared_lib.dir/tool_util.c.o
+[ 23%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/psym2.f90.o
+[ 23%] Linking Fortran static library liblakefrac_lib.a
+[ 23%] Built target lakefrac_lib
+[ 24%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_utils.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland_lib.dir/depend.internal".
+Scanning dependencies of target inland_lib
+[ 24%] Linking C static library libshared_lib.a
+[ 25%] Building Fortran object sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland_lib.dir/nb.F90.o
+[ 25%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/snow2mdl_lib.dir/snow2mdl.F90.o
+[ 25%] Built target shared_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/mask.fd/CMakeFiles/mask.exe.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/mask.fd/CMakeFiles/mask.exe.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/mask.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/mask.fd/CMakeFiles/mask.exe.dir/depend.internal".
+Scanning dependencies of target mask.exe
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/topo.fd/CMakeFiles/topo.exe.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/topo.fd/CMakeFiles/topo.exe.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/topo.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/topo.fd/CMakeFiles/topo.exe.dir/depend.internal".
+Scanning dependencies of target topo.exe
+[ 26%] Building Fortran object sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/mask.fd/CMakeFiles/mask.exe.dir/mask.f90.o
+[ 27%] Building Fortran object sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/topo.fd/CMakeFiles/topo.exe.dir/topo.f90.o
+[ 28%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_gfn.F90.o
+[ 29%] Linking Fortran static library libinland_lib.a
+[ 30%] Building Fortran object sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl_lib.dir/module_gsl_oro_data_sm_scale.f90.o
+[ 30%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pmat2.f90.o
+[ 30%] Built target inland_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/ramp.fd/CMakeFiles/ramp.exe.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/ramp.fd/CMakeFiles/ramp.exe.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/ramp.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/ramp.fd/CMakeFiles/ramp.exe.dir/depend.internal".
+[ 30%] Linking Fortran executable mask.exe
+Scanning dependencies of target ramp.exe
+[ 31%] Linking Fortran static library liborog_lib.a
+[ 31%] Linking Fortran executable topo.exe
+[ 31%] Building Fortran object sorc/orog_mask_tools.fd/orog_netcdf_tools.fd/ramp.fd/CMakeFiles/ramp.exe.dir/ramp.f90.o
+[ 31%] Built target orog_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/depend.internal".
+Scanning dependencies of target sfc_climo_gen_lib
+[ 31%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_tfn.F90.o
+[ 31%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/program_setup.f90.o
+[ 32%] Linking Fortran executable ramp.exe
+[ 32%] Built target mask.exe
+[ 32%] Built target topo.exe
+[ 32%] Linking Fortran static library libsnow2mdl_lib.a
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/depend.internal".
+Scanning dependencies of target vcoord_gen_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/depend.internal".
+Scanning dependencies of target fvcom_tools_lib
+[ 33%] Building Fortran object sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/driver.f90.o
+[ 33%] Building Fortran object sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/kinds.f90.o
+[ 33%] Built target snow2mdl_lib
+[ 33%] Building Fortran object sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/matrix_utils.f90.o
+[ 33%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/utils.f90.o
+[ 34%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_dfn.F90.o
+[ 35%] Building Fortran object sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/module_ncio.f90.o
+[ 36%] Building Fortran object sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen_lib.dir/vcoord_gen.f90.o
+[ 36%] Built target ramp.exe
+[ 37%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/search.f90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/gblevents.fd/CMakeFiles/gblevents.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/gblevents.fd/CMakeFiles/gblevents.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/gblevents.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/gblevents.fd/CMakeFiles/gblevents.dir/depend.internal".
+Scanning dependencies of target gblevents
+[ 37%] Building Fortran object sorc/gblevents.fd/CMakeFiles/gblevents.dir/gblevents.f.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/depend.internal".
+Scanning dependencies of target cpld_gridgen_lib
+[ 37%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/gengrid_kinds.F90.o
+[ 37%] Linking Fortran static library libvcoord_gen_lib.a
+[ 37%] Linking Fortran static library liborog_gsl_lib.a
+[ 37%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_calc.F90.o
+[ 37%] Built target vcoord_gen_lib
+[ 37%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/search_frac_cats.f90.o
+[ 38%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/grdvars.F90.o
+[ 38%] Built target orog_gsl_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/weight_gen.fd/CMakeFiles/weight_gen.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/weight_gen.fd/CMakeFiles/weight_gen.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/weight_gen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/weight_gen.fd/CMakeFiles/weight_gen.dir/depend.internal".
+Scanning dependencies of target weight_gen
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/depend.internal".
+Scanning dependencies of target om_lib
+[ 39%] Building Fortran object sorc/weight_gen.fd/CMakeFiles/weight_gen.dir/scrip.F90.o
+[ 39%] Building Fortran object sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/read_write.F90.o
+[ 40%] Building Fortran object sorc/chgres_cube.fd/msis2.1.fd/CMakeFiles/msis2.dir/msis_gtd8d.F90.o
+[ 40%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/charstrings.F90.o
+[ 41%] Building Fortran object sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/merge.F90.o
+[ 41%] Linking Fortran static library libmsis2.a
+[ 42%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pmat4.f90.o
+[ 43%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/model_grid.F90.o
+[ 43%] Built target msis2
+[ 44%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/source_grid.F90.o
+[ 45%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/debugprint.F90.o
+[ 45%] Building Fortran object sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/utils.F90.o
+[ 46%] Linking Fortran executable weight_gen
+[ 46%] Building Fortran object sorc/fvcom_tools.fd/CMakeFiles/fvcom_tools_lib.dir/module_nwp.f90.o
+[ 47%] Building Fortran object sorc/ocean_merge.fd/CMakeFiles/om_lib.dir/namelist.F90.o
+[ 47%] Built target weight_gen
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/depend.internal".
+Scanning dependencies of target ocnice_prep_lib
+[ 48%] Linking Fortran static library libom_lib.a
+[ 48%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/init_mod.F90.o
+[ 48%] Built target om_lib
+[ 48%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/inputnml.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/emcsfc_snow2mdl.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/emcsfc_snow2mdl.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/emcsfc_snow2mdl.fd/CMakeFiles/emcsfc_snow2mdl.dir/depend.internal".
+Scanning dependencies of target emcsfc_snow2mdl
+[ 49%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/mapped_mask.F90.o
+[ 50%] Building Fortran object sorc/emcsfc_snow2mdl.fd/CMakeFiles/emcsfc_snow2mdl.dir/driver.F90.o
+[ 51%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/arrays_mod.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/depend.internal".
+[ 51%] Linking Fortran executable emcsfc_snow2mdl
+Scanning dependencies of target global_cycle_lib
+[ 52%] Linking Fortran static library libfvcom_tools_lib.a
+[ 52%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/machine.f90.o
+[ 53%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/postwgts.F90.o
+[ 53%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/output_frac_cats.F90.o
+[ 53%] Built target fvcom_tools_lib
+[ 53%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/utils.F90.o
+[ 54%] Linking Fortran static library libgblevents.a
+[ 55%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/utils_mod.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regridStates.x.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regridStates.x.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/regrid_sfc.fd/CMakeFiles/regridStates.x.dir/depend.internal".
+Scanning dependencies of target regridStates.x
+[ 56%] Building Fortran object sorc/regrid_sfc.fd/CMakeFiles/regridStates.x.dir/regridStates.F90.o
+[ 56%] Built target gblevents
+[ 57%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/num_parthds.f90.o
+[ 58%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/interp.F90.o
+[ 58%] Built target emcsfc_snow2mdl
+[ 59%] Building C object sorc/fre-nctools.fd/tools/fregrid/CMakeFiles/fregrid_lib.dir/bilinear_interp.c.o
+[ 59%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/topoedits.F90.o
+[ 59%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/__/__/ccpp-physics/physics/Interstitials/UFS_SCM_NEPTUNE/sfcsub.F.o
+[ 60%] Building C object sorc/fre-nctools.fd/tools/fregrid/CMakeFiles/fregrid_lib.dir/conserve_interp.c.o
+[ 60%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/output.f90.o
+[ 60%] Linking Fortran executable regridStates.x
+[ 61%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/vertices.F90.o
+[ 62%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/ocncalc_mod.F90.o
+[ 62%] Building C object sorc/fre-nctools.fd/tools/fregrid/CMakeFiles/fregrid_lib.dir/fregrid_util.c.o
+[ 63%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/angles.F90.o
+[ 63%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/restarts_mod.F90.o
+[ 63%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen_lib.dir/interp_frac_cats.F90.o
+[ 63%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/vartypedefs.F90.o
+[ 64%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/read_write_data.f90.o
+[ 64%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/ocnice_prep_lib.dir/utils_esmf_mod.F90.o
+[ 64%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pmat5.f90.o
+[ 65%] Linking C static library libfregrid_lib.a
+[ 66%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/scripgrid.F90.o
+[ 66%] Built target fregrid_lib
+[ 66%] Building C object sorc/fre-nctools.fd/tools/make_solo_mosaic/CMakeFiles/make_solo_mosaic_lib.dir/make_solo_mosaic.c.o
+[ 66%] Built target regridStates.x
+[ 67%] Building C object sorc/fre-nctools.fd/tools/make_solo_mosaic/CMakeFiles/make_solo_mosaic_lib.dir/get_contact.c.o
+[ 68%] Linking Fortran static library libsfc_climo_gen_lib.a
+[ 69%] Building C object sorc/fre-nctools.fd/tools/make_hgrid/CMakeFiles/make_hgrid_lib.dir/create_conformal_cubic_grid.c.o
+[ 69%] Built target sfc_climo_gen_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo.dir/depend.internal".
+Scanning dependencies of target filter_topo
+[ 70%] Building Fortran object sorc/grid_tools.fd/filter_topo.fd/CMakeFiles/filter_topo.dir/filter_topo.F90.o
+[ 70%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/pesg.f90.o
+[ 70%] Linking C static library libmake_solo_mosaic_lib.a
+[ 71%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/tripolegrid.F90.o
+[ 71%] Built target make_solo_mosaic_lib
+[ 72%] Linking Fortran static library libocnice_prep_lib.a
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/depend.internal".
+Scanning dependencies of target chgres_cube_lib
+[ 72%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/utils.F90.o
+[ 72%] Building C object sorc/fre-nctools.fd/tools/make_hgrid/CMakeFiles/make_hgrid_lib.dir/create_gnomonic_cubic_grid.c.o
+[ 72%] Built target ocnice_prep_lib
+[ 73%] Building C object sorc/fre-nctools.fd/tools/make_hgrid/CMakeFiles/make_hgrid_lib.dir/create_grid_from_file.c.o
+[ 73%] Building C object sorc/fre-nctools.fd/tools/make_hgrid/CMakeFiles/make_hgrid_lib.dir/create_lonlat_grid.c.o
+[ 74%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen_lib.dir/cicegrid.F90.o
+[ 74%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/surface_target_data.F90.o
+[ 74%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/search_util.F90.o
+[ 74%] Linking Fortran static library libcpld_gridgen_lib.a
+[ 75%] Linking C static library libmake_hgrid_lib.a
+[ 75%] Built target make_hgrid_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog.dir/depend.internal".
+Scanning dependencies of target orog
+[ 75%] Built target cpld_gridgen_lib
+[ 75%] Building Fortran object sorc/orog_mask_tools.fd/orog.fd/CMakeFiles/orog.dir/mtnlm7_oclsm.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl.dir/depend.internal".
+Scanning dependencies of target orog_gsl
+[ 75%] Building Fortran object sorc/orog_mask_tools.fd/orog_gsl.fd/CMakeFiles/orog_gsl.dir/gsl_oro_data.f90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac.dir/depend.internal".
+Scanning dependencies of target lakefrac
+[ 75%] Building Fortran object sorc/orog_mask_tools.fd/lake.fd/CMakeFiles/lakefrac.dir/lakefrac.F90.o
+[ 76%] Building Fortran object sorc/grid_tools.fd/regional_esg_grid.fd/CMakeFiles/regional_esg_grid.dir/regional_esg_grid.f90.o
+[ 77%] Linking Fortran executable orog_gsl
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland.dir/depend.internal".
+Scanning dependencies of target inland
+[ 78%] Building Fortran object sorc/orog_mask_tools.fd/inland.fd/CMakeFiles/inland.dir/inland.F90.o
+[ 79%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/wam_climo_data.f90.o
+[ 79%] Linking Fortran executable regional_esg_grid
+[ 79%] Built target orog_gsl
+[ 80%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle_lib.dir/land_increments.F90.o
+[ 81%] Linking Fortran executable lakefrac
+[ 82%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/program_setup.F90.o
+[ 82%] Linking Fortran executable inland
+[ 82%] Built target regional_esg_grid
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen.dir/depend.internal".
+Scanning dependencies of target sfc_climo_gen
+[ 83%] Building Fortran object sorc/sfc_climo_gen.fd/CMakeFiles/sfc_climo_gen.dir/driver.F90.o
+[ 84%] Linking Fortran executable orog
+[ 84%] Built target lakefrac
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen.dir/depend.internal".
+Scanning dependencies of target vcoord_gen
+[ 85%] Building Fortran object sorc/vcoord_gen.fd/CMakeFiles/vcoord_gen.dir/driver.f90.o
+[ 85%] Built target inland
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_to_FV3.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_to_FV3.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/fvcom_tools.fd/CMakeFiles/fvcom_to_FV3.dir/depend.internal".
+Scanning dependencies of target fvcom_to_FV3
+[ 85%] Building Fortran object sorc/fvcom_tools.fd/CMakeFiles/fvcom_to_FV3.dir/process_FVCOM.f90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen.dir/depend.internal".
+Scanning dependencies of target cpld_gridgen
+[ 86%] Building Fortran object sorc/cpld_gridgen.fd/CMakeFiles/cpld_gridgen.dir/gen_fixgrid.F90.o
+[ 86%] Built target orog
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/ocean_merge.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/ocean_merge.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocean_merge.fd/CMakeFiles/ocean_merge.dir/depend.internal".
+Scanning dependencies of target ocean_merge
+[ 86%] Linking Fortran executable vcoord_gen
+[ 86%] Linking Fortran executable sfc_climo_gen
+[ 87%] Building Fortran object sorc/ocean_merge.fd/CMakeFiles/ocean_merge.dir/merge_lake_ocnmsk.F90.o
+[ 87%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/model_grid.F90.o
+[ 88%] Linking Fortran executable fvcom_to_FV3
+[ 88%] Linking Fortran executable ocean_merge
+[ 88%] Built target vcoord_gen
+[ 89%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/atmosphere_target_data.F90.o
+[ 89%] Linking Fortran executable filter_topo
+[ 89%] Built target ocean_merge
+[ 89%] Built target fvcom_to_FV3
+[ 89%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/thompson_mp_climo_data.F90.o
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/oiprep.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/oiprep.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/ocnice_prep.fd/CMakeFiles/oiprep.dir/depend.internal".
+Scanning dependencies of target oiprep
+[ 89%] Building Fortran object sorc/ocnice_prep.fd/CMakeFiles/oiprep.dir/ocniceprep.F90.o
+[ 89%] Built target filter_topo
+[ 89%] Building C object sorc/fre-nctools.fd/tools/make_solo_mosaic/CMakeFiles/make_solo_mosaic.dir/make_solo_mosaic.c.o
+[ 90%] Building C object sorc/fre-nctools.fd/tools/fregrid/CMakeFiles/fregrid.dir/fregrid.c.o
+[ 91%] Linking C executable make_solo_mosaic
+[ 91%] Linking Fortran executable cpld_gridgen
+[ 91%] Linking C executable fregrid
+[ 91%] Built target make_solo_mosaic
+[ 92%] Built target sfc_climo_gen
+[ 92%] Building C object sorc/fre-nctools.fd/tools/make_hgrid/CMakeFiles/make_hgrid.dir/make_hgrid.c.o
+[ 92%] Built target fregrid
+[ 92%] Linking C executable make_hgrid
+[ 93%] Linking Fortran executable oiprep
+[ 94%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/grib2_util.F90.o
+[ 94%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/static_data.F90.o
+[ 94%] Built target make_hgrid
+[ 94%] Linking Fortran static library libglobal_cycle_lib.a
+[ 94%] Built target global_cycle_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/global_cycle.fd/CMakeFiles/global_cycle.dir/depend.internal".
+Scanning dependencies of target global_cycle
+[ 94%] Building Fortran object sorc/global_cycle.fd/CMakeFiles/global_cycle.dir/cycle.F90.o
+[ 95%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/atm_input_data.F90.o
+[ 95%] Built target cpld_gridgen
+[ 96%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/write_data.F90.o
+[ 96%] Built target oiprep
+[ 97%] Linking Fortran executable global_cycle
+[ 97%] Built target global_cycle
+[ 97%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/sfc_input_data.F90.o
+[ 98%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/nst_input_data.F90.o
+[ 99%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/atmosphere.F90.o
+[ 99%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube_lib.dir/surface.F90.o
+[ 99%] Linking Fortran static library libchgres_cube_lib.a
+[ 99%] Built target chgres_cube_lib
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube.dir/DependInfo.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube.dir/depend.internal".
+Dependee "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build/sorc/chgres_cube.fd/CMakeFiles/chgres_cube.dir/depend.internal".
+Scanning dependencies of target chgres_cube
+[ 99%] Building Fortran object sorc/chgres_cube.fd/CMakeFiles/chgres_cube.dir/chgres.F90.o
+[100%] Linking Fortran executable chgres_cube
+[100%] Built target chgres_cube
++ make install
+[  1%] Built target emcsfc_ice_blend
+[  4%] Built target snow2mdl_lib
+[  5%] Built target emcsfc_snow2mdl
+[  7%] Built target noah_lsm_routines
+[ 10%] Built target global_cycle_lib
+[ 11%] Built target global_cycle
+[ 13%] Built target regrid_lib
+[ 14%] Built target regridStates.x
+[ 19%] Built target shared_lib
+[ 22%] Built target fregrid_lib
+[ 23%] Built target fregrid
+[ 24%] Built target make_solo_mosaic_lib
+[ 25%] Built target make_solo_mosaic
+[ 28%] Built target make_hgrid_lib
+[ 29%] Built target make_hgrid
+[ 30%] Built target shave
+[ 31%] Built target filter_topo_lib
+[ 32%] Built target filter_topo
+[ 38%] Built target regional_esg_grid
+[ 39%] Built target global_equiv_resol
+[ 44%] Built target msis2
+[ 52%] Built target chgres_cube_lib
+[ 53%] Built target chgres_cube
+[ 55%] Built target orog_lib
+[ 56%] Built target orog
+[ 57%] Built target orog_gsl_lib
+[ 58%] Built target orog_gsl
+[ 59%] Built target lakefrac_lib
+[ 60%] Built target lakefrac
+[ 62%] Built target inland_lib
+[ 63%] Built target inland
+[ 64%] Built target mask.exe
+[ 65%] Built target topo.exe
+[ 66%] Built target ramp.exe
+[ 72%] Built target sfc_climo_gen_lib
+[ 73%] Built target sfc_climo_gen
+[ 75%] Built target vcoord_gen_lib
+[ 76%] Built target vcoord_gen
+[ 78%] Built target fvcom_tools_lib
+[ 79%] Built target fvcom_to_FV3
+[ 80%] Built target gblevents
+[ 88%] Built target cpld_gridgen_lib
+[ 89%] Built target cpld_gridgen
+[ 91%] Built target weight_gen
+[ 94%] Built target om_lib
+[ 95%] Built target ocean_merge
+[ 99%] Built target ocnice_prep_lib
+[100%] Built target oiprep
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/emcsfc_ice_blend
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/emcsfc_ice_blend" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/emcsfc_snow2mdl
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/emcsfc_snow2mdl" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/global_cycle
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/global_cycle" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/regridStates.x
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/regridStates.x" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/fregrid
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/fregrid" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/make_solo_mosaic
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/make_solo_mosaic" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/make_hgrid
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/make_hgrid" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/shave
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/shave" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/filter_topo
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/filter_topo" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/regional_esg_grid
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/regional_esg_grid" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/global_equiv_resol
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/global_equiv_resol" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/chgres_cube
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/chgres_cube" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/orog
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/orog" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/orog_gsl
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/orog_gsl" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/lakefrac
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/lakefrac" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/inland
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/inland" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/mask.exe
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/mask.exe" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/topo.exe
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/topo.exe" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/ramp.exe
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/ramp.exe" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/sfc_climo_gen
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/sfc_climo_gen" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/vcoord_gen
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/fvcom_to_FV3
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/fvcom_to_FV3" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/lib/libgblevents.a
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/lib/cmake/gblevents/gblevents-config.cmake
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/lib/cmake/gblevents/gblevents-targets.cmake
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/lib/cmake/gblevents/gblevents-targets-release.cmake
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/weight_gen
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/weight_gen" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/ocean_merge
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/ocean_merge" to ""
+-- Installing: /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/oiprep
+-- Set runtime path of "/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/oiprep" to ""
++ exit 0

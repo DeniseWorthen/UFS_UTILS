@@ -1,0 +1,365 @@
+++ basename ./rt.sh
++ readonly program=rt.sh
++ program=rt.sh
++++ dirname ./rt.sh
+++ cd .
+++ pwd -P
++ readonly PATHRT=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen
++ PATHRT=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen
++ export PATHRT
+++ cd /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/../..
+++ pwd
++ readonly PATHTR=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
++ PATHTR=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
++ export PATHTR
++ source /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/sorc/machine-setup.sh
++ set +x
+Machine: ursa
++ MOM6_version=20250128
++ [[ ursa = ursa ]]
++ STMP=/scratch4/NCEPDEV/stmp/Denise.Worthen
++ ACCOUNT=fv3-cpu
++ QUEUE=batch
++ WLCLK=40
++ export MOM6_FIXDIR=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128
++ MOM6_FIXDIR=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128
++ export NCCMP=nccmp
++ NCCMP=nccmp
++ BASELINE_ROOT=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data
++ PARTITION=
++ NEW_BASELINE_ROOT=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE
++ BUILD_EXE=false
++ CREATE_BASELINE=false
++ getopts :bcmh opt
++ case $opt in
++ BUILD_EXE=true
++ getopts :bcmh opt
++ export CREATE_BASELINE
++ [[ false = true ]]
++ compiler=intelllvm
++ [[ intelllvm == \i\n\t\e\l\l\l\v\m ]]
++ [[ ! -f /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/modulefiles/build.ursa.intelllvm.lua ]]
++ export compiler
++ set +x
+Compiler: intelllvm
++ [[ true = true ]]
++ COMPILE_LOG=compile.log
++ cd /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw
++ rm -rf compile.log /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/build /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/lib
++ ./build_all.sh
++ d=0
++ [[ d -ne 0 ]]
++ set +x
+Build was successful
++ cd /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen
++ module use /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/modulefiles
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ module load build.ursa.intelllvm
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ [[ ursa = wcoss2 ]]
++ set +x
+
+Currently Loaded Modules:
+  1) intel-oneapi-compilers/2024.2.1  14) libpng/1.6.37              27) netcdf-fortran/4.6.1    40) py-pip/23.1.2
+  2) stack-oneapi/2024.2.1            15) g2/3.5.1                   28) nccmp/1.9.0.1           41) libyaml/0.2.5
+  3) intel-oneapi-mpi/2021.13.1       16) intel-oneapi-mkl/2024.2.1  29) parallel-netcdf/1.12.3  42) py-pyyaml/6.0.2
+  4) stack-intel-oneapi-mpi/2021.13   17) ip/5.1.0                   30) parallelio/2.6.2        43) esmf/8.6.1
+  5) glibc/2.34                       18) nemsio/2.5.4               31) pigz/2.8                44) antlr/2.7.7
+  6) intel-oneapi-runtime/2024.2.1    19) sp/2.5.0                   32) tar/1.34                45) gsl/2.8
+  7) nghttp2/1.63.0                   20) w3emc/2.10.0               33) gettext/0.22.5          46) udunits/2.2.28
+  8) zlib/1.2.13                      21) sigio/2.3.3                34) sqlite/3.46.0           47) nco/5.2.4
+  9) curl/8.10.1                      22) snappy/1.2.1               35) util-linux-uuid/2.40.2  48) doxygen/1.11.0
+ 10) cmake/3.27.9                     23) zstd/1.5.6                 36) python/3.11.7           49) build.ursa.intelllvm
+ 11) bacio/2.4.1                      24) c-blosc/1.21.5             37) python-venv/1.0
+ 12) libjpeg/2.1.0                    25) hdf5/1.14.3                38) py-mpi4py/4.0.1
+ 13) jasper/2.0.32                    26) netcdf-c/4.9.2             39) py-numpy/1.26.4
+
+ 
+
++ RUNDIR_ROOT=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322
++ declare -A tests
++ all_tests=
++ rm -f 'fail_test*' nccmp_100.log summary.log run_100.log 'RegressionTests_ursa.intelllvm.*.log'
++ i=0
++ read -r line
++ line='#################################################################'
++ [[ 65 == 0 ]]
++ [[ ################################################################# =~ # ]]
++ continue
++ read -r line
++ line='# Baseline configurations are defined as'
++ [[ 40 == 0 ]]
++ [[ # Baseline configurations are defined as =~ # ]]
++ continue
++ read -r line
++ line='# TEST_NAME | ATMRESLIST'
++ [[ 24 == 0 ]]
++ [[ # TEST_NAME | ATMRESLIST =~ # ]]
++ continue
++ read -r line
++ line='# TEST_NAME is one of the available ocean resolutions from'
++ [[ 58 == 0 ]]
++ [[ # TEST_NAME is one of the available ocean resolutions from =~ # ]]
++ continue
++ read -r line
++ line='# 9deg (mx900) through 1/4deg (mx025)'
++ [[ 37 == 0 ]]
++ [[ # 9deg (mx900) through 1/4deg (mx025) =~ # ]]
++ continue
++ read -r line
++ line='# If ATMRESLIST is empty, mapped ocean mask files for ATM'
++ [[ 57 == 0 ]]
++ [[ # If ATMRESLIST is empty, mapped ocean mask files for ATM =~ # ]]
++ continue
++ read -r line
++ line='# resolutions from C12 through C3072 will be generated for each'
++ [[ 63 == 0 ]]
++ [[ # resolutions from C12 through C3072 will be generated for each =~ # ]]
++ continue
++ read -r line
++ line='# ocean resolution'
++ [[ 18 == 0 ]]
++ [[ # ocean resolution =~ # ]]
++ continue
++ read -r line
++ line='# Note that C3072 requires additional time and resources, see'
++ [[ 61 == 0 ]]
++ [[ # Note that C3072 requires additional time and resources, see =~ # ]]
++ continue
++ read -r line
++ line='# rt.sh'
++ [[ 7 == 0 ]]
++ [[ # rt.sh =~ # ]]
++ continue
++ read -r line
++ line='# The ATMRESLIST can also be specified as a subset of all available'
++ [[ 67 == 0 ]]
++ [[ # The ATMRESLIST can also be specified as a subset of all available =~ # ]]
++ continue
++ read -r line
++ line='# ATM resolutions, eg: 12,24,48 or 96,1152'
++ [[ 42 == 0 ]]
++ [[ # ATM resolutions, eg: 12,24,48 or 96,1152 =~ # ]]
++ continue
++ read -r line
++ line='#################################################################'
++ [[ 65 == 0 ]]
++ [[ ################################################################# =~ # ]]
++ continue
++ read -r line
++ line=
++ [[ 0 == 0 ]]
++ continue
++ read -r line
++ line='# TEST_NAME | ATMRESLIST'
++ [[ 24 == 0 ]]
++ [[ # TEST_NAME | ATMRESLIST =~ # ]]
++ continue
++ read -r line
++ line=
++ [[ 0 == 0 ]]
++ continue
++ read -r line
++ line='mx025 | 48,96,192,384,768,1152'
++ [[ 30 == 0 ]]
++ [[ mx025 | 48,96,192,384,768,1152 =~ # ]]
+++ echo mx025 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f1
+++ sed -e 's/^ *//' -e 's/ *$//'
++ TEST_NAME=mx025
++ TEST_NAME=025
+++ echo mx025 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f2
+++ sed -e 's/^ *//' -e 's/ *$//'
++ ATMLIST=48,96,192,384,768,1152
++ [[ -z 48,96,192,384,768,1152 ]]
++ [[ 025 == \0\0\8 ]]
++ NTASKS=12
++ export NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/025
++ NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/025
++ RUNDIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ export RUNDIR
++ export OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ export BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/025
++ BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/025
++ export REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.025.log
++ REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.025.log
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/parm/grid.nml.IN /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/025
++ [[ ursa = wcoss2 ]]
+++ sbatch --parsable --ntasks-per-node=12 --nodes=1 -t 00:40:00 -A fv3-cpu -q batch -J 025 -o run_025.log -e run_025.log ./cpld_gridgen.sh 025 48,96,192,384,768,1152
++ tests[$i]=6355579
++ all_tests=:6355579
++ (( i=i+1 ))
++ read -r line
++ line='mx050 | 48,96,192,384,768,1152'
++ [[ 30 == 0 ]]
++ [[ mx050 | 48,96,192,384,768,1152 =~ # ]]
+++ echo mx050 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f1
+++ sed -e 's/^ *//' -e 's/ *$//'
++ TEST_NAME=mx050
++ TEST_NAME=050
+++ echo mx050 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f2
+++ sed -e 's/^ *//' -e 's/ *$//'
++ ATMLIST=48,96,192,384,768,1152
++ [[ -z 48,96,192,384,768,1152 ]]
++ [[ 050 == \0\0\8 ]]
++ NTASKS=12
++ export NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/050
++ NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/050
++ RUNDIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ export RUNDIR
++ export OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ export BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/050
++ BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/050
++ export REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.050.log
++ REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.050.log
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/parm/grid.nml.IN /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/050
++ [[ ursa = wcoss2 ]]
+++ sbatch --parsable --ntasks-per-node=12 --nodes=1 -t 00:40:00 -A fv3-cpu -q batch -J 050 -o run_050.log -e run_050.log ./cpld_gridgen.sh 050 48,96,192,384,768,1152
++ tests[$i]=6355580
++ all_tests=:6355579:6355580
++ (( i=i+1 ))
++ read -r line
++ line='mx100 | 48,96,192,384,768,1152'
++ [[ 30 == 0 ]]
++ [[ mx100 | 48,96,192,384,768,1152 =~ # ]]
+++ echo mx100 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f1
+++ sed -e 's/^ *//' -e 's/ *$//'
++ TEST_NAME=mx100
++ TEST_NAME=100
+++ echo mx100 '|' 48,96,192,384,768,1152
+++ cut '-d|' -f2
+++ sed -e 's/^ *//' -e 's/ *$//'
++ ATMLIST=48,96,192,384,768,1152
++ [[ -z 48,96,192,384,768,1152 ]]
++ [[ 100 == \0\0\8 ]]
++ NTASKS=12
++ export NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/100
++ NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/100
++ RUNDIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ export RUNDIR
++ export OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ export BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/100
++ BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/100
++ export REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.100.log
++ REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.100.log
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/parm/grid.nml.IN /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ [[ ursa = wcoss2 ]]
+++ sbatch --parsable --ntasks-per-node=12 --nodes=1 -t 00:40:00 -A fv3-cpu -q batch -J 100 -o run_100.log -e run_100.log ./cpld_gridgen.sh 100 48,96,192,384,768,1152
++ tests[$i]=6355581
++ all_tests=:6355579:6355580:6355581
++ (( i=i+1 ))
++ read -r line
++ line='mx500 | 24,48,96,192,384,768,1152'
++ [[ 33 == 0 ]]
++ [[ mx500 | 24,48,96,192,384,768,1152 =~ # ]]
+++ echo mx500 '|' 24,48,96,192,384,768,1152
+++ cut '-d|' -f1
+++ sed -e 's/^ *//' -e 's/ *$//'
++ TEST_NAME=mx500
++ TEST_NAME=500
+++ echo mx500 '|' 24,48,96,192,384,768,1152
+++ cut '-d|' -f2
+++ sed -e 's/^ *//' -e 's/ *$//'
++ ATMLIST=24,48,96,192,384,768,1152
++ [[ -z 24,48,96,192,384,768,1152 ]]
++ [[ 500 == \0\0\8 ]]
++ NTASKS=12
++ export NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/500
++ NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/500
++ RUNDIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ export RUNDIR
++ export OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ export BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/500
++ BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/500
++ export REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.500.log
++ REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.500.log
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/parm/grid.nml.IN /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/500
++ [[ ursa = wcoss2 ]]
+++ sbatch --parsable --ntasks-per-node=12 --nodes=1 -t 00:40:00 -A fv3-cpu -q batch -J 500 -o run_500.log -e run_500.log ./cpld_gridgen.sh 500 24,48,96,192,384,768,1152
++ tests[$i]=6355582
++ all_tests=:6355579:6355580:6355581:6355582
++ (( i=i+1 ))
++ read -r line
++ line='mx900 | 12,24'
++ [[ 13 == 0 ]]
++ [[ mx900 | 12,24 =~ # ]]
+++ echo mx900 '|' 12,24
+++ cut '-d|' -f1
+++ sed -e 's/^ *//' -e 's/ *$//'
++ TEST_NAME=mx900
++ TEST_NAME=900
+++ echo mx900 '|' 12,24
+++ cut '-d|' -f2
+++ sed -e 's/^ *//' -e 's/ *$//'
++ ATMLIST=12,24
++ [[ -z 12,24 ]]
++ [[ 900 == \0\0\8 ]]
++ NTASKS=12
++ export NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/900
++ NEW_BASELINE=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/BASELINE/900
++ RUNDIR=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ mkdir -p /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ export RUNDIR
++ export OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ OUTDIR_PATH=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ export BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/900
++ BASELINE=/scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/900
++ export REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.900.log
++ REGRESSIONTEST_LOG=RegressionTests_ursa.intelllvm.900.log
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/reg_tests/cpld_gridgen/parm/grid.nml.IN /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ cp /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/exec/cpld_gridgen /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/900
++ [[ ursa = wcoss2 ]]
+++ sbatch --parsable --ntasks-per-node=12 --nodes=1 -t 00:40:00 -A fv3-cpu -q batch -J 900 -o run_900.log -e run_900.log ./cpld_gridgen.sh 900 12,24
++ tests[$i]=6355583
++ all_tests=:6355579:6355580:6355581:6355582:6355583
++ (( i=i+1 ))
++ read -r line
++ line='#mx008 | -99'
++ [[ 12 == 0 ]]
++ [[ #mx008 | -99 =~ # ]]
++ continue
++ read -r line
++ '[' '# mx100 | 96' ']'
++ line='# mx100 | 96'
++ [[ 12 == 0 ]]
++ [[ # mx100 | 96 =~ # ]]
++ continue
++ read -r line
++ '[' '' ']'
++ export target
++ [[ ursa = wcoss2 ]]
++ sbatch --nodes=1 -t 0:01:00 -A fv3-cpu -J summary -o /dev/null -e /dev/null --open-mode=append -q batch -d afterok:6355579:6355580:6355581:6355582:6355583 ./rt.summary.sh
+Submitted batch job 6355584
++ exit

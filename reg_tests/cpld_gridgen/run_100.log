@@ -1,0 +1,420 @@
++ SECONDS=0
++ set +x
+BEGIN cpld_gridgen.sh
++ cd /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
++ RESNAME=100
++ TEST_NAME=100
++ ATMLIST=48,96,192,384,768,1152
++ DEBUG=.false.
++ MASKEDIT=.false.
++ DO_POSTWGTS=.true.
++ MOSAICDIR_PATH=/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog
++ FIXDIR_PATH=/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100
++ [[ 48,96,192,384,768,1152 -eq -1 ]]
++ [[ 48,96,192,384,768,1152 -eq -99 ]]
++ ATMRESLIST=48,96,192,384,768,1152
++ APRUN=srun
++ '[' 100 = 900 ']'
++ '[' 100 = 500 ']'
++ '[' 100 = 100 ']'
++ NI=360
++ NJ=320
++ MASKEDIT=.T.
++ TOPOGFILE=topog.nc
++ EDITSFILE=topo_edits_011818.nc
++ '[' .true. == .true. ']'
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/rect.9p00_SCRIP.nc -G latlon=20,40#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/rect.5p00_SCRIP.nc -G latlon=36,72#lon_typ=grn_ctr#lat_typ=cap
++ srun -n 1 ncremap -g /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/rect.1p00_SCRIP.nc -G latlon=181,360#lon_typ=grn_ctr#lat_typ=cap
++ '[' 100 = 050 ']'
++ '[' 100 = 025 ']'
++ '[' 100 = 008 ']'
++ edit_namelist
++ sed -e s/NI_GLB/360/g -e s/NJ_GLB/320/g -e 's|FIXDIR|/scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100|g' -e 's|OUTDIR|/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100|g' -e 's|MOSAICDIR|/scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog|g' -e s/TOPOGFILE/topog.nc/g -e s/EDITSFILE/topo_edits_011818.nc/g -e s/RESNAME/100/g -e s/DO_MASKEDIT/.T./g -e s/DO_DEBUG/.false./g -e s/DO_POSTWGTS/.true./g -e s/ATMRESLIST/48,96,192,384,768,1152/g
++ srun ./cpld_gridgen
+Running on =   12 tasks
+ output grid requested    360   320
+ supergrid size used    720   640
+ output grid tag 100
+ supergrid source directory /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100/
+ output grid directory /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/
+ atm mosaic directory /scratch4/NCEPDEV/nems/Denise.Worthen/utils_dw/fix/orog/
+ MOM6 topography file topog.nc
+ MOM6 edits file topo_edits_011818.nc
+ editmask flag  T
+ debug flag  F
+ do_postwgts flag  T
+ 
+iVertCt      0    -1    -1     0
+jVertCt      0     0    -1    -1
+ 
+iVertCu      1     0     0     1
+jVertCu      0     0    -1    -1
+ 
+iVertCv      0    -1    -1     0
+jVertCv      1     1     0     0
+ 
+iVertBu      1     0     0     1
+jVertBu      1     1     0     0
+ 
+reading ocean mask from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100/ocean_mask.nc
+reading ocean topography from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100/topog.nc
+using topo edits file /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100/topo_edits_011818.nc to edit land mask 
+found   40 open water points at j=1 , cnt2 =   40
+writing new topo edits to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/ufs.topo_edits_011818.nc
+switch point   89 133 from land->ocean at runtime
+switch point  106   1 from ocean->land at runtime
+switch point  107   1 from ocean->land at runtime
+switch point  117   1 from ocean->land at runtime
+switch point  118   1 from ocean->land at runtime
+switch point  119   1 from ocean->land at runtime
+switch point  120   1 from ocean->land at runtime
+switch point  121   1 from ocean->land at runtime
+switch point  122   1 from ocean->land at runtime
+switch point  123   1 from ocean->land at runtime
+switch point  124   1 from ocean->land at runtime
+switch point  125   1 from ocean->land at runtime
+switch point  126   1 from ocean->land at runtime
+switch point  127   1 from ocean->land at runtime
+switch point  128   1 from ocean->land at runtime
+switch point  129   1 from ocean->land at runtime
+switch point  130   1 from ocean->land at runtime
+switch point  131   1 from ocean->land at runtime
+switch point  132   1 from ocean->land at runtime
+switch point  133   1 from ocean->land at runtime
+switch point  134   1 from ocean->land at runtime
+switch point  135   1 from ocean->land at runtime
+switch point  136   1 from ocean->land at runtime
+switch point  137   1 from ocean->land at runtime
+switch point  138   1 from ocean->land at runtime
+switch point  139   1 from ocean->land at runtime
+switch point  140   1 from ocean->land at runtime
+switch point  141   1 from ocean->land at runtime
+switch point  252   1 from ocean->land at runtime
+switch point  254   1 from ocean->land at runtime
+switch point  255   1 from ocean->land at runtime
+switch point  256   1 from ocean->land at runtime
+switch point  257   1 from ocean->land at runtime
+switch point  258   1 from ocean->land at runtime
+switch point  259   1 from ocean->land at runtime
+switch point  260   1 from ocean->land at runtime
+switch point  261   1 from ocean->land at runtime
+switch point  262   1 from ocean->land at runtime
+switch point  263   1 from ocean->land at runtime
+switch point  264   1 from ocean->land at runtime
+switch point  265   1 from ocean->land at runtime
+using topo edits file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/ufs.topo_edits_011818.nc to adjust bathymetry 
+Ocean topography edit:     1  220  195   81.78->  800.00
+Ocean topography edit:     2  220  196    8.17->  800.00
+Ocean topography edit:     3  220  197  130.00->  800.00
+Ocean topography edit:     4  220  198    4.48->  800.00
+Ocean topography edit:     5  220  199   27.99->  800.00
+Ocean topography edit:     6  218  195   32.64-> 1000.00
+Ocean topography edit:     7  219  195    7.48-> 1000.00
+Ocean topography edit:     8  220  195  800.00-> 1000.00
+Ocean topography edit:     9   89  133    0.00-> 1000.00
+Ocean topography edit:    10  293  245  793.34->  850.00
+Ocean topography edit:    11  294  245  890.38->  850.00
+Ocean topography edit:    12  295  245  879.53->  850.00
+Ocean topography edit:    13  293  245  850.00->  850.00
+Ocean topography edit:    14  293  246  866.64->  850.00
+Ocean topography edit:    15  293  247  488.77->  850.00
+Ocean topography edit:    16  293  248  159.85->  850.00
+Ocean topography edit:    17  295  245  850.00->  850.00
+Ocean topography edit:    18  295  246  714.08->  850.00
+Ocean topography edit:    19  291  248  849.81->  850.00
+Ocean topography edit:    20  292  248  490.48->  850.00
+Ocean topography edit:    21  294  208  600.00->  280.00
+Ocean topography edit:    22  295  208  600.00->  280.00
+Ocean topography edit:    23  275  258  733.74->  800.00
+Ocean topography edit:    24  274  259  604.30->  800.00
+Ocean topography edit:    25  274  258  614.44->  800.00
+Ocean topography edit:    26  274  257  600.00->  800.00
+Ocean topography edit:    27  273  257  600.00->  800.00
+Ocean topography edit:    28  273  256  600.00->  800.00
+Ocean topography edit:    29  273  255  521.87->  800.00
+Ocean topography edit:    30  272  256  715.21->  800.00
+Ocean topography edit:    31  272  255 1135.72-> 2500.00
+Ocean topography edit:    32  271  255 1342.25-> 2500.00
+Ocean topography edit:    33  270  255 1052.11-> 2500.00
+Ocean topography edit:    34  272  254 1158.36-> 2500.00
+Ocean topography edit:    35  271  254 1763.58-> 2500.00
+Ocean topography edit:    36  270  254 2208.26-> 2500.00
+Ocean topography edit:    37  269  254 2221.25-> 2500.00
+Ocean topography edit:    38  268  253 2351.43-> 2500.00
+Ocean topography edit:    39  328  214   44.65->   45.00
+Ocean topography edit:    40  329  214  209.11->   45.00
+Ocean topography edit:    41  327  214  130.00->   45.00
+Ocean topography edit:    42  209  146 2430.14->   10.00
+Ocean topography edit:    43  209  147 1516.51->   10.00
+Ocean topography edit:    44  209  148 1109.61->   10.00
+Ocean topography edit:    45  209  149 1817.69->   10.00
+Ocean topography edit:    46  210  147   61.16->   10.00
+Ocean topography edit:    47  210  148  493.16->   10.00
+Ocean topography edit:    48  210  149 1463.80->   10.00
+Ocean topography edit:    49   46  133   67.23->   50.00
+Ocean topography edit:    50   56  126  190.00->  250.00
+Ocean topography edit:    51   56  125  166.70->  250.00
+Ocean topography edit:    52   60  125  157.38->   10.00
+Ocean topography edit:    53   65  126  226.10-> 1500.00
+Ocean topography edit:    54   59  142 1428.18-> 1800.00
+Ocean topography edit:    55   59  141  598.68-> 1800.00
+Ocean topography edit:    56   59  140  694.93-> 1800.00
+Ocean topography edit:    57   59  139 1579.74-> 1800.00
+Ocean topography edit:    58   60  139   93.82->   10.00
+Ocean topography edit:    59   60  138  357.31->   10.00
+Ocean topography edit:    60   60  137   45.17->   10.00
+Ocean topography edit:    61   68  154  965.37->   10.00
+Ocean topography edit:    62   68  153  761.76->   10.00
+Ocean topography edit:    63   68  152  442.62->   10.00
+Ocean topography edit:    64   68  151  227.48->   10.00
+Ocean topography edit:    65   68  150  105.45->   10.00
+Ocean topography edit:    66   68  149   98.09->   10.00
+Ocean topography edit:    67   68  147  216.45->   10.00
+Ocean topography edit:    68   69  155  685.86->   10.00
+Ocean topography edit:    69   69  153  402.27->   10.00
+Ocean topography edit:    70   69  152  149.35->   10.00
+Ocean topography edit:    71   69  151   71.09->   10.00
+Ocean topography edit:    72   69  150  244.02->   10.00
+Ocean topography edit:    73   66  144  231.29->   10.00
+Ocean topography edit:    74   63  171  333.81->   10.00
+Ocean topography edit:    75   63  170    7.52->   10.00
+Ocean topography edit:    76   63  169   55.91->   10.00
+Ocean topography edit:    77   63  168  803.82->   10.00
+Ocean topography edit:    78   62  167   19.81->   10.00
+Ocean topography edit:    79   62  166   85.13->   10.00
+Ocean topography edit:    80   62  165 1544.57->   10.00
+Ocean topography edit:    81   61  165  197.92->   10.00
+Ocean topography edit:    82   61  164  241.17->   10.00
+Ocean topography edit:    83   58  174  260.96->   10.00
+Ocean topography edit:    84   59  174  560.62->   10.00
+Ocean topography edit:    85   59  175  120.29->   10.00
+Ocean topography edit:    86   59  176    3.72->   10.00
+Ocean topography edit:    87   59  177  140.57->   10.00
+Ocean topography edit:    88   60  177   67.15->   10.00
+Ocean topography edit:    89   60  164  222.80->  200.00
+Ocean topography edit:    90   64  175  299.95->   10.00
+Ocean topography edit:    91   64  174  591.66->  300.00
+Ocean topography edit:    92   64  173  565.22->   10.00
+Ocean topography edit:    93   65  178  194.00->   10.00
+Ocean topography edit:    94   65  177   57.71->   10.00
+Ocean topography edit:    95   66  175  543.76->   10.00
+Ocean topography edit:    96   66  174  160.17->   10.00
+Ocean topography edit:    97   72  147  458.25->   10.00
+Ocean topography edit:    98   71  147  109.63->   10.00
+Ocean topography edit:    99   71  148   22.70->   10.00
+Ocean topography edit:   100   71  149   99.81->   10.00
+Ocean topography edit:   101   70  149  564.02->  300.00
+Ocean topography edit:   102   68  145  384.39->   10.00
+Ocean topography edit:   103   68  140  627.95-> 1000.00
+Ocean topography edit:   104  106    1  321.80->    0.00
+Ocean topography edit:   105  107    1  212.63->    0.00
+Ocean topography edit:   106  117    1   29.24->    0.00
+Ocean topography edit:   107  118    1  410.02->    0.00
+Ocean topography edit:   108  119    1  443.06->    0.00
+Ocean topography edit:   109  120    1  485.08->    0.00
+Ocean topography edit:   110  121    1  647.94->    0.00
+Ocean topography edit:   111  122    1  684.22->    0.00
+Ocean topography edit:   112  123    1  649.42->    0.00
+Ocean topography edit:   113  124    1  606.42->    0.00
+Ocean topography edit:   114  125    1  573.49->    0.00
+Ocean topography edit:   115  126    1  545.55->    0.00
+Ocean topography edit:   116  127    1  521.75->    0.00
+Ocean topography edit:   117  128    1  448.04->    0.00
+Ocean topography edit:   118  129    1  475.20->    0.00
+Ocean topography edit:   119  130    1  555.29->    0.00
+Ocean topography edit:   120  131    1  591.50->    0.00
+Ocean topography edit:   121  132    1  565.88->    0.00
+Ocean topography edit:   122  133    1  547.20->    0.00
+Ocean topography edit:   123  134    1  478.45->    0.00
+Ocean topography edit:   124  135    1  461.42->    0.00
+Ocean topography edit:   125  136    1  550.16->    0.00
+Ocean topography edit:   126  137    1  599.13->    0.00
+Ocean topography edit:   127  138    1  641.92->    0.00
+Ocean topography edit:   128  139    1  674.39->    0.00
+Ocean topography edit:   129  140    1  606.71->    0.00
+Ocean topography edit:   130  141    1  352.34->    0.00
+Ocean topography edit:   131  252    1   20.82->    0.00
+Ocean topography edit:   132  254    1   69.78->    0.00
+Ocean topography edit:   133  255    1  224.00->    0.00
+Ocean topography edit:   134  256    1  315.36->    0.00
+Ocean topography edit:   135  257    1  456.44->    0.00
+Ocean topography edit:   136  258    1  576.48->    0.00
+Ocean topography edit:   137  259    1  743.22->    0.00
+Ocean topography edit:   138  260    1  866.25->    0.00
+Ocean topography edit:   139  261    1 1045.17->    0.00
+Ocean topography edit:   140  262    1 1144.81->    0.00
+Ocean topography edit:   141  263    1 1109.65->    0.00
+Ocean topography edit:   142  264    1  890.96->    0.00
+Ocean topography edit:   143  265    1  403.18->    0.00
+Applying topo limits to ensure that min_depth < D(x,y) < max_depth 
+Using min_depth =     9.50
+Using max_depth =  6500.00
+reading supergrid from /scratch3/NCEPDEV/global/role.glopara/fix/mom6/20250128/100/ocean_hgrid.nc
+max lat in super grid        90.00
+poles found at i =     90   270       90.00       90.00
+ANGLET min,max:        -1.56        1.56
+ANGLET edges i=1,i=ni:        -1.56        1.56
+ANGLE min,max:        -1.56        1.56
+ANGLE edges i=1,i=ni:         1.56       -1.56
+ANGCHK min,max:        -1.56        1.56
+ANGCHK edges i=1,i=ni:        -1.56        1.56
+min vals of hte at folds  0.00000E+00 0.00000E+00
+min vals of hte at folds  0.71916E+05 0.71916E+05
+==> writing tripole grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.nc
+==> writing CICE grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/grid_cice_NEMS_mx100.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Cu.mx100_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Cu.mx100_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Cv.mx100_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Cv.mx100_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Bu.mx100_SCRIP.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Bu.mx100_SCRIP.nc
+creating SCRIP file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP_land.nc
+==> writing SCRIP grid to /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP_land.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C48.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C96.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C192.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C384.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C768.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100.to.C1152.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Cu.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Cv.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Bu.to.Ct.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.Cu.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.Cv.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.Bu.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.9p00.conserve.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.9p00.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.5p00.conserve.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.5p00.bilinear.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.1p00.conserve.nc
+creating weight file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/tripole.mx100.Ct.to.rect.1p00.bilinear.nc
+creating mapped ocean mask for C48
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C48.mx100.tile6.nc
+creating mapped ocean mask for C96
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C96.mx100.tile6.nc
+creating mapped ocean mask for C192
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C192.mx100.tile6.nc
+creating mapped ocean mask for C384
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C384.mx100.tile6.nc
+creating mapped ocean mask for C768
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C768.mx100.tile6.nc
+creating mapped ocean mask for C1152
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile1.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile2.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile3.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile4.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile5.nc
+creating mapped ocean mask file /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/C1152.mx100.tile6.nc
++ FSRC=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP_land.nc
++ FDST=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/mesh.mx100.nc
++ srun -n 1 ESMF_Scrip2Unstruct /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP_land.nc /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/mesh.mx100.nc 0
+Done converting /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/Ct.mx100_SCRIP_land.nc
++ FSRC=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/grid_cice_NEMS_mx100.nc
++ FDST=/scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/kmtu_cice_NEMS_mx100.nc
++ ncks -O -v kmt /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/grid_cice_NEMS_mx100.nc /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100/kmtu_cice_NEMS_mx100.nc
++ check_results
++ '[' -o xtrace ']'
++ set_x='set -x'
++ set +x
+
+Working dir = /scratch4/NCEPDEV/stmp/Denise.Worthen/CPLD_GRIDGEN/rt_2970322/100
+Baseline dir = /scratch3/NCEPDEV/nems/role.ufsutils/ufs_utils/reg_tests/cpld_gridgen/baseline_data/100
+
+Checking test 100 results ....
+Comparing Bu.mx100_SCRIP.nc........OK
+Comparing C1152.mx100.tile1.nc........OK
+Comparing C1152.mx100.tile2.nc........OK
+Comparing C1152.mx100.tile3.nc........OK
+Comparing C1152.mx100.tile4.nc........OK
+Comparing C1152.mx100.tile5.nc........OK
+Comparing C1152.mx100.tile6.nc........OK
+Comparing C192.mx100.tile1.nc........OK
+Comparing C192.mx100.tile2.nc........OK
+Comparing C192.mx100.tile3.nc........OK
+Comparing C192.mx100.tile4.nc........OK
+Comparing C192.mx100.tile5.nc........OK
+Comparing C192.mx100.tile6.nc........OK
+Comparing C384.mx100.tile1.nc........OK
+Comparing C384.mx100.tile2.nc........OK
+Comparing C384.mx100.tile3.nc........OK
+Comparing C384.mx100.tile4.nc........OK
+Comparing C384.mx100.tile5.nc........OK
+Comparing C384.mx100.tile6.nc........OK
+Comparing C48.mx100.tile1.nc........OK
+Comparing C48.mx100.tile2.nc........OK
+Comparing C48.mx100.tile3.nc........OK
+Comparing C48.mx100.tile4.nc........OK
+Comparing C48.mx100.tile5.nc........OK
+Comparing C48.mx100.tile6.nc........OK
+Comparing C768.mx100.tile1.nc........OK
+Comparing C768.mx100.tile2.nc........OK
+Comparing C768.mx100.tile3.nc........OK
+Comparing C768.mx100.tile4.nc........OK
+Comparing C768.mx100.tile5.nc........OK
+Comparing C768.mx100.tile6.nc........OK
+Comparing C96.mx100.tile1.nc........OK
+Comparing C96.mx100.tile2.nc........OK
+Comparing C96.mx100.tile3.nc........OK
+Comparing C96.mx100.tile4.nc........OK
+Comparing C96.mx100.tile5.nc........OK
+Comparing C96.mx100.tile6.nc........OK
+Comparing Ct.mx100.to.C1152.nc........OK
+Comparing Ct.mx100.to.C192.nc........OK
+Comparing Ct.mx100.to.C384.nc........OK
+Comparing Ct.mx100.to.C48.nc........OK
+Comparing Ct.mx100.to.C768.nc........OK
+Comparing Ct.mx100.to.C96.nc........OK
+Comparing Ct.mx100_SCRIP.nc........OK
+Comparing Ct.mx100_SCRIP_land.nc........OK
+Comparing Cu.mx100_SCRIP.nc........OK
+Comparing Cv.mx100_SCRIP.nc........OK
+Comparing grid_cice_NEMS_mx100.nc........OK
+Comparing kmtu_cice_NEMS_mx100.nc........OK
+Comparing mesh.mx100.nc........OK
+Comparing rect.1p00_SCRIP.nc........OK
+Comparing rect.5p00_SCRIP.nc........OK
+Comparing rect.9p00_SCRIP.nc........OK
+Comparing tripole.mx100.Bu.to.Ct.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.Bu.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.Cu.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.Cv.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.rect.1p00.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.rect.1p00.conserve.nc........OK
+Comparing tripole.mx100.Ct.to.rect.5p00.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.rect.5p00.conserve.nc........OK
+Comparing tripole.mx100.Ct.to.rect.9p00.bilinear.nc........OK
+Comparing tripole.mx100.Ct.to.rect.9p00.conserve.nc........OK
+Comparing tripole.mx100.Cu.to.Ct.bilinear.nc........OK
+Comparing tripole.mx100.Cv.to.Ct.bilinear.nc........OK
+Comparing tripole.mx100.nc........OK
+Comparing ufs.topo_edits_011818.nc........OK
+
+Elapsed time: 00h:03m:09s. Have a nice day!
