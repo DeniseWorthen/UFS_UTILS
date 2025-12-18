@@ -24,9 +24,9 @@ contains
   !! @param[out] angle        the rotation angle on Bu points
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine find_angq(iind,jind,xangCt,anglet,angle)
+  subroutine find_angq(istart,iend,jstart,jend,xangCt,anglet,angle)
 
-    integer       , intent(in)  :: iind(2),jind(2)
+    integer       , intent(in) :: istart, iend, jstart, jend
     real(dbl_kind), intent(in)  :: xangCt(:)
     real(dbl_kind), intent(in)  :: anglet(:,:)
     real(dbl_kind), intent(out) :: angle(:,:)
@@ -50,9 +50,9 @@ contains
     !---------------------------------------------------------------------
 
     angle = 0.0
-    do j = jind(1)+1,jind(2)
-       do i = iind(1),iind(2)-1
-          if (j .lt. jind(2)) then
+    do j = jstart+1,jend
+       do i = istart,iend-1
+          if (j .lt. jend) then
              angle_0  = anglet(i+1,j+1)
              angle_w  = anglet(i,  j+1)
              angle_s  = anglet(i+1,j  )
@@ -80,9 +80,9 @@ contains
   !! @param[in]  angle      the rotation angle on Bu points
   !! @param[out] angchk     the rotation angle on Ct points
   !! @author Denise.Worthen@noaa.gov
-  subroutine find_angchk(iind,jind,angle,angchk)
+  subroutine find_angchk(istart,iend,jstart,jend,angle,angchk)
 
-    integer       , intent(in)  :: iind(2),jind(2)
+    integer       , intent(in) :: istart, iend, jstart, jend
     real(dbl_kind), intent(in)  :: angle(:,:)
     real(dbl_kind), intent(out) :: angchk(:,:)
 
@@ -104,8 +104,8 @@ contains
     !---------------------------------------------------------------------
 
     angchk = 0.0
-    do j = jind(1)+1,jind(2)
-       do i = iind(1)+1,iind(2)
+    do j = jstart+1,jend
+       do i = istart+1,iend
           angle_0  = angle(i  ,j  )
           angle_w  = angle(i-1,j  )
           angle_s  = angle(i,  j-1)
@@ -127,9 +127,9 @@ contains
   !! @param[out] anglet        the rotation angle on Ct points
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine find_ang(iind,jind,lonBu,latBu,lonCt,anglet)
+  subroutine find_ang(istart,iend,jstart,jend,lonBu,latBu,lonCt,anglet)
 
-    integer       , intent(in)  :: iind(2),jind(2)
+    integer       , intent(in) :: istart, iend, jstart, jend
     real(dbl_kind), intent(in)  :: lonBu(:,:)
     real(dbl_kind), intent(in)  :: latBu(:,:)
     real(dbl_kind), intent(in)  :: lonCt(:,:)
@@ -156,11 +156,11 @@ contains
     anglet = 0.0
     pi_720deg = atan(1.0) / 180.0
     len_lon = 360.0
-    do j=jind(1),jind(2); do i = iind(1),iind(2)
+    do j=jstart,jend; do i = istart,iend
        do n=1,2 ; do m=1,2
           jj = J+n-2; ii = I+m-2
           if(jj .eq. 0)jj = 1
-          if(ii .eq. 0)ii = iind(2)
+          if(ii .eq. 0)ii = iend
           lonB(m,n) = modulo_around_point(LonBu(ii,jj), LonCt(i,j), len_lon)
           !  lonB(m,n) = modulo_around_point(LonBu(I+m-2,J+n-2), LonCt(i,j), len_lon)
        enddo; enddo

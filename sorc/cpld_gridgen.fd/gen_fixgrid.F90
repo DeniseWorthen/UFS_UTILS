@@ -304,7 +304,7 @@ program gen_fixgrid
      ! find the angle on centers using the same procedure as MOM6
      !---------------------------------------------------------------------
 
-     call find_ang((/1,ni/),(/1,nj/),lonBu,latBu,lonCt,anglet)
+     call find_ang(1,ni,1,nj,lonBu,latBu,lonCt,anglet)
      write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(anglet),maxval(anglet)
      print '(a)',trim(logmsg)
      write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',anglet(1,nj),anglet(ni,nj)
@@ -324,7 +324,7 @@ program gen_fixgrid
      ! find the angle on corners using the same procedure as CICE6
      !---------------------------------------------------------------------
 
-     call find_angq((/1,ni/),(/1,nj/),xangCt,anglet,angle)
+     call find_angq(1,ni,1,nj,xangCt,anglet,angle)
      if (.not. regional) angle(ni,:) = -angle(1,:)
      ! reverse angle for CICE
      angle = -angle
@@ -337,7 +337,7 @@ program gen_fixgrid
      ! check the Bu angle
      !---------------------------------------------------------------------
 
-     call find_angchk((/1,ni/),(/1,nj/),angle,angchk)
+     call find_angchk(1,ni,1,nj,angle,angchk)
      if (.not. regional) angchk(1,:) = -angchk(ni,:)
      ! reverse angle for MOM6
      angchk = -angchk
