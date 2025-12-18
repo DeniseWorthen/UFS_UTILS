@@ -21,7 +21,7 @@ module charstrings
   character(len=CS) :: atmres                                               !< The ATM resolution, e.g. C96, C192, C384
   character(len=CL) :: logmsg                                               !< An informational message
 
-  character(len=CL) :: maskfile  = 'ocean_mask.nc'                          !< The name of the MOM6 mask file
+  character(len=CL) :: maskfile  = 'ocean_mask_regional.nc'                          !< The name of the MOM6 mask file
   character(len=CS) :: maskname  = 'mask'                                   !< The variable name of the mask field
   character(len=CL) :: editsfile                                            !< The name of the topo edits file (resolution specific)
 

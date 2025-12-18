@@ -157,6 +157,7 @@ program gen_fixgrid
      rc = nf90_close(ncid)
 
      if(xtype.eq. 6)wet4 = real(wet8,4)
+     print *,minval(wet4),maxval(wet4)
 
      !---------------------------------------------------------------------
      ! read the MOM6 depth file
@@ -176,6 +177,7 @@ program gen_fixgrid
      rc = nf90_close(ncid)
 
      if(xtype.eq. 6)dp4 = real(dp8,4)
+     print *,minval(dp4),maxval(dp4)
 
      if(editmask)then
         !---------------------------------------------------------------------
@@ -225,7 +227,7 @@ program gen_fixgrid
      ! read MOM6 supergrid file
      !---------------------------------------------------------------------
 
-     fsrc = trim(dirsrc)//'ocean_hgrid.nc'
+     fsrc = trim(dirsrc)//'ocean_hgrid_regional.nc'
 
      rc = nf90_open(fsrc, nf90_nowrite, ncid)
      print '(a)', 'reading supergrid from '//trim(fsrc)
@@ -278,7 +280,7 @@ program gen_fixgrid
            areaCt(i,j) = dxT*dyT
         enddo
      enddo
-#ifdef test
+
      if (.not. regional) then
         !---------------------------------------------------------------------
         ! locate the ith index of the two poles on j=nj
@@ -391,7 +393,7 @@ program gen_fixgrid
            dlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
         enddo
      end if ! if (.not. regional)
-
+#ifdef test
      !---------------------------------------------------------------------
      ! fill grid vertices variables
      !---------------------------------------------------------------------
@@ -427,14 +429,13 @@ program gen_fixgrid
      if(minval(lonCv_vert) .lt. -1.e3)stop
      if(minval(latBu_vert) .lt. -1.e3)stop
      if(minval(lonBu_vert) .lt. -1.e3)stop
-
+#endif
      if (allocated(xlonCt)) deallocate(xlonCt)
      if (allocated(xlatCt)) deallocate(xlatCt)
      if (allocated(xlonCu)) deallocate(xlonCu)
      if (allocated(xlatCu)) deallocate(xlatCu)
      if (allocated(dlatBu)) deallocate(dlatBu)
      if (allocated(dlatCv)) deallocate(dlatCv)
-#endif
      !---------------------------------------------------------------------
      ! write out grid file files
      !---------------------------------------------------------------------
@@ -450,9 +451,9 @@ program gen_fixgrid
      end if
      call write_mastergrid(trim(fdst))
 
-     fdst = trim(dirout)//'grid_cice_NEMS_'//trim(ocnres)//'.nc'
-     call write_cicegrid(trim(fdst))
-     deallocate(ulon, ulat, htn, hte)
+     !fdst = trim(dirout)//'grid_cice_NEMS_'//trim(ocnres)//'.nc'
+     !call write_cicegrid(trim(fdst))
+     !deallocate(ulon, ulat, htn, hte)
 
      ! write SCRIP files for generation of positional weights
      do k = 1,nv
@@ -474,7 +475,7 @@ program gen_fixgrid
      print '(a)',trim(logmsg)
      call write_scripgrid(trim(fdst),trim(cstagger),imask=int(wet4))
      deallocate(latCt_vert, lonCt_vert)
-
+#ifdef test
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
      ! mod_def file matching MOM6 grid
@@ -516,7 +517,6 @@ program gen_fixgrid
 
      nvalid = size(catm)
   end if ! if (maintask)
-#ifdef test
 
   !---------------------------------------------------------------------
   ! set up for parallel work
@@ -683,6 +683,7 @@ program gen_fixgrid
      deallocate(latCv, lonCv)
      deallocate(latCu, lonCu)
      deallocate(latBu, lonBu)
-  endif ! if (maintask)
 #endif
+
+  endif ! if (maintask)
 end program gen_fixgrid

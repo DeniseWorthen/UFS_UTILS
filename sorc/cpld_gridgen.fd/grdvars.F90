@@ -189,9 +189,10 @@ contains
     allocate( latCv_vert(ni,nj,nv), lonCv_vert(ni,nj,nv) )
     allocate( latCu_vert(ni,nj,nv), lonCu_vert(ni,nj,nv) )
     allocate( latBu_vert(ni,nj,nv), lonBu_vert(ni,nj,nv) )
+    allocate( xangCt(ni))
 
     if (.not. regional) then
-       allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
+       allocate( xlonCt(ni), xlatCt(ni) )
        allocate( xlonCu(ni), xlatCu(ni) )
        allocate( dlatBu(ni), dlatCv(ni) )
     end if

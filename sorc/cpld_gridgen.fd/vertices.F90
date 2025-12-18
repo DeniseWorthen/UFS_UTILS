@@ -40,9 +40,11 @@ contains
 
     ! local variables
     integer :: i,j,n,ii,jj
+    print *,jbeg,jend
 
     do j = jbeg,jend
        do i = 1,ni
+          print *,i,j,ivert(1),jvert(1)
           do n = 1,nv
              ii = i + iVert(n); jj = j + jVert(n)
              if (.not. regional) then

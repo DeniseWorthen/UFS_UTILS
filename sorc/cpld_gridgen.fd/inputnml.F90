@@ -31,9 +31,7 @@ contains
     character(len=6)   :: atmreslist(maxatmres) = ''
 
     namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
-         res, editmask, debug, do_postwgts, atmreslist, ntile
-
-    ! TODO: check and add / to dirout,dirsrc aka mom6
+         res, editmask, debug, do_postwgts, atmreslist
 
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
@@ -52,7 +50,6 @@ contains
        stop 1
     end if
     close(iounit)
-    print *,ntile
 
     if (dirsrc(len_trim(dirsrc):len_trim(dirsrc)) /= '/') then
        dirsrc = trim(dirsrc)//'/'
@@ -77,6 +74,7 @@ contains
     nx = ni*2
     ny = nj*2
 
+    ntile=1
     ! Check number for valid number of tiles
     if (ntile /= 1 .and. ntile /=6) then
        write (6, '(a)') 'Error: ntile must be 1 or 6 '
