@@ -166,7 +166,7 @@ contains
        enddo; enddo
        jj = j-1; ii = i-1
        if(jj .eq. 0)jj = 1
-       if(ii .eq. 0)ii = iind(2)
+       if(ii .eq. 0)ii = iend
        lon_scale = cos(pi_720deg*((LatBu(ii,jj) + LatBu(I,J)) + &
             (LatBu(I,jj) + LatBu(ii,J)) ) )
        anglet(i,j) = atan2(lon_scale*((lonB(1,2) - lonB(2,1)) + (lonB(2,2) - lonB(1,1))), &
