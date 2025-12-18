@@ -176,9 +176,9 @@
     ! find anglet and test against mom6 values
     !------------------------------------------
 
-    call find_ang((/2,5/),(/2,5/),lonBu(:,:,1),latBu(:,:,1),lonCt(:,:,1),anglet(:,:,1))
-    call find_ang((/2,5/),(/2,5/),lonBu(:,:,2),latBu(:,:,2),lonCt(:,:,2),anglet(:,:,2))
-    call find_ang((/2,5/),(/2,5/),lonBu(:,:,3),latBu(:,:,3),lonCt(:,:,3),anglet(:,:,3))
+    call find_ang(2,5,2,5,lonBu(:,:,1),latBu(:,:,1),lonCt(:,:,1),anglet(:,:,1))
+    call find_ang(2,5,2,5,lonBu(:,:,2),latBu(:,:,2),lonCt(:,:,2),anglet(:,:,2))
+    call find_ang(2,5,2,5,lonBu(:,:,3),latBu(:,:,3),lonCt(:,:,3),anglet(:,:,3))
 
     do k = 1,nblocks
        write(ck,'(i1.1)')k
@@ -226,9 +226,9 @@
     ! find angle and test against cice6 values
     !-------------------------------------------
 
-    call find_angq((/2,5/),(/2,5/),xangCt(:,1),anglet(:,:,1),angle(:,:,1))
-    call find_angq((/2,5/),(/2,5/),xangCt(:,2),anglet(:,:,2),angle(:,:,2))
-    call find_angq((/2,5/),(/2,4/),xangCt(:,3),anglet(:,:,3),angle(:,:,3))
+    call find_angq(2,5,2,5,xangCt(:,1),anglet(:,:,1),angle(:,:,1))
+    call find_angq(2,5,2,5,xangCt(:,2),anglet(:,:,2),angle(:,:,2))
+    call find_angq(2,5,2,4,xangCt(:,3),anglet(:,:,3),angle(:,:,3))
     ! reverse angle for CICE
     angle = -angle
 
@@ -265,9 +265,9 @@
     !-----------------------------------------------------------------------
     ! find anglet calculated by CICE and test against cice6 and mom6 values
     !-----------------------------------------------------------------------
-    call find_angchk((/2,4/),(/3,4/),angle(:,:,1),angchk(:,:,1))
-    call find_angchk((/2,4/),(/3,4/),angle(:,:,2),angchk(:,:,2))
-    call find_angchk((/2,4/),(/3,4/),angle(:,:,3),angchk(:,:,3))
+    call find_angchk(2,4,3,4,angle(:,:,1),angchk(:,:,1))
+    call find_angchk(2,4,3,4,angle(:,:,2),angchk(:,:,2))
+    call find_angchk(2,4,3,4,angle(:,:,3),angchk(:,:,3))
     ! reverse angle for MOM6
     angchk = -angchk
 
