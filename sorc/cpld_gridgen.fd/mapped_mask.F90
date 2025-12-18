@@ -94,17 +94,50 @@ contains
     rc = nf90_inq_varid(ncid, 'grid_imask', id)
     rc = nf90_get_var(ncid,     id,  src_field)
     rc = nf90_close(ncid)
+    print *,minval(src_field),maxval(src_field)
 
     dst_field = 0.0
     do i = 1,n_s
        ii = row(i); jj = col(i)
        dst_field(ii) = dst_field(ii) + S(i)*real(src_field(jj),dbl_kind)
     enddo
-
+    print *,minval(dst_field),maxval(dst_field)
+    print *,minval(lon1d),maxval(lon1d)
+    print *,minval(lat1d),maxval(lat1d)
     !---------------------------------------------------------------------
     !
     !---------------------------------------------------------------------
 
+    allocate(dst2d(1920,1081))
+    allocate(lon2d(1920,1081)); allocate(lat2d(1920,1081))
+
+    fdst = trim(dirout)//'test_mask.nc'
+    dst2d(:,:) = reshape(dst_field, (/1920,1081/))
+    lat2d(:,:) = reshape(    lat1d, (/1920,1081/))
+    lon2d(:,:) = reshape(    lon1d, (/1920,1081/))
+
+    rc = nf90_create(trim(fdst), nf90_64bit_offset, ncid)
+    rc = nf90_def_dim(ncid, 'grid_xt', 1920, idimid)
+    rc = nf90_def_dim(ncid, 'grid_yt', 1081, jdimid)
+
+    dim2(:) =  (/idimid, jdimid/)
+    vname = 'grid_xt'
+    rc = nf90_def_var(ncid, vname, nf90_double, dim2, id)
+    vname = 'grid_yt'
+    rc = nf90_def_var(ncid, vname, nf90_double, dim2, id)
+    vname = 'land_frac'
+    rc = nf90_def_var(ncid, vname, nf90_double, dim2, id)
+    rc = nf90_enddef(ncid)
+
+    rc = nf90_inq_varid(ncid,    'grid_xt',      id)
+    rc = nf90_put_var(ncid,             id,   lon2d)
+    rc = nf90_inq_varid(ncid,    'grid_yt',      id)
+    rc = nf90_put_var(ncid,             id,   lat2d)
+    rc = nf90_inq_varid(ncid,  'land_frac',      id)
+    rc = nf90_put_var(ncid,             id,   dst2d)
+    rc = nf90_close(ncid)
+
+#ifdef test
     allocate(dst2d(npx,npx))
     allocate(lon2d(npx,npx)); allocate(lat2d(npx,npx))
 
@@ -143,7 +176,7 @@ contains
        rc = nf90_put_var(ncid,             id,   dst2d)
        rc = nf90_close(ncid)
     end do
-
+#endif
     !---------------------------------------------------------------------
     ! clean up
     !---------------------------------------------------------------------
