@@ -14,7 +14,7 @@ module grdvars
   integer :: ni                                                    !< i-dimension of output grid
   integer :: nj                                                    !< j-dimension of output grid
   integer :: npx                                                   !< i or j-dimension of fv3 tile
-  integer :: ntile                                                 !< the number of atm tiles (1 or 6)
+  integer :: ntile = 6                                             !< the number of atm tiles (default 6)
 
   integer :: nx                                                    !< i-dimension of MOM6 supergrid
   integer :: ny                                                    !< j-dimension of MOM6 supergrid
@@ -166,6 +166,7 @@ module grdvars
 
   ! ATM resolutions
   integer, parameter :: maxatmres = 10                             !< The maximum number of possible ATM resolutions
+  character(len=6)   :: atmreslist(maxatmres) = ''                 !< The list of atmospheric resolutions
   integer, allocatable, dimension(:) :: catm                       !< The ATM resolutions for mapped ocean masks
 
 contains

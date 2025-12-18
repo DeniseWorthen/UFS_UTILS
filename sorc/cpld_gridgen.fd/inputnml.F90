@@ -7,7 +7,7 @@
 
 module inputnml
 
-  use grdvars,     only : nx,ny,ni,nj,npx,ntile,maxatmres,catm
+  use grdvars,     only : nx,ny,ni,nj,npx,ntile,maxatmres,atmreslist,catm
   use grdvars,     only : editmask, debug, do_postwgts, regional
   use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
 
@@ -28,10 +28,9 @@ contains
     ! local variables
     integer :: ii, nvalid, iounit, rc
     character(len=200) :: tmpstr
-    character(len=6)   :: atmreslist(maxatmres) = ''
 
     namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
-         res, editmask, debug, do_postwgts, atmreslist
+         res, editmask, debug, do_postwgts, atmreslist, ntile
 
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
