@@ -186,6 +186,22 @@ if [ $RESNAME = 008 ]; then
         $APRUN -n 1 ncremap -g ${OUTDIR_PATH}/rect.0p25_SCRIP.nc -G latlon=721,1440#lon_typ=grn_ctr#lat_typ=cap
         $APRUN -n 1 ncremap -g ${OUTDIR_PATH}/rect.0p125_SCRIP.nc -G latlon=1440,2880#lon_typ=grn_ctr#lat_typ=cap
     fi
+
+    # pre-generate SCRIP file for 1/12deg Atmospheric River domain
+    dx=$(echo "scale=10; 1/12" | bc)
+    # Define center grid points at corners of domain
+    slon=-210
+    elon=-50
+    slat=-20
+    elat=70
+
+    # Calculate snwe bounds
+    ll_lat=$(echo "$slat - $dx/2" | bc -l)
+    ur_lat=$(echo "$elat + $dx/2" | bc -l)
+    ll_lon=$(echo "$slon - $dx/2" | bc -l)
+    ur_lon=$(echo "$elon + $dx/2" | bc -l)
+
+    ncremap -g ${OUTDIR_PATH}/ar.0p08.SCRIP.nc -G latlon=1081,1920#snwe=$ll_lat,$ur_lat,$ll_lon,$ur_lon#lat_typ=uni
 fi
 edit_namelist < grid.nml.IN > grid.nml
 $APRUN ./cpld_gridgen
