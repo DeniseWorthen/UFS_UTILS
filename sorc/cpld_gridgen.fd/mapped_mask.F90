@@ -19,7 +19,7 @@ module mapped_mask
   integer(int_kind), allocatable, dimension(:) :: col, row
   real(dbl_kind),    allocatable, dimension(:) :: S
   integer(int_kind), allocatable, dimension(:) :: src_field
-  real(dbl_kind), allocatable, dimension(:)    :: dst_field
+  real(dbl_kind),    allocatable, dimension(:) :: dst_field
 contains
 
   !> Use ESMF weights to map the ocean land mask to the FV3 tiles and write the mapped mask to 6 tile files
@@ -190,7 +190,7 @@ contains
     rc = nf90_close(ncid)
 
     !---------------------------------------------------------------------
-    ! retrieve 1-d land mask from the SCRIP file and map it
+    ! retrieve 1-d land mask from the src SCRIP file and map it to dst
     !---------------------------------------------------------------------
 
     allocate(src_field(1:n_a))
