@@ -211,6 +211,13 @@ FSRC=${OUTDIR_PATH}/Ct.mx${RESNAME}_SCRIP_land.nc
 FDST=${OUTDIR_PATH}/mesh.mx${RESNAME}.nc
 $APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
 
+# generate ar mesh if ar.0p08.SCRIP.nc exists
+if [[ -f ${OUTDIR_PATH}/ar.0p08.SCRIP.nc ]]; then
+    FSRC=${OUTDIR_PATH}/ar.0p08.SCRIP.nc
+    FDST=${OUTDIR_PATH}/mesh.ar.0p08.nc
+    $APRUN -n 1 ESMF_Scrip2Unstruct ${FSRC} ${FDST} 0
+fi
+
 # generate kmt file for CICE
 FSRC=${OUTDIR_PATH}/grid_cice_NEMS_mx${RESNAME}.nc
 FDST=${OUTDIR_PATH}/kmtu_cice_NEMS_mx${RESNAME}.nc
