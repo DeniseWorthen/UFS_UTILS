@@ -23,7 +23,7 @@ program gen_fixgrid
   use gengrid_kinds,     only: CL, CS, dbl_kind, real_kind, int_kind
   use angles,            only: find_ang, find_angq, find_angchk
   use vertices,          only: fill_vertices, fill_bottom, fill_top
-  use mapped_mask,       only: make_frac_land
+  use mapped_mask,       only: make_frac_land, addmask2AR
   use postwgts,          only: make_postwgts
   use tripolegrid,       only: write_tripolegrid
   use cicegrid,          only: write_cicegrid
@@ -556,7 +556,7 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
-
+#ifdef test
   !---------------------------------------------------------------------
   ! use ESMF to create positional weights for mapping a field from its
   ! native stagger location (Cu,Cv,Bu) onto the center (Ct) grid location
@@ -602,6 +602,8 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
+#endif
+
   !---------------------------------------------------------------------
   ! use ESMF to create the weights from the 1/12 tripole to the AR MOM6
   ! rectilinear grid with nstod
@@ -623,6 +625,11 @@ program gen_fixgrid
           unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+
+     fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
+     fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
+     fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
+     call addmask2AR(trim(fsrc),trim(fdst),trim(fwgt))
   end if
 
   if(do_postwgts)call make_postwgts(maintask)

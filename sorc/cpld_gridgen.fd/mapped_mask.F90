@@ -14,6 +14,12 @@ module mapped_mask
 
   implicit none
 
+  integer(int_kind) :: n_a, n_b, n_s
+
+  integer(int_kind), allocatable, dimension(:) :: col, row
+  real(dbl_kind),    allocatable, dimension(:) :: S
+  integer(int_kind), allocatable, dimension(:) :: src_field
+  real(dbl_kind), allocatable, dimension(:)    :: dst_field
 contains
 
   !> Use ESMF weights to map the ocean land mask to the FV3 tiles and write the mapped mask to 6 tile files
@@ -29,17 +35,11 @@ contains
 
     ! local variables
     integer, parameter :: ntile = 6
-    integer(int_kind) :: n_a, n_b, n_s
 
-    integer(int_kind), allocatable, dimension(:) :: col, row
-    real(dbl_kind), allocatable, dimension(:) :: S
-    real(dbl_kind), allocatable, dimension(:) :: lat1d, lon1d
 
-    integer(int_kind), allocatable, dimension(:) :: src_field
-    real(dbl_kind), allocatable, dimension(:) :: dst_field
-
-    real(dbl_kind), allocatable, dimension(:,:)   :: dst2d
-    real(dbl_kind), allocatable, dimension(:,:)   :: lat2d,lon2d
+    real(dbl_kind), allocatable, dimension(:,:) :: dst2d
+    real(dbl_kind), allocatable, dimension(:,:) :: lat2d,lon2d
+    real(dbl_kind), allocatable, dimension(:)   :: lat1d,lon1d
 
     character(len=CS) :: ctile
     character(len=CL) :: fdst
@@ -152,4 +152,73 @@ contains
     deallocate(dst2d,lon2d,lat2d)
 
   end subroutine make_frac_land
+
+  !> Use ESMF weights to map the ocean land mask to the AR domain SCRIP file
+  !!
+  !! @param[in]  src a SCRIP file containing the land mask for the ocean domain
+  !! @param[in]  dst a SCRIP file for the AR domain
+  !! @param[in]  wgt a file containing the ESMF weights to regrid from the ocean domain to the AR domain
+  !!
+  !! @author Denise.Worthen@noaa.gov
+  subroutine addmask2AR(src,dst,wgt)
+
+    character(len=*), intent(in) :: src, dst, wgt
+
+    integer :: rc,id,ncid,i,ii,jj
+    !---------------------------------------------------------------------
+    ! retrieve the weights
+    !---------------------------------------------------------------------
+
+    rc = nf90_open(trim(wgt), nf90_nowrite, ncid)
+    rc = nf90_inq_dimid(ncid, 'n_s', id)
+    rc = nf90_inquire_dimension(ncid, id, len=n_s)
+    rc = nf90_inq_dimid(ncid, 'n_a', id)
+    rc = nf90_inquire_dimension(ncid, id, len=n_a)
+    rc = nf90_inq_dimid(ncid, 'n_b', id)
+    rc = nf90_inquire_dimension(ncid, id, len=n_b)
+
+    allocate(col(1:n_s))
+    allocate(row(1:n_s))
+    allocate(  S(1:n_s))
+
+    rc = nf90_inq_varid(ncid, 'col', id)
+    rc = nf90_get_var(ncid,     id, col)
+    rc = nf90_inq_varid(ncid, 'row', id)
+    rc = nf90_get_var(ncid,     id, row)
+    rc = nf90_inq_varid(ncid,   'S', id)
+    rc = nf90_get_var(ncid,      id,  S)
+    rc = nf90_close(ncid)
+
+    !---------------------------------------------------------------------
+    ! retrieve 1-d land mask from the SCRIP file and map it
+    !---------------------------------------------------------------------
+
+    allocate(src_field(1:n_a))
+    allocate(dst_field(1:n_b))
+
+    rc = nf90_open(trim(src), nf90_nowrite, ncid)
+    !1-d ocean mask (integer)
+    rc = nf90_inq_varid(ncid, 'grid_imask', id)
+    rc = nf90_get_var(ncid,     id,  src_field)
+    rc = nf90_close(ncid)
+
+    dst_field = 0.0
+    do i = 1,n_s
+       ii = row(i); jj = col(i)
+       dst_field(ii) = dst_field(ii) + S(i)*real(src_field(jj),dbl_kind)
+    enddo
+
+    ! add mask to existing SCRIP file
+    rc = nf90_open(trim(dst), nf90_write, ncid)
+    rc = nf90_inq_varid(ncid, 'grid_imask', id)
+    rc = nf90_put_var(ncid,    id,  int(dst_field))
+    rc = nf90_close(ncid)
+
+    !---------------------------------------------------------------------
+    ! clean up
+    !---------------------------------------------------------------------
+
+    deallocate(col, row, S, src_field, dst_field)
+  end subroutine addmask2AR
+
 end module mapped_mask
