@@ -602,6 +602,28 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
+  !---------------------------------------------------------------------
+  ! use ESMF to create the weights from the 1/12 tripole to the AR MOM6
+  ! rectilinear grid with nstod
+  !---------------------------------------------------------------------
+
+  if (trim(res) == '008') then
+     fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP.nc'
+     fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
+
+     method=ESMF_REGRIDMETHOD_NEAREST_STOD
+
+     fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
+     logmsg = 'creating weight file '//trim(fwgt)
+     if (maintask) print '(a)',trim(logmsg)
+
+     call ESMF_RegridWeightGen(srcFile=trim(fsrc),dstFile=trim(fdst), &
+          weightFile=trim(fwgt), regridmethod=method,                 &
+          ignoreDegenerate=.true.,                                    &
+          unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
+     if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
+          line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
+  end if
 
   if(do_postwgts)call make_postwgts(maintask)
   if (maintask) then
