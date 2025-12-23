@@ -650,7 +650,7 @@ program gen_fixgrid
         fwgt = trim(dirout)//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
         logmsg = 'creating mapped ocean mask for '//trim(atmres)
         print '(a)',trim(logmsg)
-        call make_frac_land(trim(fsrc), trim(fwgt))
+        call make_frac_land(trim(fsrc), trim(fwgt),6)
      end do
 
      !---------------------------------------------------------------------

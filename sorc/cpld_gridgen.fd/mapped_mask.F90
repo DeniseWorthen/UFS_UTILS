@@ -26,16 +26,14 @@ contains
   !!
   !! @param[in]  src a SCRIP file containing the land mask for the ocean domain
   !! @param[in]  wgt a file containing the ESMF weights to regrid from the ocean domain to the FV3 tile domain
+  !! @param[in]  number of ATM tiles to map to---1 (regional) or 6 (CSG)
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine make_frac_land(src, wgt)
+  subroutine make_frac_land(src, wgt, ntiles)
 
     character(len=*), intent(in) :: src, wgt
-
-    ! local variables
-    integer, parameter :: ntile = 6
-
+    integer         , intent(in) :: ntiles
 
     real(dbl_kind), allocatable, dimension(:,:) :: dst2d
     real(dbl_kind), allocatable, dimension(:,:) :: lat2d,lon2d
