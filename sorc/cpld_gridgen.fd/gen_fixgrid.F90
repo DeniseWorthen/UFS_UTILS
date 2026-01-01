@@ -166,7 +166,8 @@ program gen_fixgrid
      if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  dp8)
      rc = nf90_close(ncid)
 
-     if(xtype.eq. 6)dp4 = real(dp8,4)
+     if(xtype.eq. 6)dp4 = real(dp8,real_kind)
+     dp8 = real(dp4,dbl_kind)
 
      if(editmask)then
         !---------------------------------------------------------------------
@@ -556,7 +557,7 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
-
+#ifdef test
   !---------------------------------------------------------------------
   ! use ESMF to create positional weights for mapping a field from its
   ! native stagger location (Cu,Cv,Bu) onto the center (Ct) grid location
@@ -602,7 +603,7 @@ program gen_fixgrid
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
   end do
-
+#endif
   !---------------------------------------------------------------------
   ! use ESMF to create the weights from the 1/12 tripole to the AR MOM6
   ! rectilinear grid with nstod
@@ -624,11 +625,6 @@ program gen_fixgrid
           unmappedaction=ESMF_UNMAPPEDACTION_IGNORE, rc=rc)
      if (ESMF_LogFoundError(rcToCheck=rc, msg=ESMF_LOGERR_PASSTHRU, &
           line=__LINE__, file=__FILE__)) call ESMF_Finalize(endflag=ESMF_END_ABORT)
-
-     fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
-     fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
-     fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
-     call addmask2AR(trim(fsrc),trim(fdst),trim(fwgt))
   end if
 
   if(do_postwgts)call make_postwgts(maintask)
@@ -650,8 +646,19 @@ program gen_fixgrid
         fwgt = trim(dirout)//'Ct.mx'//trim(res)//'.to.'//trim(atmres)//'.nc'
         logmsg = 'creating mapped ocean mask for '//trim(atmres)
         print '(a)',trim(logmsg)
-        call make_frac_land(trim(fsrc), trim(fwgt),6)
+        call make_frac_land(trim(fsrc), trim(fwgt))
      end do
+
+     !---------------------------------------------------------------------
+     ! make AR grid files
+     !---------------------------------------------------------------------
+
+     fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
+     fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
+     fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
+     call addmask2AR(trim(fsrc),trim(fdst),trim(fwgt),reshape(dp8,(/ni*nj/)))
+
+     !call writeARgrid(reshape(dp4,(/ni*nj/), 'test.nc', trim(fdst), trim(fwgt))
 
      !---------------------------------------------------------------------
      ! clean up

@@ -7,7 +7,7 @@
 
 module mapped_mask
 
-  use gengrid_kinds, only : dbl_kind,int_kind,CL,CM,CS
+  use gengrid_kinds, only : dbl_kind,real_kind,int_kind,CL,CM,CS
   use grdvars,       only : ni,nj,npx
   use charstrings,   only : dirout,res,atmres,logmsg
   use netcdf
@@ -26,14 +26,15 @@ contains
   !!
   !! @param[in]  src a SCRIP file containing the land mask for the ocean domain
   !! @param[in]  wgt a file containing the ESMF weights to regrid from the ocean domain to the FV3 tile domain
-  !! @param[in]  number of ATM tiles to map to---1 (regional) or 6 (CSG)
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine make_frac_land(src, wgt, ntiles)
+  subroutine make_frac_land(src, wgt)
 
     character(len=*), intent(in) :: src, wgt
-    integer         , intent(in) :: ntiles
+
+    ! local variables
+    integer, parameter :: ntile = 6
 
     real(dbl_kind), allocatable, dimension(:,:) :: dst2d
     real(dbl_kind), allocatable, dimension(:,:) :: lat2d,lon2d
@@ -158,11 +159,13 @@ contains
   !! @param[in]  wgt a file containing the ESMF weights to regrid from the ocean domain to the AR domain
   !!
   !! @author Denise.Worthen@noaa.gov
-  subroutine addmask2AR(src,dst,wgt)
+  subroutine addmask2AR(src,dst,wgt,depth)
 
     character(len=*), intent(in) :: src, dst, wgt
+    real(dbl_kind),  intent(in)  :: depth(:)
 
-    integer :: rc,id,ncid,i,ii,jj
+    integer :: rc,id,ncid,i,ii,jj,nii,njj
+    integer :: idimid, jdimid
     !---------------------------------------------------------------------
     ! retrieve the weights
     !---------------------------------------------------------------------
@@ -210,6 +213,35 @@ contains
     rc = nf90_open(trim(dst), nf90_write, ncid)
     rc = nf90_inq_varid(ncid, 'grid_imask', id)
     rc = nf90_put_var(ncid,    id,  int(dst_field))
+    rc = nf90_close(ncid)
+
+    ! write out 2dmask
+    nii = 1920
+    njj = 1081
+    rc = nf90_create('ocean_topog.new.nc', nf90_write, ncid)
+    rc = nf90_def_dim(ncid, 'nx',     nii, idimid)
+    rc = nf90_def_dim(ncid, 'ny',     njj, jdimid)
+
+    rc = nf90_def_var(ncid, 'wet', nf90_int, (/idimid,jdimid/), id)
+    rc = nf90_put_att(ncid, id,     'units',      'unitless')
+    rc = nf90_def_var(ncid, 'depth', nf90_float, (/idimid,jdimid/), id)
+    rc = nf90_put_att(ncid, id,     'units',      'm')
+    rc = nf90_enddef(ncid)
+
+    rc = nf90_inq_varid(ncid, 'wet', id)
+    rc = nf90_put_var(ncid,      id, reshape(int(dst_field),(/nii,njj/)))
+    rc = nf90_close(ncid)
+
+    !map depth
+    dst_field = 0.0
+    do i = 1,n_s
+       ii = row(i); jj = col(i)
+       dst_field(ii) = dst_field(ii) + S(i)*depth(jj)
+    enddo
+
+    rc = nf90_open('ocean_topog.new.nc', nf90_write, ncid)
+    rc = nf90_inq_varid(ncid, 'depth', id)
+    rc = nf90_put_var(ncid,    id,  reshape(real(dst_field),(/nii,njj/)))
     rc = nf90_close(ncid)
 
     !---------------------------------------------------------------------
