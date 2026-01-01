@@ -11,4 +11,6 @@ editmask=DO_MASKEDIT
 debug=DO_DEBUG
 do_postwgts=DO_POSTWGTS
 atmreslist=ATMRESLIST
+nireg=NI_REG
+njreg=NJ_REG
 /

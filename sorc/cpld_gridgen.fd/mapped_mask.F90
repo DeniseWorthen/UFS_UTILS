@@ -8,7 +8,7 @@
 module mapped_mask
 
   use gengrid_kinds, only : dbl_kind,real_kind,int_kind,CL,CM,CS
-  use grdvars,       only : ni,nj,npx
+  use grdvars,       only : ni,nj,npx,ntile,nireg,njreg
   use charstrings,   only : dirout,res,atmres,logmsg
   use netcdf
 
@@ -34,8 +34,6 @@ contains
     character(len=*), intent(in) :: src, wgt
 
     ! local variables
-    integer, parameter :: ntile = 6
-
     real(dbl_kind), allocatable, dimension(:,:) :: dst2d
     real(dbl_kind), allocatable, dimension(:,:) :: lat2d,lon2d
     real(dbl_kind), allocatable, dimension(:)   :: lat1d,lon1d
@@ -164,7 +162,7 @@ contains
     character(len=*), intent(in) :: src, dst, wgt
     real(dbl_kind),  intent(in)  :: depth(:)
 
-    integer :: rc,id,ncid,i,ii,jj,nii,njj
+    integer :: rc,id,ncid,i,ii,jj
     integer :: idimid, jdimid
     !---------------------------------------------------------------------
     ! retrieve the weights
@@ -215,21 +213,19 @@ contains
     rc = nf90_put_var(ncid,    id,  int(dst_field))
     rc = nf90_close(ncid)
 
-    ! write out 2dmask
-    nii = 1920
-    njj = 1081
-    rc = nf90_create('ocean_topog.new.nc', nf90_write, ncid)
-    rc = nf90_def_dim(ncid, 'nx',     nii, idimid)
-    rc = nf90_def_dim(ncid, 'ny',     njj, jdimid)
+    ! write out 2dmask and bathy
+    rc = nf90_create('ocean_topog.ar.nc', nf90_write, ncid)
+    rc = nf90_def_dim(ncid, 'nx',     nireg, idimid)
+    rc = nf90_def_dim(ncid, 'ny',     njreg, jdimid)
 
     rc = nf90_def_var(ncid, 'wet', nf90_int, (/idimid,jdimid/), id)
-    rc = nf90_put_att(ncid, id,     'units',      'unitless')
+    rc = nf90_put_att(ncid, id,     'units',    'unitless')
     rc = nf90_def_var(ncid, 'depth', nf90_float, (/idimid,jdimid/), id)
-    rc = nf90_put_att(ncid, id,     'units',      'm')
+    rc = nf90_put_att(ncid, id,     'units',      'meters')
     rc = nf90_enddef(ncid)
 
     rc = nf90_inq_varid(ncid, 'wet', id)
-    rc = nf90_put_var(ncid,      id, reshape(int(dst_field),(/nii,njj/)))
+    rc = nf90_put_var(ncid, id, reshape(int(dst_field),(/nii,njj/)))
     rc = nf90_close(ncid)
 
     !map depth
@@ -239,9 +235,9 @@ contains
        dst_field(ii) = dst_field(ii) + S(i)*depth(jj)
     enddo
 
-    rc = nf90_open('ocean_topog.new.nc', nf90_write, ncid)
+    rc = nf90_open('ocean_topog.ar.nc', nf90_write, ncid)
     rc = nf90_inq_varid(ncid, 'depth', id)
-    rc = nf90_put_var(ncid,    id,  reshape(real(dst_field),(/nii,njj/)))
+    rc = nf90_put_var(ncid, id,  reshape(real(dst_field),(/nireg,njreg/)))
     rc = nf90_close(ncid)
 
     !---------------------------------------------------------------------

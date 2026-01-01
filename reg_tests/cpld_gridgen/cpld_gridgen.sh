@@ -16,7 +16,9 @@ function edit_namelist {
 	-e "s/DO_MASKEDIT/$MASKEDIT/g" \
 	-e "s/DO_DEBUG/$DEBUG/g" \
 	-e "s/DO_POSTWGTS/$DO_POSTWGTS/g" \
-	-e "s/ATMRESLIST/$ATMRESLIST/g"
+	-e "s/ATMRESLIST/$ATMRESLIST/g" \
+        -e "s/NI_REG/$NI_REG/g" \
+        -e "s/NJ_REG/$NJ_REG/g"
 }
 
 check_results() {
@@ -102,6 +104,8 @@ elif [[ ${ATMLIST} -eq -99 ]]; then
 else
    ATMRESLIST=${ATMLIST}
 fi
+NI_REG=0
+NJ_REG=0
 
 APRUN=${APRUN:-"srun"}
 
@@ -201,7 +205,9 @@ if [ $RESNAME = 008 ]; then
     ll_lon=$(echo "$slon - $dx/2" | bc -l)
     ur_lon=$(echo "$elon + $dx/2" | bc -l)
 
-    ncremap -g ${OUTDIR_PATH}/ar.0p08.SCRIP.nc -G latlon=1081,1920#snwe=$ll_lat,$ur_lat,$ll_lon,$ur_lon#lat_typ=uni
+    NI_REG=1920
+    NJ_REG=1081
+    ncremap -g ${OUTDIR_PATH}/ar.0p08.SCRIP.nc -G latlon=${NJ_REG},${NI_REG}#snwe=$ll_lat,$ur_lat,$ll_lon,$ur_lon#lat_typ=uni
 fi
 edit_namelist < grid.nml.IN > grid.nml
 $APRUN ./cpld_gridgen

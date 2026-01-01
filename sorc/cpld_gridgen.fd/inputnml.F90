@@ -7,7 +7,7 @@
 
 module inputnml
 
-  use grdvars,     only : nx,ny,ni,nj,npx,maxatmres,catm
+  use grdvars,     only : nx,ny,ni,nj,npx,ntile,nireg,njreg,maxatmres,catm
   use grdvars,     only : editmask, debug, do_postwgts
   use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
 
@@ -30,8 +30,8 @@ contains
     character(len=200) :: tmpstr
     character(len=6)   :: atmreslist(maxatmres) = ''
 
-    namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
-         res, editmask, debug, do_postwgts, atmreslist
+    namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir, topofile, editsfile, &
+         res, editmask, debug, do_postwgts, atmreslist, ntile, nireg, njreg
 
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
@@ -73,6 +73,12 @@ contains
     ! set supergrid dimensions
     nx = ni*2
     ny = nj*2
+
+    ! Check number for valid number of tiles
+    if (ntile /= 1 .and. ntile /=6) then
+       write (6, '(a)') 'Error: ntile must be 1 or 6 '
+       stop 1
+    end if
 
   end subroutine read_inputnml
 end module inputnml

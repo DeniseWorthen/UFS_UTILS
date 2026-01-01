@@ -14,6 +14,10 @@ module grdvars
   integer :: ni                                                    !< i-dimension of output grid
   integer :: nj                                                    !< j-dimension of output grid
   integer :: npx                                                   !< i or j-dimension of fv3 tile
+  integer :: ntile = 6                                             !< the number of atm tiles (default 6)
+
+  integer :: nireg = 0                                             !< i-dimension of regional grid, if any
+  integer :: njreg = 0                                             !< j-dimension of regional grid, if any
 
   integer :: nx                                                    !< i-dimension of MOM6 supergrid
   integer :: ny                                                    !< j-dimension of MOM6 supergrid
@@ -23,7 +27,7 @@ module grdvars
   logical :: debug                                                 !< flag indicating whether grid information
                                                                    !! should be printed for debugging purposes
                                                                    !! Default is false
-  logical :: do_postwgts                                           !< flag indicating whether then ESMF weights to
+  logical :: do_postwgts                                           !< flag indicating whether the ESMF weights to
                                                                    !! regrid from the tripole grid to a rectilinear
                                                                    !! grid should be generated. Default is false.
   logical :: roottask                                              !< flag indicating whether this is the roottask
@@ -156,11 +160,11 @@ module grdvars
   real(dbl_kind), allocatable, dimension(:,:) ::  hte              !< The grid cell width in centimeters of the CICE6
                                                                    !! grid in the y-direction (j-dimension)
 
-  real(kind=real_kind), parameter :: minimum_depth = 9.5           !< The minimum depth for MOM6
-  real(kind=real_kind), parameter :: maximum_depth = 6500.0        !< The maximum depth for MOM6
+  real(kind=real_kind), parameter :: minimum_depth = 9.5           !< The minimum depth for MOM6; used only for WW3 grid files
+  real(kind=real_kind), parameter :: maximum_depth = 6500.0        !< The maximum depth for MOM6; used only for WW3 grid files
   real(kind=real_kind), parameter :: masking_depth = 0.0           !< The masking depth for MOM6. Depths shallower than
                                                                    !! minimum_depth but deeper than masking_depth are
-                                                                   !! rounded to minimum_depth
+                                                                   !! rounded to minimum_depth; used only for WW3 grid files
   real(kind=real_kind), parameter :: maximum_lat = 88.0            !< The maximum latitude for water points for WW3
 
   ! ATM resolutions

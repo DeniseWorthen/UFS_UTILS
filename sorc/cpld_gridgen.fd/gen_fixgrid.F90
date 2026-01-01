@@ -166,8 +166,10 @@ program gen_fixgrid
      if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  dp8)
      rc = nf90_close(ncid)
 
-     if(xtype.eq. 6)dp4 = real(dp8,real_kind)
-     dp8 = real(dp4,dbl_kind)
+     if(xtype.eq. 6)then
+        dp4 = real(dp8,real_kind)
+        dp8 = real(dp4,dbl_kind)
+     end if
 
      if(editmask)then
         !---------------------------------------------------------------------
@@ -653,12 +655,12 @@ program gen_fixgrid
      ! make AR grid files
      !---------------------------------------------------------------------
 
-     fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
-     fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
-     fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
-     call addmask2AR(trim(fsrc),trim(fdst),trim(fwgt),reshape(dp8,(/ni*nj/)))
-
-     !call writeARgrid(reshape(dp4,(/ni*nj/), 'test.nc', trim(fdst), trim(fwgt))
+     if (trim(res) == '008') then
+        fsrc = trim(dirout)//'Ct.mx'//trim(res)//'_SCRIP_land.nc'
+        fdst = trim(dirout)//'ar.0p08.SCRIP.nc'
+        fwgt = trim(dirout)//'tripole.mx'//trim(res)//'.Ct.to.AR.nstod.nc'
+        call addmask2AR(trim(fsrc),trim(fdst),trim(fwgt),reshape(dp8,(/ni*nj/)))
+     end if
 
      !---------------------------------------------------------------------
      ! clean up
