@@ -169,6 +169,7 @@ module grdvars
 
   ! ATM resolutions
   integer, parameter :: maxatmres = 10                             !< The maximum number of possible ATM resolutions
+  character(len=6)   :: atmreslist(maxatmres) = ''                 !< The list of atmospheric resolutions
   integer, allocatable, dimension(:) :: catm                       !< The ATM resolutions for mapped ocean masks
 
 contains

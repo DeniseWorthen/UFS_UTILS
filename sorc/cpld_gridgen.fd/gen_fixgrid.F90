@@ -99,6 +99,7 @@ program gen_fixgrid
      print *,'editmask flag ',editmask
      print *,'debug flag ',debug
      print *,'do_postwgts flag ',do_postwgts
+     print *,'regional domain size ',nireg,njreg
      print *
 
      call allocate_all
@@ -147,7 +148,8 @@ program gen_fixgrid
      if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  wet8)
      rc = nf90_close(ncid)
 
-     if(xtype.eq. 6)wet4 = real(wet8,4)
+     if(xtype .eq. 5)wet8 = real(wet4,dbl_kind)
+     if(xtype .eq. 6)wet4 = real(wet8,real_kind)
 
      !---------------------------------------------------------------------
      ! read the MOM6 depth file
@@ -166,10 +168,8 @@ program gen_fixgrid
      if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  dp8)
      rc = nf90_close(ncid)
 
-     if(xtype.eq. 6)then
-        dp4 = real(dp8,real_kind)
-        dp8 = real(dp4,dbl_kind)
-     end if
+     if(xtype .eq. 5)dp8 = real(dp4,dbl_kind)
+     if(xtype .eq. 6)dp4 = real(dp8,real_kind)
 
      if(editmask)then
         !---------------------------------------------------------------------

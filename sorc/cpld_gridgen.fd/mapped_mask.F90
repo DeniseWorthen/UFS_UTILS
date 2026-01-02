@@ -213,19 +213,22 @@ contains
     rc = nf90_put_var(ncid,    id,  int(dst_field))
     rc = nf90_close(ncid)
 
+    !---------------------------------------------------------------------
     ! write out 2dmask and bathy
+    !---------------------------------------------------------------------
+
     rc = nf90_create('ocean_topog.ar.nc', nf90_write, ncid)
     rc = nf90_def_dim(ncid, 'nx',     nireg, idimid)
     rc = nf90_def_dim(ncid, 'ny',     njreg, jdimid)
 
     rc = nf90_def_var(ncid, 'wet', nf90_int, (/idimid,jdimid/), id)
-    rc = nf90_put_att(ncid, id,     'units',    'unitless')
+    rc = nf90_put_att(ncid, id,     'units',    'nd')
     rc = nf90_def_var(ncid, 'depth', nf90_float, (/idimid,jdimid/), id)
-    rc = nf90_put_att(ncid, id,     'units',      'meters')
+    rc = nf90_put_att(ncid, id,     'units',     'm')
     rc = nf90_enddef(ncid)
 
     rc = nf90_inq_varid(ncid, 'wet', id)
-    rc = nf90_put_var(ncid, id, reshape(int(dst_field),(/nii,njj/)))
+    rc = nf90_put_var(ncid, id, reshape(int(dst_field),(/nireg,njreg/)))
     rc = nf90_close(ncid)
 
     !map depth
