@@ -167,6 +167,10 @@ module grdvars
   integer, parameter :: maxatmres = 10                             !< The maximum number of possible ATM resolutions
   integer, allocatable, dimension(:) :: catm                       !< The ATM resolutions for mapped ocean masks
 
+  real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
+  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
+  real(kind=dbl_kind), parameter :: rearth = 6371.0_dbl_kind
+
 contains
   !> Allocate grid variables
   !!
@@ -204,4 +208,21 @@ contains
 
   end subroutine allocate_all
 
+  function calc_dist(lat1, lon1, lat2, lon2) result(distance)
+    real(dbl_kind), intent(in) :: lat1, lon1, lat2, lon2
+    real(dbl_kind) :: distance
+    real(dbl_kind) :: dlat, dlon, a, c, phi1, phi2
+
+    ! Convert degrees to radians
+    phi1 = lat1 * PI / 180.0_dbl_kind
+    phi2 = lat2 * PI / 180.0_dbl_kind
+    dlat = (lat2 - lat1) * PI / 180.0_dbl_kind
+    dlon = (lon2 - lon1) * PI / 180.0_dbl_kind
+
+    ! Haversine formula
+    a = sin(dlat/2.0_dbl_kind)**2 + cos(phi1) * cos(phi2) * sin(dlon/2.0_dbl_kind)**2
+    c = 2.0_dbl_kind * atan2(sqrt(a), sqrt(1.0_dbl_kind - a))
+
+    distance = REARTH * c
+  end function calc_dist
 end module grdvars

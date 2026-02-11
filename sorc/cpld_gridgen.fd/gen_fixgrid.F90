@@ -40,8 +40,9 @@ program gen_fixgrid
   type(MPI_Comm) :: mpic  ! mpi_f08
   real(dbl_kind) :: dxT, dyT
 
-  real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
-  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
+  !real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
+  !real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
+  !real(kind=dbl_kind), parameter :: rearth = 6371.0_dbl_kind
 
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
@@ -67,6 +68,17 @@ program gen_fixgrid
   character(len=CS) :: form2
   character(len= 6) :: cnx
 
+  ! debug AR domain
+  integer :: ar_ibeg, ar_jbeg, ar_iend, ar_jend, iloc(4), jloc(4)
+  real(kind=dbl_kind) :: arlon0,arlat0,londel,latdel,val,mindist(4)
+  integer :: idx(1)
+
+  arlon0 = -210.0
+  arlat0 = -20.0
+  londel = 140.05
+  latdel = 90.25
+  mindist = 1.0e6
+  iloc = -1; jloc = -1
   !-------------------------------------------------------------------------
   ! Initialize esmf environment. Everything except the generation of the
   ! ESMF weights is done on the root PE.
@@ -239,9 +251,77 @@ program gen_fixgrid
      write(logmsg,'(a,f12.2)')'max lat in super grid ',maxval(y)
      print '(a)',trim(logmsg)
 
+     !do i = 1,nx/2
+     !   if (y(i,ny) .eq. sg_maxlat) print *,'XXX i at max lat ',i
+     !end do
+
      !---------------------------------------------------------------------
      ! fill grid variables
      !---------------------------------------------------------------------
+
+     print *,arlon0,(arlon0+londel)
+     do j = 1,ny
+        do i = 1,nx
+           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,arlon0*deg2rad)
+           mindist(1) = min(mindist(1),val)
+	   val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,(arlon0+londel)*deg2rad)
+           mindist(2) = min(mindist(2),val)
+           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
+           !mindist(3) = min(mindist(3),val)
+           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,arlon0*deg2rad)
+           !mindist(4) = min(mindist(4),val)
+        end do
+     end do
+     print *,'XXX ',mindist
+
+     do j = 1,ny
+        do i = 1,nx
+           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,arlon0*deg2rad)
+           if (val == mindist(1))then
+              iloc(1) = i; jloc(1) = j
+           end if
+           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,(arlon0+londel)*deg2rad)
+           if (val == mindist(2))then
+              iloc(2) = i; jloc(2) = j
+           end if
+           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
+	   !if (val == mindist(3))then
+           !   iloc(3) = i; jloc(3) = j
+           !end if
+
+           ! val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
+	   ! if (val == mindist(3))then
+           !    iloc(3) = i; jloc(3) = j
+           ! end if
+
+           ! val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,arlon0*deg2rad)
+           ! if (val == mindist(4))then
+           !    iloc(4) = i; jloc(4) = j
+           ! end if
+        end do
+     end do
+     i = findloc(y(1:nx/2, ny), sg_maxlat, dim=1)
+     print *,'XX i containing pole sg ',i
+     do j = jloc(1),ny
+        !print '(A,i5,4g14.7)','YY ',j,y(i,j),x(i,j),(arlat0+latdel),x(i,jloc(1))
+        val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,x(i,jloc(1))*deg2rad)
+        mindist(3) = min(mindist(3),val)
+     end do
+     do j = 1,ny
+        val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,x(i,jloc(1))*deg2rad)
+        if (val == mindist(3))then
+           iloc(3) = iloc(2); jloc(3) = j
+           iloc(4) = iloc(1); jloc(4) = j
+        end if
+     end do
+     ! iloc,jloc are corners; want these corners to be outside (LL,LR,UR,UL) corners
+     iloc = iloc + 1
+     jloc = jloc + 1
+     print *,'XXX ',iloc
+     print *,'XXX ',jloc
+     do i = 1,4
+        print *,'XXX ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
+     end do
 
      do j = 1,nj
         do i = 1,ni
@@ -267,6 +347,9 @@ program gen_fixgrid
            dxT = dx(i2-1,j2-1) + dx(i2,j2-1)
            dyT = dy(i2-1,j2-1) + dy(i2-1,j2)
            areaCt(i,j) = dxT*dyT
+           do ii = 1,4
+              if (i .eq. iloc(ii)/2 .and. j .eq. jloc(ii)/2)print '(a,3i5,2g14.7)','XXX ',ii,i,j,lonCt(i,j),latCt(i,j)
+           end do
         enddo
      enddo
 
@@ -286,7 +369,7 @@ program gen_fixgrid
      write(logmsg,'(a,2i6,2f12.2)')'poles found at i = ',ipole, latBu(ipole(1),nj), &
           latBu(ipole(2),nj)
      print '(a)',trim(logmsg)
-
+#ifdef test
      !---------------------------------------------------------------------
      ! find the angle on centers using the same procedure as MOM6
      !---------------------------------------------------------------------
@@ -635,5 +718,6 @@ program gen_fixgrid
      deallocate(latCv, lonCv)
      deallocate(latCu, lonCu)
      deallocate(latBu, lonBu)
+#endif
   endif ! if (maintask)
 end program gen_fixgrid
