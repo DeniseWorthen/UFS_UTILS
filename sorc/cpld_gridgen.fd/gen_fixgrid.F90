@@ -71,12 +71,12 @@ program gen_fixgrid
   ! debug AR domain
   integer :: ar_ibeg, ar_jbeg, ar_iend, ar_jend, iloc(4), jloc(4)
   real(kind=dbl_kind) :: arlon0,arlat0,londel,latdel,val,mindist(4)
-  integer :: idx(1)
+  integer :: ifold
 
   arlon0 = -210.0
   arlat0 = -20.0
-  londel = 140.05
-  latdel = 90.25
+  londel = 140.0
+  latdel = 90.00
   mindist = 1.0e6
   iloc = -1; jloc = -1
   !-------------------------------------------------------------------------
@@ -279,6 +279,7 @@ program gen_fixgrid
      iloc(3) = iloc(2)
      iloc(4) = iloc(1)
      ifold = findloc(y(1:nx/2, ny), sg_maxlat, dim=1)
+     print *,'XXX sg i pole ',ifold
 
      if (ifold > 0) then
         do j = jloc(1), ny
@@ -294,13 +295,13 @@ program gen_fixgrid
         !print *, "Critical Error: Global fold index (ifold) not found."
      end if
 
-     ! iloc,jloc are corners; want these corners to be outside (LL,LR,UR,UL) corners
+     ! iloc,jloc are corners; want this to give the LL corner of the sub-domain
      iloc = iloc + 1
      jloc = jloc + 1
      print *,'XXX ',iloc
      print *,'XXX ',jloc
      do i = 1,4
-        print *,'XXX ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
+        print *,'XXX sg ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
      end do
      ! Ensure that subregion is even # in x and y(?)
 
@@ -329,7 +330,7 @@ program gen_fixgrid
            dyT = dy(i2-1,j2-1) + dy(i2-1,j2)
            areaCt(i,j) = dxT*dyT
            do ii = 1,4
-              if (i .eq. iloc(ii)/2 .and. j .eq. jloc(ii)/2)print '(a,3i5,2g14.7)','XXX ',ii,i,j,lonCt(i,j),latCt(i,j)
+              if (i .eq. iloc(ii)/2 .and. j .eq. jloc(ii)/2)print '(a,3i5,2g14.7)','XXX ',ii,i,j,lonBu(i,j),latBu(i,j)
            end do
         enddo
      enddo
@@ -350,7 +351,7 @@ program gen_fixgrid
      write(logmsg,'(a,2i6,2f12.2)')'poles found at i = ',ipole, latBu(ipole(1),nj), &
           latBu(ipole(2),nj)
      print '(a)',trim(logmsg)
-#ifdef test
+
      !---------------------------------------------------------------------
      ! find the angle on centers using the same procedure as MOM6
      !---------------------------------------------------------------------
@@ -492,7 +493,7 @@ program gen_fixgrid
         fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
         logmsg = 'creating SCRIP file '//trim(fdst)
         print '(a)',trim(logmsg)
-        call write_scripgrid(trim(fdst),trim(cstagger))
+        call write_scripgrid(1,ni,1,nj,trim(fdst),trim(cstagger))
      end do
      deallocate(latCv_vert, lonCv_vert)
      deallocate(latCu_vert, lonCu_vert)
@@ -504,9 +505,15 @@ program gen_fixgrid
      fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
      logmsg = 'creating SCRIP file '//trim(fdst)
      print '(a)',trim(logmsg)
-     call write_scripgrid(trim(fdst),trim(cstagger),imask=int(wet4))
-     deallocate(latCt_vert, lonCt_vert)
+     call write_scripgrid(1,ni,1,nj,trim(fdst),trim(cstagger),imask=int(wet4))
 
+     fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_regional_SCRIP_land.nc'
+     logmsg = 'creating SCRIP file '//trim(fdst)
+     print '(a)',trim(logmsg)
+     print *,'XXX ',iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2
+     call write_scripgrid(iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2,trim(fdst),trim(cstagger),imask=int(wet4))
+     !deallocate(latCt_vert, lonCt_vert)
+#ifdef test
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
      ! mod_def file

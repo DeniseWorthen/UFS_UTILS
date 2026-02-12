@@ -8,7 +8,7 @@
 module scripgrid
 
   use gengrid_kinds, only: dbl_kind,int_kind,CM
-  use grdvars,       only: ni,nj,nv
+  use grdvars,       only: nv
   use grdvars,       only: lonCt,latCt,lonCt_vert,latCt_vert
   use grdvars,       only: lonCu,latCu,lonCu_vert,latCu_vert
   use grdvars,       only: lonCv,latCv,lonCv_vert,latCv_vert
@@ -31,8 +31,9 @@ contains
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine write_scripgrid(fname,cstagger, imask)
+  subroutine write_scripgrid(ib, ie, jb, je, fname,cstagger, imask)
 
+    integer(int_kind), intent(in) :: ib,ie,jb,je
     character(len=*) , intent(in) :: fname
     character(len=*) , intent(in) :: cstagger
     integer(int_kind), optional, intent(in) :: imask(:,:)
@@ -44,67 +45,70 @@ contains
     integer :: idimid,jdimid,kdimid
 
     integer, dimension(grid_rank) :: gdims
-    integer(int_kind), dimension(ni*nj)    :: cnmask          !1-d mask
-    real(dbl_kind),    dimension(ni*nj)    :: cnlons, cnlats  !1-d center lats,lons
-    real(dbl_kind),    dimension(nv,ni*nj) :: crlons, crlats  !2-d corner lats,lons
+    integer(int_kind), dimension(1:(ie-ib+1)*(je-jb+1))    :: cnmask          !1-d mask
+    real(dbl_kind),    dimension(1:(ie-ib+1)*(je-jb+1))    :: cnlons, cnlats  !1-d center lats,lons
+    real(dbl_kind),    dimension(nv,1:(ie-ib+1)*(je-jb+1)) :: crlons, crlats  !2-d corner lats,lons
 
-    real(dbl_kind), dimension(ni,nj) :: tmp
+    real(dbl_kind), dimension(ie-ib+1,je-jb+1) :: tmp
 
     character(len=2)  :: vtype
     character(len=CM) :: vname
     character(len=CM) :: vunit
 
+    logical :: first_time = .true.
+
+    print '(A,7i8)','XX SCRIP ',ib,ie,jb,je,ie-ib+1,je-jb+1,(ie-ib+1)*(je-jb+1)
     !---------------------------------------------------------------------
     !
     !---------------------------------------------------------------------
 
-    gdims(:) = (/ni,nj/)
+    gdims(:) = (/(ie-ib+1),(je-jb+1)/)
     if(trim(cstagger) .eq. 'Ct')then
-       cnlons = reshape(lonCt, (/ni*nj/))
-       cnlats = reshape(latCt, (/ni*nj/))
+       cnlons = reshape(lonCt(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
+       cnlats = reshape(latCt(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
        do n = 1,nv
-          tmp(:,:) = lonCt_vert(:,:,n)
-          crlons(n,:) = reshape(tmp, (/ni*nj/))
-          tmp(:,:) = latCt_vert(:,:,n)
-          crlats(n,:) = reshape(tmp, (/ni*nj/))
+          tmp(:,:) = lonCt_vert(ib:ie,jb:je,n)
+          crlons(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
+          tmp(:,:) = latCt_vert(ib:ie,jb:je,n)
+          crlats(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
        end do
     end if
 
     if(trim(cstagger) .eq. 'Cu')then
-       cnlons = reshape(lonCu, (/ni*nj/))
-       cnlats = reshape(latCu, (/ni*nj/))
+       cnlons = reshape(lonCu(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
+       cnlats = reshape(latCu(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
        do n = 1,nv
-          tmp(:,:) = lonCu_vert(:,:,n)
-          crlons(n,:) = reshape(tmp, (/ni*nj/))
-          tmp(:,:) = latCu_vert(:,:,n)
-          crlats(n,:) = reshape(tmp, (/ni*nj/))
+          tmp(:,:) = lonCu_vert(ib:ie,jb:je,n)
+          crlons(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
+          tmp(:,:) = latCu_vert(ib:ie,jb:je,n)
+          crlats(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
        end do
     end if
 
     if(trim(cstagger) .eq. 'Cv')then
-       cnlons = reshape(lonCv, (/ni*nj/))
-       cnlats = reshape(latCv, (/ni*nj/))
+       cnlons = reshape(lonCv(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
+       cnlats = reshape(latCv(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
        do n = 1,nv
-          tmp(:,:) = lonCv_vert(:,:,n)
-          crlons(n,:) = reshape(tmp, (/ni*nj/))
-          tmp(:,:) = latCv_vert(:,:,n)
-          crlats(n,:) = reshape(tmp, (/ni*nj/))
+          tmp(:,:) = lonCv_vert(ib:ie,jb:je,n)
+          crlons(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
+          tmp(:,:) = latCv_vert(ib:ie,jb:je,n)
+          crlats(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
        end do
     end if
 
     if(trim(cstagger) .eq. 'Bu')then
-       cnlons = reshape(lonBu, (/ni*nj/))
-       cnlats = reshape(latBu, (/ni*nj/))
+       cnlons = reshape(lonBu(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
+       cnlats = reshape(latBu(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
        do n = 1,nv
-          tmp(:,:) = lonBu_vert(:,:,n)
-          crlons(n,:) = reshape(tmp, (/ni*nj/))
-          tmp(:,:) = latBu_vert(:,:,n)
-          crlats(n,:) = reshape(tmp, (/ni*nj/))
+          tmp(:,:) = lonBu_vert(ib:ie,jb:je,n)
+          crlons(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
+          tmp(:,:) = latBu_vert(ib:ie,jb:je,n)
+          crlats(n,:) = reshape(tmp, (/(ie-ib+1)*(je-jb+1)/))
        end do
     end if
 
     if(present(imask))then
-       cnmask = reshape(imask, (/ni*nj/))
+       cnmask = reshape(imask(ib:ie,jb:je), (/(ie-ib+1)*(je-jb+1)/))
     else
        cnmask = 1
     end if
@@ -114,7 +118,7 @@ contains
     !---------------------------------------------------------------------
 
     ! define the output variables and file name
-    call scripvars_typedefine
+    if(first_time)call scripvars_typedefine
     ! create the file
     ! 64_bit offset reqd for 008 grid
     ! produces b4b results for smaller grids
@@ -123,7 +127,7 @@ contains
     print '(a)',trim(logmsg)
     if(rc .ne. 0)print '(a)', 'nf90_create = '//trim(nf90_strerror(rc))
 
-    rc = nf90_def_dim(ncid, 'grid_size',     ni*nj, idimid)
+    rc = nf90_def_dim(ncid, 'grid_size', (ie-ib+1)*(je-jb+1), idimid)
     rc = nf90_def_dim(ncid, 'grid_corners',     nv, jdimid)
     rc = nf90_def_dim(ncid, 'grid_rank', grid_rank, kdimid)
 
@@ -176,6 +180,6 @@ contains
     rc = nf90_put_var(ncid,                   id,    crlats)
 
     rc = nf90_close(ncid)
-
+    first_time = .false.
   end subroutine write_scripgrid
 end module scripgrid
