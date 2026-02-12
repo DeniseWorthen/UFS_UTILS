@@ -77,8 +77,9 @@ program gen_fixgrid
 
   arlon0 = -210.0
   arlat0 = -20.0
-  londel = 140.0
-  latdel = 90.00
+  londel = 140.025
+  latdel = 90.265
+  !latdel = 88.75
   mindist = 1.0e6
   iloc = -1; jloc = -1
   !-------------------------------------------------------------------------
