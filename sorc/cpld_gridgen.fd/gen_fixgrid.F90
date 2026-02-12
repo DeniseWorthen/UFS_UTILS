@@ -259,61 +259,41 @@ program gen_fixgrid
      ! fill grid variables
      !---------------------------------------------------------------------
 
-     print *,arlon0,(arlon0+londel)
-     do j = 1,ny
-        do i = 1,nx
-           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,arlon0*deg2rad)
-           mindist(1) = min(mindist(1),val)
-	   val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,(arlon0+londel)*deg2rad)
-           mindist(2) = min(mindist(2),val)
-           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
-           !mindist(3) = min(mindist(3),val)
-           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,arlon0*deg2rad)
-           !mindist(4) = min(mindist(4),val)
-        end do
-     end do
-     print *,'XXX ',mindist
-
-     do j = 1,ny
-        do i = 1,nx
-           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,arlon0*deg2rad)
-           if (val == mindist(1))then
+     mindist(:) = huge(1.0)
+     do j = 1, ny
+        do i = 1, nx
+           val = calc_dist(y(i,j), x(i,j), arlat0, arlon0)
+           if (val < mindist(1)) then
+              mindist(1) = val
               iloc(1) = i; jloc(1) = j
            end if
-           val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,arlat0*deg2rad,(arlon0+londel)*deg2rad)
-           if (val == mindist(2))then
+
+           val = calc_dist(y(i,j), x(i,j), arlat0, arlon0 + londel)
+           if (val < mindist(2)) then
+              mindist(2) = val
               iloc(2) = i; jloc(2) = j
            end if
-           !val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
-	   !if (val == mindist(3))then
-           !   iloc(3) = i; jloc(3) = j
-           !end if
-
-           ! val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,(arlon0+londel)*deg2rad)
-	   ! if (val == mindist(3))then
-           !    iloc(3) = i; jloc(3) = j
-           ! end if
-
-           ! val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,arlon0*deg2rad)
-           ! if (val == mindist(4))then
-           !    iloc(4) = i; jloc(4) = j
-           ! end if
         end do
      end do
-     i = findloc(y(1:nx/2, ny), sg_maxlat, dim=1)
-     print *,'XX i containing pole sg ',i
-     do j = jloc(1),ny
-        !print '(A,i5,4g14.7)','YY ',j,y(i,j),x(i,j),(arlat0+latdel),x(i,jloc(1))
-        val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,x(i,jloc(1))*deg2rad)
-        mindist(3) = min(mindist(3),val)
-     end do
-     do j = 1,ny
-        val = calc_dist(y(i,j)*deg2rad,x(i,j)*deg2rad,(arlat0+latdel)*deg2rad,x(i,jloc(1))*deg2rad)
-        if (val == mindist(3))then
-           iloc(3) = iloc(2); jloc(3) = j
-           iloc(4) = iloc(1); jloc(4) = j
-        end if
-     end do
+
+     iloc(3) = iloc(2)
+     iloc(4) = iloc(1)
+     ifold = findloc(y(1:nx/2, ny), sg_maxlat, dim=1)
+
+     if (ifold > 0) then
+        do j = jloc(1), ny
+           val = calc_dist(y(ifold, j), x(ifold, j), (arlat0 + latdel), x(ifold, jloc(1)))
+
+           if (val < mindist(3)) then
+              mindist(3) = val
+              jloc(3) = j
+              jloc(4) = j
+           end if
+        end do
+     else
+        !print *, "Critical Error: Global fold index (ifold) not found."
+     end if
+
      ! iloc,jloc are corners; want these corners to be outside (LL,LR,UR,UL) corners
      iloc = iloc + 1
      jloc = jloc + 1
@@ -322,6 +302,7 @@ program gen_fixgrid
      do i = 1,4
         print *,'XXX ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
      end do
+     ! Ensure that subregion is even # in x and y(?)
 
      do j = 1,nj
         do i = 1,ni
