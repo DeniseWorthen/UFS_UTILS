@@ -31,7 +31,7 @@ contains
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  subroutine write_scripgrid(ib, ie, jb, je, fname,cstagger, imask)
+  subroutine write_scripgrid(ib, ie, jb, je, fname, cstagger, imask)
 
     integer(int_kind), intent(in) :: ib,ie,jb,je
     character(len=*) , intent(in) :: fname
@@ -57,7 +57,7 @@ contains
 
     logical :: first_time = .true.
 
-    print '(A,7i8)','XX SCRIP ',ib,ie,jb,je,ie-ib+1,je-jb+1,(ie-ib+1)*(je-jb+1)
+    print '(A,7i12)','XX SCRIP ',ib,ie,jb,je,ie-ib+1,je-jb+1,(ie-ib+1)*(je-jb+1)
     !---------------------------------------------------------------------
     !
     !---------------------------------------------------------------------

@@ -69,9 +69,11 @@ program gen_fixgrid
   character(len= 6) :: cnx
 
   ! debug AR domain
+  character(len=CL) :: ncks_cmd, index_string
   integer :: ar_ibeg, ar_jbeg, ar_iend, ar_jend, iloc(4), jloc(4)
   real(kind=dbl_kind) :: arlon0,arlat0,londel,latdel,val,mindist(4)
   integer :: ifold
+  integer :: iocmd
 
   arlon0 = -210.0
   arlat0 = -20.0
@@ -303,7 +305,22 @@ program gen_fixgrid
      do i = 1,4
         print *,'XXX sg ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
      end do
-     ! Ensure that subregion is even # in x and y(?)
+     open(newunit=iocmd,file='./create_regional_grid.sh')
+
+     write(index_string,'(4(a,i0,a,i0))') &
+         ' -d  nx,',iloc(1),',',iloc(2),    &
+         ' -d  ny,',jloc(1),',',jloc(4),    &
+         ' -d nxp,',iloc(1),',',iloc(2)+1,  &
+         ' -d nyp,',jloc(1),',',jloc(4)+1
+     print '(a)','XXX '//trim(index_string)
+     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_hgrid.nc ocean_hgrid_regional.nc'
+
+     write(index_string,'(2(a,i0,a,i0))') &
+          ' -d  nx,',iloc(1)/2,',',iloc(2)/2,   &
+          ' -d  ny,',jloc(1)/2,',',jloc(4)/2
+     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_topog.nc ocean_topog_regional.nc'
+     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_mask.nc ocean_mask_regional.nc'
+     close(iocmd)
 
      do j = 1,nj
         do i = 1,ni
