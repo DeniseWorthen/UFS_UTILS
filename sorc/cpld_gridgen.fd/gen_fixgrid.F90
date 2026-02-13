@@ -40,10 +40,6 @@ program gen_fixgrid
   type(MPI_Comm) :: mpic  ! mpi_f08
   real(dbl_kind) :: dxT, dyT
 
-  !real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
-  !real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
-  !real(kind=dbl_kind), parameter :: rearth = 6371.0_dbl_kind
-
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
 

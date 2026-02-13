@@ -216,14 +216,16 @@ contains
     allocate(  htn(ni,nj),  hte(ni,nj) )
 
   end subroutine allocate_all
-
+  !> Calculate the distance between two lat/lon points
+  !!
+  !! @param[in]  lat1,lon1,lat2,lon2   !< the lat and lon of 2 points, in degrees
+  !! @return     distance              !< the distance between the 2 points
   function calc_dist(lat1, lon1, lat2, lon2) result(distance)
 
     real(dbl_kind), intent(in) :: lat1, lon1, lat2, lon2
     real(dbl_kind) :: distance
     real(dbl_kind) :: dlat, dlon, a, c, phi1, phi2
 
-    ! deg->rad
     phi1 = lat1 * deg2rad
     phi2 = lat2 * deg2rad
     dlat = (lat2 - lat1) * deg2rad
