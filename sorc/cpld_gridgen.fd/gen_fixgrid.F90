@@ -521,9 +521,6 @@ program gen_fixgrid
         print '(a)',trim(logmsg)
         call write_scripgrid(1,ni,1,nj,trim(fdst),trim(cstagger))
      end do
-     deallocate(latCv_vert, lonCv_vert)
-     deallocate(latCu_vert, lonCu_vert)
-     deallocate(latBu_vert, lonBu_vert)
 
      ! write SCRIP file with land mask, used for mapped ocean mask
      ! and  mesh creation
@@ -533,12 +530,20 @@ program gen_fixgrid
      print '(a)',trim(logmsg)
      call write_scripgrid(1,ni,1,nj,trim(fdst),trim(cstagger),imask=int(wet4))
 
-     fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_regional_SCRIP_land.nc'
-     logmsg = 'creating SCRIP file '//trim(fdst)
-     print '(a)',trim(logmsg)
-     print *,'XXX ',iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2
-     call write_scripgrid(iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2,trim(fdst),trim(cstagger),imask=int(wet4))
-     !deallocate(latCt_vert, lonCt_vert)
+
+     if (do_regional) then
+        fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_regional_SCRIP_land.nc'
+        logmsg = 'creating SCRIP file '//trim(fdst)
+        print '(a)',trim(logmsg)
+
+        call extract_regional(x,y,trim(fdst))
+     end do
+     !print *,'XXX ',iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2
+     !call write_scripgrid(iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2,trim(fdst),trim(cstagger),imask=int(wet4))
+     deallocate(latCt_vert, lonCt_vert)
+     deallocate(latCv_vert, lonCv_vert)
+     deallocate(latCu_vert, lonCu_vert)
+     deallocate(latBu_vert, lonBu_vert)
 #ifdef test
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
