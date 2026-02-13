@@ -17,7 +17,8 @@ set(lib_src
     topoedits.F90
     tripolegrid.F90
     vartypedefs.F90
-    vertices.F90)
+    vertices.F90
+    regional.F90)
 
 set(exe_src gen_fixgrid.F90)
 

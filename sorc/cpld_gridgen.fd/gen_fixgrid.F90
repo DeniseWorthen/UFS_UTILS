@@ -32,6 +32,7 @@ program gen_fixgrid
   use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
   use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
   use debugprint,        only: checkseam, checkxlatlon, checkpoint
+  use regional,          only: extract_regional_grid
   use netcdf
 
   implicit none
@@ -64,20 +65,9 @@ program gen_fixgrid
   character(len=CS) :: form2
   character(len= 6) :: cnx
 
-  ! debug AR domain
-  character(len=CL) :: ncks_cmd, index_string
-  integer ::  iloc(4), jloc(4)
-  real(kind=dbl_kind) ::val,mindist(4)
-  integer :: ifold
-  integer :: iocmd
+  ! regional indexes
+  integer :: ib, ie, jb, je
 
-  !  regional_lonbeg = -210.0
-  !  regional_latbeg = -20.0
-  !  regional_lon_extent = 140.025
-  ! latdel = 90.265
-  ! !latdel = 88.75
-  ! mindist = 1.0e6
-  ! iloc = -1; jloc = -1
   !-------------------------------------------------------------------------
   ! Initialize esmf environment. Everything except the generation of the
   ! ESMF weights is done on the root PE.
@@ -258,75 +248,9 @@ program gen_fixgrid
      write(logmsg,'(a,f12.2)')'max lat in super grid ',maxval(y)
      print '(a)',trim(logmsg)
 
-     !do i = 1,nx/2
-     !   if (y(i,ny) .eq. sg_maxlat) print *,'XXX i at max lat ',i
-     !end do
-
      !---------------------------------------------------------------------
      ! fill grid variables
      !---------------------------------------------------------------------
-
-     mindist(:) = huge(1.0)
-     do j = 1, ny
-        do i = 1, nx
-           val = calc_dist(y(i,j), x(i,j), regional_latbeg, regional_lonbeg)
-           if (val < mindist(1)) then
-              mindist(1) = val
-              iloc(1) = i; jloc(1) = j
-           end if
-
-           val = calc_dist(y(i,j), x(i,j), regional_latbeg, regional_lonbeg + regional_lon_extent)
-           if (val < mindist(2)) then
-              mindist(2) = val
-              iloc(2) = i; jloc(2) = j
-           end if
-        end do
-     end do
-
-     iloc(3) = iloc(2)
-     iloc(4) = iloc(1)
-     ifold = findloc(y(1:nx/2, ny), sg_maxlat, dim=1)
-     print *,'XXX sg i pole ',ifold
-
-     if (ifold > 0) then
-        do j = jloc(1), ny
-           val = calc_dist(y(ifold, j), x(ifold, j), (regional_latbeg + regional_lat_extent), x(ifold, jloc(1)))
-
-           if (val < mindist(3)) then
-              mindist(3) = val
-              jloc(3) = j
-              jloc(4) = j
-           end if
-        end do
-     else
-        !print *, "Critical Error: Global fold index (ifold) not found."
-     end if
-
-     ! iloc,jloc are corners; want this to give the LL corner of the sub-domain
-     iloc = iloc + 1
-     jloc = jloc + 1
-     print *,'XXX ',iloc
-     print *,'XXX ',jloc
-     do i = 1,4
-        print *,'XXX sg ',i,x(iloc(i),jloc(i)), y(iloc(i),jloc(i))
-     end do
-     open(newunit=iocmd,file='./create_regional_grid.sh')
-
-     write(index_string,'(4(a,i0,a,i0))') &
-         ' -d  nx,',iloc(1),',',iloc(2),    &
-         ' -d  ny,',jloc(1),',',jloc(4),    &
-         ' -d nxp,',iloc(1),',',iloc(2)+1,  &
-         ' -d nyp,',jloc(1),',',jloc(4)+1
-     print '(a)','XXX '//trim(index_string)
-     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_hgrid.nc ocean_hgrid_regional.nc'
-
-     write(index_string,'(2(a,i0,a,i0))') &
-          ' -d  nx,',iloc(1)/2,',',iloc(2)/2,   &
-          ' -d  ny,',jloc(1)/2,',',jloc(4)/2
-     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_topog.nc ocean_topog_regional.nc'
-     write(iocmd,'(a)')'ncks -O -F '//trim(index_string)//'  '//trim(dirsrc)//'/'//'ocean_mask.nc ocean_mask_regional.nc'
-     close(iocmd)
-
      do j = 1,nj
         do i = 1,ni
            i2 = 2*i ; j2 = 2*j
@@ -351,9 +275,6 @@ program gen_fixgrid
            dxT = dx(i2-1,j2-1) + dx(i2,j2-1)
            dyT = dy(i2-1,j2-1) + dy(i2-1,j2)
            areaCt(i,j) = dxT*dyT
-           do ii = 1,4
-              if (i .eq. iloc(ii)/2 .and. j .eq. jloc(ii)/2)print '(a,3i5,2g14.7)','XXX ',ii,i,j,lonBu(i,j),latBu(i,j)
-           end do
         enddo
      enddo
 
@@ -526,16 +447,15 @@ program gen_fixgrid
      print '(a)',trim(logmsg)
      call write_scripgrid(1,ni,1,nj,trim(fdst),trim(cstagger),imask=int(wet4))
 
-
      if (do_regional) then
-        fdst= trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_regional_SCRIP_land.nc'
+        fdst= trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_regional_SCRIP_land.nc'
         logmsg = 'creating SCRIP file '//trim(fdst)
         print '(a)',trim(logmsg)
 
-        call extract_regional(x,y,trim(fdst))
-     end do
-     !print *,'XXX ',iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2
-     !call write_scripgrid(iloc(1)/2,iloc(2)/2,jloc(1)/2,jloc(4)/2,trim(fdst),trim(cstagger),imask=int(wet4))
+        call extract_regional_grid(x,y,sg_maxlat,ib,ie,jb,je)
+        call write_scripgrid(ib,ie,jb,je,trim(fdst),trim(cstagger),imask=int(wet4))
+     end if
+
      deallocate(latCt_vert, lonCt_vert)
      deallocate(latCv_vert, lonCv_vert)
      deallocate(latCu_vert, lonCu_vert)
