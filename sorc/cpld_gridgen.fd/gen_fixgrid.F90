@@ -27,7 +27,7 @@ program gen_fixgrid
   use postwgts,          only: make_postwgts
   use tripolegrid,       only: write_tripolegrid
   use cicegrid,          only: write_cicegrid
-  use scripgrid,         only: write_scripgrid
+  use scripgrid,         only: get_staggers, write_scripgrid
   use topoedits,         only: add_topoedits, apply_topoedits
   use charstrings,       only: logmsg, res, atmres, dirsrc, dirout, fv3dir, editsfile
   use charstrings,       only: maskfile, maskname, topofile, toponame, editsfile, staggerlocs, cdate, history
@@ -45,6 +45,9 @@ program gen_fixgrid
 
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
+
+  real(kind=dbl_kind), allocatable, dimension(:)   :: cnlons, cnlats
+  real(kind=dbl_kind), allocatable, dimension(:,:) :: crlons, crlats
 
   character(len=CL) :: fsrc, fdst, fwgt
   character(len= 2) :: cstagger
@@ -423,25 +426,50 @@ program gen_fixgrid
      deallocate(ulon, ulat, htn, hte)
 
      ! write SCRIP files for generation of positional weights
-     do k = 1,nv
-        cstagger = trim(staggerlocs(k))
-        fdst = trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-        logmsg = 'creating SCRIP file '//trim(fdst)
-        print '(a)',trim(logmsg)
-        call write_scripgrid(trim(fdst),trim(cstagger))
-     end do
-     deallocate(latCv_vert, lonCv_vert)
-     deallocate(latCu_vert, lonCu_vert)
-     deallocate(latBu_vert, lonBu_vert)
+     allocate(cnlons(ni*nj), source = 0.0)
+     allocate(cnlats(ni*nj), source = 0.0)
+     allocate(crlons(nv,ni*nj), source = 0.0)
+     allocate(crlats(nv,ni*nj), source = 0.0)
 
-     ! write SCRIP file with land mask, used for mapped ocean mask
-     ! and  mesh creation
-     cstagger = trim(staggerlocs(1))
+     cstagger = 'Ct'
+     call get_staggers((/1,ni/),(/1,nj/),lonCt,latCt,lonCt_vert,latCt_vert,cnlons,cnlats,crlons,crlats)
+     fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
+     logmsg = 'creating SCRIP file '//trim(fdst)
+     print '(a)',trim(logmsg)
+     call write_scripgrid(trim(fdst),(/1,ni/),(/1,nj/),cnlons,cnlats,crlons,crlats)
+
+     ! write SCRIP file with land mask, used for mapped ocean mask and  mesh creation
      fdst= trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
      logmsg = 'creating SCRIP file '//trim(fdst)
      print '(a)',trim(logmsg)
-     call write_scripgrid(trim(fdst),trim(cstagger),imask=int(wet4))
+     call write_scripgrid(trim(fdst),(/1,ni/),(/1,nj/),cnlons,cnlats,crlons,crlats,imask=int(wet4))
+
+     cstagger = 'Cu'
+     call get_staggers((/1,ni/),(/1,nj/),lonCu,latCu,lonCu_vert,latCu_vert,cnlons,cnlats,crlons,crlats)
+     fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
+     logmsg = 'creating SCRIP file '//trim(fdst)
+     print '(a)',trim(logmsg)
+     call write_scripgrid(trim(fdst),(/1,ni/),(/1,nj/),cnlons,cnlats,crlons,crlats)
+
+     cstagger = 'Cv'
+     call get_staggers((/1,ni/),(/1,nj/),lonCv,latCv,lonCv_vert,latCv_vert,cnlons,cnlats,crlons,crlats)
+     fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
+     logmsg = 'creating SCRIP file '//trim(fdst)
+     print '(a)',trim(logmsg)
+     call write_scripgrid(trim(fdst),(/1,ni/),(/1,nj/),cnlons,cnlats,crlons,crlats)
+
+     cstagger = 'Bu'
+     call get_staggers((/1,ni/),(/1,nj/),lonBu,latBu,lonBu_vert,latBu_vert,cnlons,cnlats,crlons,crlats)
+     fdst = trim(dirout)//'/'//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
+     logmsg = 'creating SCRIP file '//trim(fdst)
+     print '(a)',trim(logmsg)
+     call write_scripgrid(trim(fdst),(/1,ni/),(/1,nj/),cnlons,cnlats,crlons,crlats)
+
+     deallocate(cnlons, cnlats, crlons, crlats)
      deallocate(latCt_vert, lonCt_vert)
+     deallocate(latCv_vert, lonCv_vert)
+     deallocate(latCu_vert, lonCu_vert)
+     deallocate(latBu_vert, lonBu_vert)
 
      !---------------------------------------------------------------------
      ! write lat,lon,depth and mask arrays required by ww3 in creating
