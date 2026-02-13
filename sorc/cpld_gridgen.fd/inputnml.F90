@@ -7,9 +7,11 @@
 
 module inputnml
 
-  use grdvars,     only : nx,ny,ni,nj,npx,maxatmres,catm
-  use grdvars,     only : editmask, debug, do_postwgts
-  use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
+   use grdvars,     only : nx,ny,ni,nj,npx,maxatmres,catm
+   use grdvars,     only : editmask, debug, do_postwgts
+   use grdvars,     only : do_regional
+   use grdvars,     only : regional_lonbeg, regional_latbeg, regional_lon_extent, regional_lat_extent
+   use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
 
   implicit none
 
@@ -30,8 +32,9 @@ contains
     character(len=200) :: tmpstr
     character(len=6)   :: atmreslist(maxatmres) = ''
 
-    namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
-         res, editmask, debug, do_postwgts, atmreslist
+       namelist /grid_nml/ ni, nj, dirsrc, dirout, fv3dir,  topofile, editsfile, &
+          res, editmask, debug, do_postwgts, atmreslist, do_regional
+      namelist /regional_nml/ regional_lonbeg, regional_latbeg, regional_lon_extent, regional_lat_extent
 
     ! Check whether file exists.
     inquire (file=trim(fname), iostat=rc)
@@ -48,6 +51,17 @@ contains
        read(iounit,'(a)')tmpstr
        write (6, '(a)') 'Error: invalid Namelist format '//trim(tmpstr)
        stop 1
+    end if
+
+   if (do_regional) then
+       rewind(iounit)
+       read (nml=regional_nml, iostat=rc, unit=iounit)
+       if (rc /= 0) then
+          backspace(iounit)
+          read(iounit,'(a)')tmpstr
+          write (6, '(a)') 'Error: invalid regional_nml format '//trim(tmpstr)
+          stop 1
+       end if
     end if
     close(iounit)
 

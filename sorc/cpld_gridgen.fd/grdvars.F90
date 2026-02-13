@@ -11,6 +11,10 @@ module grdvars
 
   implicit none
 
+  real(kind=dbl_kind), parameter ::      pi = 3.14159265358979323846_dbl_kind  !< the value of PI
+  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind                !< degree to radian conversion
+  real(kind=dbl_kind), parameter ::  rearth = 6371.0_dbl_kind                  !< earth radius (km)
+
   integer :: ni                                                    !< i-dimension of output grid
   integer :: nj                                                    !< j-dimension of output grid
   integer :: npx                                                   !< i or j-dimension of fv3 tile
@@ -19,13 +23,16 @@ module grdvars
   integer :: ny                                                    !< j-dimension of MOM6 supergrid
 
   logical :: editmask                                              !< flag indicating whether the MOM6 land mask
-                                                                   !! should be edited. Default is false
+                                                                   !! should be edited. Default is false.
   logical :: debug                                                 !< flag indicating whether grid information
                                                                    !! should be printed for debugging purposes
-                                                                   !! Default is false
+                                                                   !! Default is false.
   logical :: do_postwgts                                           !< flag indicating whether then ESMF weights to
                                                                    !! regrid from the tripole grid to a rectilinear
                                                                    !! grid should be generated. Default is false.
+  logical :: do_regional = .false.                                 !< flag indicating whether a regional cutout grid
+                                                                   !! should be created. Default is false.
+
   logical :: roottask                                              !< flag indicating whether this is the roottask
 
   integer, parameter :: nv = 4.                                    !< the number of vertices for each stagger location
@@ -167,9 +174,11 @@ module grdvars
   integer, parameter :: maxatmres = 10                             !< The maximum number of possible ATM resolutions
   integer, allocatable, dimension(:) :: catm                       !< The ATM resolutions for mapped ocean masks
 
-  real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
-  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
-  real(kind=dbl_kind), parameter :: rearth = 6371.0_dbl_kind
+  ! Regional grid options
+  real(dbl_kind) :: regional_lonbeg = 0.0                          !< longitude origin for regional grid (degrees)
+  real(dbl_kind) :: regional_latbeg = 0.0                          !< latitude origin for regional grid (degrees)
+  real(dbl_kind) :: regional_lon_extent = 0.0                      !< longitude extent for regional grid (degrees)
+  real(dbl_kind) :: regional_lat_extent = 0.0                      !< latitude extent for regional grid (degrees)
 
 contains
   !> Allocate grid variables

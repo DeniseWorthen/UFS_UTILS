@@ -70,18 +70,18 @@ program gen_fixgrid
 
   ! debug AR domain
   character(len=CL) :: ncks_cmd, index_string
-  integer :: ar_ibeg, ar_jbeg, ar_iend, ar_jend, iloc(4), jloc(4)
-  real(kind=dbl_kind) :: arlon0,arlat0,londel,latdel,val,mindist(4)
+  integer ::  iloc(4), jloc(4)
+  real(kind=dbl_kind) ::val,mindist(4)
   integer :: ifold
   integer :: iocmd
 
-  arlon0 = -210.0
-  arlat0 = -20.0
-  londel = 140.025
-  latdel = 90.265
-  !latdel = 88.75
-  mindist = 1.0e6
-  iloc = -1; jloc = -1
+  !  regional_lonbeg = -210.0
+  !  regional_latbeg = -20.0
+  !  regional_lon_extent = 140.025
+  ! latdel = 90.265
+  ! !latdel = 88.75
+  ! mindist = 1.0e6
+  ! iloc = -1; jloc = -1
   !-------------------------------------------------------------------------
   ! Initialize esmf environment. Everything except the generation of the
   ! ESMF weights is done on the root PE.
@@ -115,6 +115,14 @@ program gen_fixgrid
      print *,'debug flag ',debug
      print *,'do_postwgts flag ',do_postwgts
      print *
+     print *,'do_regional flag ',do_regional
+     if (do_regional) then
+        print *, 'regional_nml values:'
+        print '(a,f12.5)','regional_lonbeg = ', regional_lonbeg
+        print '(a,f12.5)','regional_latbeg = ', regional_latbeg
+        print '(a,f12.5)','regional_lon_extent = ', regional_lon_extent
+        print '(a,f12.5)','regional_lat_extent = ', regional_lat_extent
+     end if
 
      call allocate_all
 
@@ -265,13 +273,13 @@ program gen_fixgrid
      mindist(:) = huge(1.0)
      do j = 1, ny
         do i = 1, nx
-           val = calc_dist(y(i,j), x(i,j), arlat0, arlon0)
+           val = calc_dist(y(i,j), x(i,j), regional_latbeg, regional_lonbeg)
            if (val < mindist(1)) then
               mindist(1) = val
               iloc(1) = i; jloc(1) = j
            end if
 
-           val = calc_dist(y(i,j), x(i,j), arlat0, arlon0 + londel)
+           val = calc_dist(y(i,j), x(i,j), regional_latbeg, regional_lonbeg + regional_lon_extent)
            if (val < mindist(2)) then
               mindist(2) = val
               iloc(2) = i; jloc(2) = j
@@ -286,7 +294,7 @@ program gen_fixgrid
 
      if (ifold > 0) then
         do j = jloc(1), ny
-           val = calc_dist(y(ifold, j), x(ifold, j), (arlat0 + latdel), x(ifold, jloc(1)))
+           val = calc_dist(y(ifold, j), x(ifold, j), (regional_latbeg + regional_lat_extent), x(ifold, jloc(1)))
 
            if (val < mindist(3)) then
               mindist(3) = val
