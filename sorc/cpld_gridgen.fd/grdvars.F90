@@ -131,9 +131,14 @@ module grdvars
                                                                    !! opposite side of the tripole seam
   real(dbl_kind), allocatable, dimension(:) :: xlatCu              !< The latitude of the Cu grid points on the
                                                                    !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: dlatBu              !< The latitude spacing between Bu points at the
+
+  real(dbl_kind), allocatable, dimension(:) :: xlatBu              !< The latitude of the Bu grid points at the
                                                                    !! grid bottom
-  real(dbl_kind), allocatable, dimension(:) :: dlatCv              !< The latitude spacing between Cv points at the
+  real(dbl_kind), allocatable, dimension(:) :: xlonBu              !< The longitude of the Bu grid points at the
+                                                                   !! grid bottom
+  real(dbl_kind), allocatable, dimension(:) :: xlatCv              !< The latitude of the Cv grid points at the
+                                                                   !! grid bottom
+  real(dbl_kind), allocatable, dimension(:) :: xlonCv              !< The longitude of the Cv grid points  at the
                                                                    !! grid bottom
   ! MOM6 fix fields
   real(real_kind), allocatable, dimension(:,:) :: wet4             !< The ocean mask from a MOM6 mask file, stored as
@@ -191,7 +196,8 @@ contains
 
     allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
     allocate( xlonCu(ni), xlatCu(ni) )
-    allocate( dlatBu(ni), dlatCv(ni) )
+    allocate( xlatBu(ni), xlonBu(ni) )
+    allocate( xlatCv(ni), xlonCv(ni) )
 
     allocate( wet4(ni,nj) )
     allocate( wet8(ni,nj) )
