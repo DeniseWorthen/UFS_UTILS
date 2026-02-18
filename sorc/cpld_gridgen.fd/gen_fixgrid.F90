@@ -22,7 +22,7 @@ program gen_fixgrid
   use inputnml
   use gengrid_kinds,     only: CL, CS, dbl_kind, real_kind, int_kind
   use angles,            only: find_ang, find_angq, find_angchk
-  use vertices,          only: fill_vertices, fill_bottom, fill_top
+  use vertices,          only: fill_vertices
   use mapped_mask,       only: make_frac_land
   use postwgts,          only: make_postwgts
   use tripolegrid,       only: write_tripolegrid
@@ -372,29 +372,22 @@ program gen_fixgrid
 
      if(debug)call checkxlatlon
 
-     !approx lat at grid bottom
+     ! values outside grid(j=0)
      do i = 1,ni
-        dlatBu(i) = latBu(i,1) + 2.0*(latCu(i,1) - latBu(i,1))
-        dlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
+        xlatBu(i) = latBu(i,1) + 2.0*(latCu(i,1) - latBu(i,1))
+        xlatCv(i) = latCt(i,1) + 2.0*(latCt(i,1) - latCv(i,1))
+        xlonBu(i) = lonBu(i,1)
+        xlonCv(i) = lonCv(i,1)
      enddo
 
      !---------------------------------------------------------------------
      ! fill grid vertices variables
      !---------------------------------------------------------------------
 
-     !Ct and Cu grids align in j
-     call fill_vertices(2,nj  , iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert)
-     call           fill_bottom(iVertCt,jVertCt, latBu,lonBu, latCt_vert,lonCt_vert,dlatBu)
-
-     call fill_vertices(2,nj  , iVertCu,jVertCu, latCv,lonCv, latCu_vert,lonCu_vert)
-     call           fill_bottom(iVertCu,jVertCu, latCv,lonCv, latCu_vert,lonCu_vert,dlatCv)
-
-     !Cv and Bu grids align in j
-     call fill_vertices(1,nj-1, iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert)
-     call              fill_top(iVertCv,jVertCv, latCu,lonCu, latCv_vert,lonCv_vert, xlatCu, xlonCu)
-
-     call fill_vertices(1,nj-1, iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert)
-     call              fill_top(iVertBu,jVertBu, latCt,lonCt, latBu_vert,lonBu_vert, xlatCt, xlonCt)
+     call fill_vertices(iVertCt, jVertCt, latBu, lonBu, xlatBu, xlonBu, latCt_vert, lonCt_vert, 0)
+     call fill_vertices(iVertCu, jVertCu, latCv, lonCv, xlatCv, xlonCv, latCu_vert, lonCu_vert, 0)
+     call fill_vertices(iVertCv, jVertCv, latCu, lonCu, xlatCu, xlonCu, latCv_vert, lonCv_vert)
+     call fill_vertices(iVertBu, jVertBu, latCt, lonCt, xlatCt, xlonCt, latBu_vert, lonBu_vert)
 
      if(debug)call checkpoint
 
@@ -406,7 +399,7 @@ program gen_fixgrid
      if(minval(lonCv_vert) .lt. -1.e3)stop
      if(minval(latBu_vert) .lt. -1.e3)stop
      if(minval(lonBu_vert) .lt. -1.e3)stop
-     deallocate(xlonCt, xlatCt, xlonCu, xlatCu, dlatBu, dlatCv)
+     deallocate(xlonCt, xlatCt, xlonCu, xlatCu, xlatBu, xlonBu, xlatCv, xlonCv)
 
      !---------------------------------------------------------------------
      ! write out grid file files
@@ -512,6 +505,7 @@ program gen_fixgrid
 
      nvalid = size(catm)
   end if ! if (maintask)
+#ifdef test
   !---------------------------------------------------------------------
   ! set up for parallel work
   !---------------------------------------------------------------------
@@ -664,4 +658,5 @@ program gen_fixgrid
      deallocate(latCu, lonCu)
      deallocate(latBu, lonBu)
   endif ! if (maintask)
+#endif
 end program gen_fixgrid
