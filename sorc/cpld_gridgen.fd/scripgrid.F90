@@ -52,10 +52,10 @@ contains
        cnmask = reshape(imask(ib:ie, jb:je), (/idim*jdim/))
     end if
 
-    call get_staggers((/ib,ie/),(/ib,ie/),lon,lat,lonvert,latvert,cnlons,cnlats,crlons,crlats)
+    call get_staggers((/ib,ie/),(/jb,je/),lon,lat,lonvert,latvert,cnlons,cnlats,crlons,crlats)
     logmsg = 'creating SCRIP file '//trim(fname)
     print '(a)',trim(logmsg)
-    call write_scripgrid(trim(fname),(/ib,ie/),(/ib,ie/),cnlons,cnlats,crlons,crlats,cnmask)
+    call write_scripgrid(trim(fname),(/ib,ie/),(/jb,je/),cnlons,cnlats,crlons,crlats,cnmask)
 
     deallocate(cnlons, cnlats, crlons, crlats, cnmask)
 
