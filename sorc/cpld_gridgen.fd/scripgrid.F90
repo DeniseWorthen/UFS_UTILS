@@ -30,6 +30,7 @@ contains
     real(dbl_kind)  , intent(in)           :: lon(:,:), lat(:,:), lonvert(:,:,:), latvert(:,:,:)
     integer(int_kind),intent(in), optional :: imask(:,:)
 
+    integer(int_kind), allocatable, dimension(:,:) :: lmask
     real(dbl_kind),    allocatable, dimension(:)   :: cnlons, cnlats
     real(dbl_kind),    allocatable, dimension(:,:) :: crlons, crlats
     integer(int_kind), allocatable, dimension(:)   :: cnmask
@@ -42,80 +43,74 @@ contains
     idim = (ie - ib) + 1
     jdim = (je - jb) + 1
 
+    allocate(lmask(idim,jdim), source = 1_int_kind)
+    if(present(imask))then
+       lmask = imask
+    end if
+
     allocate(cnlons(idim*jdim), source = 0.0_dbl_kind)
     allocate(cnlats(idim*jdim), source = 0.0_dbl_kind)
     allocate(cnmask(idim*jdim), source = 1_int_kind)
     allocate(crlons(nv,idim*jdim), source = 0.0_dbl_kind)
     allocate(crlats(nv,idim*jdim), source = 0.0_dbl_kind)
 
-    if(present(imask))then
-       cnmask = reshape(imask(ib:ie, jb:je), (/idim*jdim/))
-    end if
-
-    call get_staggers((/ib,ie/),(/jb,je/),lon,lat,lonvert,latvert,cnlons,cnlats,crlons,crlats)
+    call reshape_staggers((/ib,ie/),(/jb,je/),lon,lat,lmask,lonvert,latvert,cnlons,cnlats,cnmask,crlons,crlats)
     logmsg = 'creating SCRIP file '//trim(fname)
     print '(a)',trim(logmsg)
     call write_scripgrid(trim(fname),(/ib,ie/),(/jb,je/),cnlons,cnlats,crlons,crlats,cnmask)
 
-    deallocate(cnlons, cnlats, crlons, crlats, cnmask)
+    deallocate(lmask, cnlons, cnlats, crlons, crlats, cnmask)
 
   end subroutine write_staggers
   !> Get center and corner grid points for a given stagger location
   !!
-  !! @param[in]  iind                 the start/end index in the i-dimension
-  !! @param[in]  jind                 the start/end index in the j-dimension
-  !! @param[in]  lon, lat             2D lat,lon centers for the stagger
-  !! @param[in]  lonvert, latvert     3D lat,lon vertices  for the stagger
-  !! @param[out] cnlons, cnlats       1D center lons,lats
-  !! @param[out] crlons, crlats       2D corner lons/lats
+  !! @param[in]  iind                    the start/end index in the i-dimension
+  !! @param[in]  jind                    the start/end index in the j-dimension
+  !! @param[in]  lon, lat, mask          2D lat,lon centers and mask for the stagger
+  !! @param[in]  lonvert, latvert        3D lat,lon vertices  for the stagger
+  !! @param[out] cnlons, cnlats, cnmask  1D center lons,lats and mask
+  !! @param[out] crlons, crlats          2D corner lons/lats
   !!
   !! @author Denise.Worthen@noaa.gov
-  subroutine get_staggers(iind, jind, lon, lat, lonvert, latvert, cnlons, cnlats, crlons, crlats)
-    integer,          intent(in)  :: iind(:), jind(:)
-    real(dbl_kind),   intent(in)  :: lon(:,:), lat(:,:)
-    real(dbl_kind),   intent(in)  :: lonvert(:,:,:), latvert(:,:,:)
-    real(dbl_kind),   intent(out) :: cnlons(:)
-    real(dbl_kind),   intent(out) :: cnlats(:)
-    real(dbl_kind),   intent(out) :: crlons(:,:)
-    real(dbl_kind),   intent(out) :: crlats(:,:)
+  subroutine reshape_staggers(iind, jind, lon, lat, mask, lonvert, latvert, cnlons, cnlats, cnmask, crlons, crlats)
+    integer,           intent(in)  :: iind(:), jind(:)
+    real(dbl_kind),    intent(in)  :: lon(:,:), lat(:,:)
+    integer(int_kind), intent(in)  :: mask(:,:)
+    real(dbl_kind),    intent(in)  :: lonvert(:,:,:), latvert(:,:,:)
+    real(dbl_kind),    intent(out) :: cnlons(:), cnlats(:)
+    integer(int_kind), intent(out) :: cnmask(:)
+    real(dbl_kind),    intent(out) :: crlons(:,:), crlats(:,:)
 
     integer :: idim, jdim, n
     integer :: ib, ie, jb, je
-    real(dbl_kind), allocatable :: tmp(:,:)
 
     ib = iind(1); ie = iind(2)
     jb = jind(1); je = jind(2)
     idim = ie - ib + 1
     jdim = je - jb + 1
-    allocate(tmp(idim, jdim))
 
-    cnlons = reshape(lon(ib:ie, jb:je), (/idim*jdim/))
-    cnlats = reshape(lat(ib:ie, jb:je), (/idim*jdim/))
-    do n = 1, nv
-       tmp(:,:) = lonvert(ib:ie, jb:je, n)
-       crlons(n,:) = reshape(tmp, (/idim*jdim/))
-       tmp(:,:) = latvert(ib:ie, jb:je, n)
-       crlats(n,:) = reshape(tmp, (/idim*jdim/))
-    end do
-    deallocate(tmp)
-  end subroutine get_staggers
+    cnlons = reshape(    lon(ib:ie, jb:je), (/idim*jdim/))
+    cnlats = reshape(    lat(ib:ie, jb:je), (/idim*jdim/))
+    cnmask = reshape(   mask(ib:ie, jb:je), (/idim*jdim/))
+    crlats = reshape(latvert(ib:ie, jb:je, :), (/nv, idim*jdim/), order=(/2,1/))
+    crlons = reshape(lonvert(ib:ie, jb:je, :), (/nv, idim*jdim/), order=(/2,1/))
+
+  end subroutine reshape_staggers
   !> Write a SCRIP grid file
   !!
   !! @param[in]  fname             the file name to write
   !! @param[in]  iind              the start/end index in the i-dimension
   !! @param[in]  jind              the start/end index in the j-dimension
-  !! @param[out] cnlons, cnlats    1D center lons,lats
-  !! @param[out] crlons, crlats    2D corner lons/lats
-  !! @param[in]  imask (optional)  the land mask values
+  !! @param[in]  cnlons, cnlats    1D center lons,lats
+  !! @param[in]  crlons, crlats    2D corner lons/lats
+  !! @param[in]  cnmask (optional) the land mask values
   !!
   !! @author Denise.Worthen@noaa.gov
   subroutine write_scripgrid(fname, iind, jind, cnlons, cnlats, crlons, crlats, cnmask)
     character(len=*),  intent(in) :: fname
     integer,           intent(in) :: iind(:), jind(:)
-    real(dbl_kind),    intent(in) :: cnlons(:)
-    real(dbl_kind),    intent(in) :: cnlats(:)
-    real(dbl_kind),    intent(in) :: crlons(:,:)
-    real(dbl_kind),    intent(in) :: crlats(:,:)
+    real(dbl_kind),    intent(in) :: cnlons(:), cnlats(:)
+    real(dbl_kind),    intent(in) :: crlons(:,:), crlats(:,:)
     integer(int_kind), intent(in) :: cnmask(:)
 
     integer, parameter :: grid_rank = 2
