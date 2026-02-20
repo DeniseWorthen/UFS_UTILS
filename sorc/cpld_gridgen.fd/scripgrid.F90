@@ -17,6 +17,7 @@ module scripgrid
   private
 
   public write_staggers
+  public reshape_staggers
 
 contains
   !> Reshape center and corner grid points for a given stagger location and write a SCRIP file
@@ -24,9 +25,10 @@ contains
   !! @param[out] lon,lat           2D center lon,lat for a given stagger
   !! @param[out] lonvert, latvert  3D corner (vertices) lon and lat for a given stagger
   !! @param[in]  imask (optional)  the land mask values
-  subroutine write_staggers(fname,lon,lat,lonvert,latvert,imask)
+  subroutine write_staggers(fname,iind,jind,lon,lat,lonvert,latvert,imask)
 
     character(len=*), intent(in)           :: fname
+    integer         , intent(in)           :: iind(:), jind(:)
     real(dbl_kind)  , intent(in)           :: lon(:,:), lat(:,:), lonvert(:,:,:), latvert(:,:,:)
     integer(int_kind),intent(in), optional :: imask(:,:)
 
@@ -38,8 +40,8 @@ contains
     integer :: ib,ie,jb,je
     integer :: idim, jdim
 
-    ib = lbound(lon,1); ie = ubound(lon,1)
-    jb = lbound(lon,2); je = ubound(lon,2)
+    ib = iind(1) ; ie = iind(2)
+    jb = jind(1) ; je = jind(2)
     idim = (ie - ib) + 1
     jdim = (je - jb) + 1
 

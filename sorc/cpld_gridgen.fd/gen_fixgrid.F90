@@ -418,22 +418,22 @@ program gen_fixgrid
      ! write SCRIP files for generation of positional weights
      cstagger = 'Ct'
      fdst = trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     call write_staggers(trim(fdst),lonCt,latCt,lonCt_vert,latCt_vert)
+     call write_staggers(trim(fdst),(/1,ni/),(/1,nj/),lonCt,latCt,lonCt_vert,latCt_vert)
 
      fdst= trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP_land.nc'
-     call write_staggers(trim(fdst),lonCt,latCt,lonCt_vert,latCt_vert,imask=int(wet4))
+     call write_staggers(trim(fdst),(/1,ni/),(/1,nj/),lonCt,latCt,lonCt_vert,latCt_vert,imask=int(wet4))
 
      cstagger = 'Cu'
      fdst = trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     call write_staggers(trim(fdst),lonCu,latCu,lonCu_vert,latCu_vert)
+     call write_staggers(trim(fdst),(/1,ni/),(/1,nj/),lonCu,latCu,lonCu_vert,latCu_vert)
 
      cstagger = 'Cv'
      fdst = trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     call write_staggers(trim(fdst),lonCv,latCv,lonCv_vert,latCv_vert)
+     call write_staggers(trim(fdst),(/1,ni/),(/1,nj/),lonCv,latCv,lonCv_vert,latCv_vert)
 
      cstagger = 'Bu'
      fdst = trim(dirout)//trim(cstagger)//'.mx'//trim(res)//'_SCRIP.nc'
-     call write_staggers(trim(fdst),lonBu,latBu,lonBu_vert,latBu_vert)
+     call write_staggers(trim(fdst),(/1,ni/),(/1,nj/),lonBu,latBu,lonBu_vert,latBu_vert)
 
      deallocate(latCt_vert, lonCt_vert)
      deallocate(latCv_vert, lonCv_vert)
