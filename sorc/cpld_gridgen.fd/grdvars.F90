@@ -184,7 +184,6 @@ module grdvars
   real(dbl_kind) :: regional_latbeg = 0.0                          !< latitude origin for regional grid (degrees)
   real(dbl_kind) :: regional_lon_extent = 0.0                      !< longitude extent for regional grid (degrees)
   real(dbl_kind) :: regional_lat_extent = 0.0                      !< latitude extent for regional grid (degrees)
-
 contains
   !> Allocate grid variables
   !!
@@ -222,25 +221,4 @@ contains
     allocate(  htn(ni,nj),  hte(ni,nj) )
 
   end subroutine allocate_all
-  !> Calculate the distance between two lat/lon points
-  !!
-  !! @param[in]  lat1,lon1,lat2,lon2   !< the lat and lon of 2 points, in degrees
-  !! @return     distance              !< the distance between the 2 points
-  function calc_dist(lat1, lon1, lat2, lon2) result(distance)
-
-    real(dbl_kind), intent(in) :: lat1, lon1, lat2, lon2
-    real(dbl_kind) :: distance
-    real(dbl_kind) :: dlat, dlon, a, c, phi1, phi2
-
-    phi1 = lat1 * deg2rad
-    phi2 = lat2 * deg2rad
-    dlat = (lat2 - lat1) * deg2rad
-    dlon = (lon2 - lon1) * deg2rad
-
-    ! Haversine formula
-    a = sin(dlat/2.0_dbl_kind)**2 + cos(phi1) * cos(phi2) * sin(dlon/2.0_dbl_kind)**2
-    c = 2.0_dbl_kind * atan2(sqrt(a), sqrt(1.0_dbl_kind - a))
-
-    distance = rearth * c
-  end function calc_dist
 end module grdvars

@@ -110,7 +110,7 @@ program gen_fixgrid
         print '(a,f12.5)','regional_lat_extent = ', regional_lat_extent
      end if
 
-     call allocate_all
+     call allocate_all()
 
      call ESMF_LogWrite("Starting gen_fixgrid", ESMF_LOGMSG_INFO)
      !---------------------------------------------------------------------
@@ -495,7 +495,7 @@ program gen_fixgrid
 
      nvalid = size(catm)
   end if ! if (maintask)
-#ifdef test
+
   !---------------------------------------------------------------------
   ! set up for parallel work
   !---------------------------------------------------------------------
@@ -649,5 +649,4 @@ program gen_fixgrid
      deallocate(latBu, lonBu)
 #endif
   endif ! if (maintask)
-#endif
 end program gen_fixgrid

@@ -1,10 +1,11 @@
 module regional
 
-  use grdvars       , only : pi, deg2rad, rearth, calc_dist
-  use grdvars       , only : regional_lonbeg, regional_latbeg
-  use grdvars       , only : regional_lon_extent, regional_lat_extent
-  use gengrid_kinds , only : dbl_kind, CL
-  use charstrings   , only : dirsrc, dirout, maskfile, topofile
+  use grdvars       , only: pi, deg2rad, rearth
+  use grdvars       , only: regional_lonbeg, regional_latbeg
+  use grdvars       , only: regional_lon_extent, regional_lat_extent
+  use gengrid_kinds , only: dbl_kind, CL
+  use gengrid_utils , only: calc_dist
+  use charstrings   , only: dirsrc, dirout, maskfile, topofile
 
   implicit none
 

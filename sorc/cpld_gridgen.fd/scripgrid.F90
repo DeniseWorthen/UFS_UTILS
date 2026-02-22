@@ -7,23 +7,24 @@
 
 module scripgrid
 
-  use gengrid_kinds, only: dbl_kind,int_kind,CM
-  use grdvars,       only: nv
-  use charstrings,   only: logmsg
-  use vartypedefs,   only: maxvars, scripvars, scripvars_typedefine
+  use gengrid_kinds, only : dbl_kind,int_kind,CM
+  use gengrid_utils, only : reshape_staggers
+  use grdvars,       only : nv
+  use charstrings,   only : logmsg
+  use vartypedefs,   only : maxvars, scripvars, scripvars_typedefine
   use netcdf
 
   implicit none
+
   private
 
   public write_staggers
-  public reshape_staggers
 
 contains
   !> Reshape center and corner grid points for a given stagger location and write a SCRIP file
   !! @param[in]  fname             the file name to write
-  !! @param[out] lon,lat           2D center lon,lat for a given stagger
-  !! @param[out] lonvert, latvert  3D corner (vertices) lon and lat for a given stagger
+  !! @param[out] lon,lat           2D center global lon,lat for a given stagger
+  !! @param[out] lonvert, latvert  3D corner (vertices) global lon and lat for a given stagger
   !! @param[in]  imask (optional)  the land mask values
   subroutine write_staggers(fname,iind,jind,lon,lat,lonvert,latvert,imask)
 
@@ -64,40 +65,6 @@ contains
     deallocate(lmask, cnlons, cnlats, crlons, crlats, cnmask)
 
   end subroutine write_staggers
-  !> Get center and corner grid points for a given stagger location
-  !!
-  !! @param[in]  iind                    the start/end index in the i-dimension
-  !! @param[in]  jind                    the start/end index in the j-dimension
-  !! @param[in]  lon, lat, mask          2D lat,lon centers and mask for the stagger
-  !! @param[in]  lonvert, latvert        3D lat,lon vertices  for the stagger
-  !! @param[out] cnlons, cnlats, cnmask  1D center lons,lats and mask
-  !! @param[out] crlons, crlats          2D corner lons/lats
-  !!
-  !! @author Denise.Worthen@noaa.gov
-  subroutine reshape_staggers(iind, jind, lon, lat, mask, lonvert, latvert, cnlons, cnlats, cnmask, crlons, crlats)
-    integer,           intent(in)  :: iind(:), jind(:)
-    real(dbl_kind),    intent(in)  :: lon(:,:), lat(:,:)
-    integer(int_kind), intent(in)  :: mask(:,:)
-    real(dbl_kind),    intent(in)  :: lonvert(:,:,:), latvert(:,:,:)
-    real(dbl_kind),    intent(out) :: cnlons(:), cnlats(:)
-    integer(int_kind), intent(out) :: cnmask(:)
-    real(dbl_kind),    intent(out) :: crlons(:,:), crlats(:,:)
-
-    integer :: idim, jdim, n
-    integer :: ib, ie, jb, je
-
-    ib = iind(1); ie = iind(2)
-    jb = jind(1); je = jind(2)
-    idim = ie - ib + 1
-    jdim = je - jb + 1
-
-    cnlons = reshape(    lon(ib:ie, jb:je), (/idim*jdim/))
-    cnlats = reshape(    lat(ib:ie, jb:je), (/idim*jdim/))
-    cnmask = reshape(   mask(ib:ie, jb:je), (/idim*jdim/))
-    crlats = reshape(latvert(ib:ie, jb:je, :), (/nv, idim*jdim/), order=(/2,1/))
-    crlons = reshape(lonvert(ib:ie, jb:je, :), (/nv, idim*jdim/), order=(/2,1/))
-
-  end subroutine reshape_staggers
   !> Write a SCRIP grid file
   !!
   !! @param[in]  fname             the file name to write
