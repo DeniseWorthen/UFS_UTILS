@@ -1,6 +1,6 @@
 !> Unit test for reshape_staggers routine
 !! This test checks the reshaping of staggered grid points.
-program test_reshape_staggers
+program ftst_reshape_staggers
 
   use assertion_mod, only: assert_equal
   use gengrid_kinds, only: dbl_kind, int_kind, CL
@@ -13,7 +13,7 @@ program test_reshape_staggers
   integer, parameter :: ngrids = 1
   integer, parameter :: maxtests = 20, nresults = ngrids*maxtests
 
-  logical           :: pass(nresults)
+  logical           :: ispassing(nresults)
   character(len=8)  :: loopmsg(ngrids) = (/'Global  '/)
   character(len=CL) :: testmsg(nresults) = ' '
 
@@ -31,11 +31,11 @@ program test_reshape_staggers
   integer :: i, j, n, l, ni, nj
   integer :: idx, jdx, idx1
 
-  character(len=CL) :: msg, errmsg
-  logical :: success
+  character(len=CL) :: msg, msg_out
+  logical :: status
 
   nt = 0
-  pass = .false.
+  ispassing = .false.
   ! Initialize global test data; coordinate encoded
   do j = 1, jdim
      do i = 1, idim
@@ -64,17 +64,33 @@ program test_reshape_staggers
      print '(i3,4i4)',j,(mask(i,j),i=1,idim)
   end do
 
-  do l = 1,ngrids
-     print *,'loop ',l
-     if (l .eq. 1) then
-        iind = (/1, idim/)
-        jind = (/1, jdim/)
-     else
-        iind = (/2,3/)
-        jind = (/3,4/)
-     end if
-     ni = iind(2) - iind(1) + 1
-     nj = jind(2) - jind(1) + 1
+  ! Run test for global grid
+  print *, 'loop 1 (global grid)'
+  iind = (/1, idim/)
+  jind = (/1, jdim/)
+  ni = iind(2) - iind(1) + 1
+  nj = jind(2) - jind(1) + 1
+
+  allocate(cnlons(ni*nj), source=0.0_dbl_kind)
+  allocate(cnlats(ni*nj), source=0.0_dbl_kind)
+  allocate(cnmask(ni*nj), source = 1_int_kind)
+  allocate(crlons(nv,ni*nj), source = 0.0_dbl_kind)
+  allocate(crlats(nv,ni*nj), source = 0.0_dbl_kind)
+  ! ...existing code for global test...
+
+  ! Run test for regional subset
+  print *, 'loop 2 (regional subset)'
+  iind = (/2,3/)
+  jind = (/3,4/)
+  ni = iind(2) - iind(1) + 1
+  nj = jind(2) - jind(1) + 1
+
+  allocate(cnlons(ni*nj), source=0.0_dbl_kind)
+  allocate(cnlats(ni*nj), source=0.0_dbl_kind)
+  allocate(cnmask(ni*nj), source = 1_int_kind)
+  allocate(crlons(nv,ni*nj), source = 0.0_dbl_kind)
+  allocate(crlats(nv,ni*nj), source = 0.0_dbl_kind)
+  ! ...existing code for regional test...
 
      allocate(cnlons(ni*nj), source=0.0_dbl_kind)
      allocate(cnlats(ni*nj), source=0.0_dbl_kind)
@@ -88,35 +104,56 @@ program test_reshape_staggers
      ! start index
      nt = nt+1; msg = 'compare lon index (1,1) to index (1)'
      !cnlons(1) = cnlons(1)+1.0d-10
-     call assert_equal(cnlons(1),lon(1,1),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlons(1),lon(1,1),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare lat index (1,1) to index (1)'
-     call assert_equal(cnlats(1),lat(1,1),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlats(1),lat(1,1),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare mask index (1,1) to index (1)'
-     call assert_equal(cnmask(1),mask(1,1),msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnmask(1),mask(1,1),msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      ! end index
      nt = nt+1; msg = 'compare lon index (ni,nj) to index (ni*nj)'
-     call assert_equal(cnlons(ni*nj),lon(ni,nj),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlons(ni*nj),lon(ni,nj),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare lat index (ni,nj) to index (ni*nj)'
-     call assert_equal(cnlats(ni*nj),lat(ni,nj),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlats(ni*nj),lat(ni,nj),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare mask index (ni,nj) to index (ni*nj)'
-     call assert_equal(cnmask(ni*nj),mask(ni,nj),msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnmask(ni*nj),mask(ni,nj),msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     ! crlons/crlats tests: compare reshaped vertical arrays
+     nt = nt+1; msg = 'compare crlons(:,1) to lonvert(1,1,:)'
+     call assert_equal(crlons(:,1),lonvert(1,1,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     nt = nt+1; msg = 'compare crlats(:,1) to latvert(1,1,:)'
+     call assert_equal(crlats(:,1),latvert(1,1,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     nt = nt+1; msg = 'compare crlons(:,ni*nj) to lonvert(ni,nj,:)'
+     call assert_equal(crlons(:,ni*nj),lonvert(ni,nj,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     nt = nt+1; msg = 'compare crlats(:,ni*nj) to latvert(ni,nj,:)'
+     call assert_equal(crlats(:,ni*nj),latvert(ni,nj,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      idx = iind(1) + ni/2; jdx = jind(1) + 1
      idx1 = (jdx - 1) * ni + idx
@@ -124,19 +161,30 @@ program test_reshape_staggers
      ! single point
      nt = nt+1; msg = 'compare lon index (idx,jdx) to index (idx1)'
      cnlons(idx1) = cnlons(idx1)+1.0e-10
-     call assert_equal(cnlons(idx1),lon(idx,jdx),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlons(idx1),lon(idx,jdx),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare lat index (idx,jdx) to index (idx1)'
-     call assert_equal(cnlats(idx1),lat(idx,jdx),0.0_dbl_kind,msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnlats(idx1),lat(idx,jdx),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
 
      nt = nt+1; msg = 'compare mask index (idx,jdx) to index (idx1)'
-     call assert_equal(cnmask(idx1),mask(idx,jdx),msg,success,errmsg)
-     pass(nt) = success
-     testmsg(nt) = trim(errmsg)
+     call assert_equal(cnmask(idx1),mask(idx,jdx),msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     ! crlons/crlats single point test
+     nt = nt+1; msg = 'compare crlons(:,idx1) to lonvert(idx,jdx,:)'
+     call assert_equal(crlons(:,idx1),lonvert(idx,jdx,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
+
+     nt = nt+1; msg = 'compare crlats(:,idx1) to latvert(idx,jdx,:)'
+     call assert_equal(crlats(:,idx1),latvert(idx,jdx,:),0.0_dbl_kind,msg,status,msg_out)
+     ispassing(nt) = status
+     testmsg(nt) = trim(msg_out)
   end do
 
   ntests = nt
@@ -144,8 +192,15 @@ program test_reshape_staggers
      print *,trim(testmsg(nt))
   end do
 
-     !if (.not. success) print '(a)','FAIL: '//trim(msg)
-     !pass(nt) =
+   ! Final check for all tests
+   if (all(ispassing(1:ntests))) then
+      print *, 'All unit tests passed.'
+   else
+      print *, 'FAIL: At least one unit test failed.'
+   end if
+
+     !if (.not. ispassing) print '(a)','FAIL: '//trim(msg)
+     !ispassing(nt) =
      ! if ( (cnlons(1)     /= 11.0 .or. cnlats(1)     /= -11.0) .or. &
      !      (cnlons(ni*nj) /= 44.0 .or. cnlats(ni*nj) /= -44.0) .or. &
      !      (cnmask(1)     /= 1    .or. cnmask(ni*nj) /= 0) ) then
@@ -155,7 +210,7 @@ program test_reshape_staggers
      ! ! Check answers, first, last values
      ! nt = 1
      ! if (cnlons(1) /= lon(iind(1),jind(1)) .or. cnlons(ni*nj) /= lon(iind(2),jind(2))) then
-     !    pass(nt) = .false.
+     !    ispassing(nt) = .false.
      !    write(testmsg(nt),'(a)')trim(loopmsg(l))//' Test failed: mis-match first,last lons'
      !    !print '(i3,a,3i3)',l, ' Test failed: cnlons(1) does not match lon(1,1) ',idim*jdim,iind(2),jind(2)
      !    !stop 1
@@ -163,7 +218,7 @@ program test_reshape_staggers
 
      ! nt = nt+1
      ! if (cnlats(1) /= lat(iind(1),jind(1)) .or. cnlats(ni*nj) /= lat(iind(2),jind(2))) then
-     !    pass(nt) = .false.
+     !    ispassing(nt) = .false.
      !    write(testmsg(nt),'(a)')trim(loopmsg(l))//' Test failed: mis-match first,last lats'
      !    !print *, l, ' Test failed: cnlats(1) does not match lat(1,1)'
      !    !stop 1
@@ -171,12 +226,12 @@ program test_reshape_staggers
 
      ! nt = nt+1
      ! if (cnmask(1) /= mask(iind(1),jind(1)) .or. cnmask(ni*nj) /= mask(iind(2),jind(2))) then
-     !    pass(nt) = .false.
+     !    ispassing(nt) = .false.
      !    write(testmsg(nt),'(a)')trim(loopmsg(l))//' Test failed: mis-match first,last mask'
      !    !print *,l, ' Test failed: cnmask(1) does not match mask(1,1)'
      !    !stop 1
      ! end if
-     ! print *,'PASS full range, loop ',l
+     ! print *,'ISPASSING full range, loop ',l
 
   !    idx = iind(2) ; jdx = jind(1)
   !    idx1 = (jdx - 1) * idim + idx
@@ -196,7 +251,7 @@ program test_reshape_staggers
   !       print *, 'Test failed: cnmask(1) does not match mask(1,1)'
   !       stop 1
   !    end if
-  !    print *,' PASS single point loop ',l
+  !    print *,' ISPASSING single point loop ',l
   !    deallocate(cnlons, cnlats, crlons, crlats, cnmask)
   ! end do
 
@@ -226,5 +281,5 @@ program test_reshape_staggers
 !     stop 2
 !   end if
 
-  print *, 'reshape_staggers unit tests passed.'
-end program test_reshape_staggers
+  print *, 'reshape_staggers unit tests ispassinged.'
+end program ftst_reshape_staggers
