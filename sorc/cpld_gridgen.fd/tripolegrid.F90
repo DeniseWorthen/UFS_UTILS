@@ -9,11 +9,11 @@ module tripolegrid
 
   use gengrid_kinds, only: dbl_kind,int_kind,CM
   use grdvars,       only: ni,nj,nv,nverts,ncoord
-  !use grdvars,       only: lonCt,latCt,lonCt_vert,latCt_vert
-  !use grdvars,       only: lonCu,latCu,lonCu_vert,latCu_vert
-  !use grdvars,       only: lonCv,latCv,lonCv_vert,latCv_vert
-  !use grdvars,       only: lonBu,latBu,lonBu_vert,latBu_vert
-  !use grdvars,       only: wet4,areaCt,angleT,dp4,angle,angchk
+  use grdvars,       only: lonCt,latCt,lonCt_vert,latCt_vert
+  use grdvars,       only: lonCu,latCu,lonCu_vert,latCu_vert
+  use grdvars,       only: lonCv,latCv,lonCv_vert,latCv_vert
+  use grdvars,       only: lonBu,latBu,lonBu_vert,latBu_vert
+  use grdvars,       only: wet4,areaCt,angleT,dp4,angle,angchk
   use charstrings,   only: logmsg,history
   use vartypedefs,   only: maxvars, fixvars, fixvars_typedefine
   use netcdf
@@ -30,24 +30,24 @@ contains
   !!
   !! @author Denise.Worthen@noaa.gov
 
-  !subroutine write_tripolegrid(fname)
-  subroutine write_tripolegrid(fname,iind,jind, &
-       wet,areaCt,angleT,dp,angle,angchk, &
-       lonCt,latCt,lonCt_vert,latCt_vert, &
-       lonCu,latCu,lonCu_vert,latCu_vert, &
-       lonCv,latCv,lonCv_vert,latCv_vert, &
-       lonBu,latBu,lonBu_vert,latBu_vert)
+  subroutine write_tripolegrid(fname)
+  !subroutine write_tripolegrid(fname,iind,jind, &
+  !     wet,areaCt,angleT,dp,angle,angchk, &
+  !     lonCt,latCt,lonCt_vert,latCt_vert, &
+  !    lonCu,latCu,lonCu_vert,latCu_vert, &
+  !     lonCv,latCv,lonCv_vert,latCv_vert, &
+  !     lonBu,latBu,lonBu_vert,latBu_vert)
 
     character(len=*), intent(in) :: fname
-    integer         , intent(in) :: iind(:), jind(:)
-    real(dbl_kind)  , intent(in) :: wet(:,:), areaCt(:,:), angleT(:,:), dp(:,:)
-    real(dbl_kind)  , intent(in) :: angle(:,:), angchk(:,:)
-    real(dbl_kind)  , intent(in) :: lonCt(:,:), latCt(:,:), lonCt_vert(:,:,:), latCt_vert(:,:,:)
-    real(dbl_kind)  , intent(in) :: lonCu(:,:), latCu(:,:), lonCu_vert(:,:,:), latCu_vert(:,:,:)
-    real(dbl_kind)  , intent(in) :: lonCv(:,:), latCv(:,:), lonCv_vert(:,:,:), latCv_vert(:,:,:)
-    real(dbl_kind)  , intent(in) :: lonBu(:,:), latBu(:,:), lonBu_vert(:,:,:), latBu_vert(:,:,:)
+    !integer         , intent(in) :: iind(:), jind(:)
+    !real(dbl_kind)  , intent(in) :: wet(:,:), areaCt(:,:), angleT(:,:), dp(:,:)
+    !real(dbl_kind)  , intent(in) :: angle(:,:), angchk(:,:)
+    !real(dbl_kind)  , intent(in) :: lonCt(:,:), latCt(:,:), lonCt_vert(:,:,:), latCt_vert(:,:,:)
+    !real(dbl_kind)  , intent(in) :: lonCu(:,:), latCu(:,:), lonCu_vert(:,:,:), latCu_vert(:,:,:)
+    !real(dbl_kind)  , intent(in) :: lonCv(:,:), latCv(:,:), lonCv_vert(:,:,:), latCv_vert(:,:,:)
+    !real(dbl_kind)  , intent(in) :: lonBu(:,:), latBu(:,:), lonBu_vert(:,:,:), latBu_vert(:,:,:)
 
-    character(len=*), intent(in) :: fname
+    !character(len=*), intent(in) :: fname
 
     ! local variables
     integer :: ii,id,rc, ncid, dim2(2),dim3(3)
@@ -55,11 +55,14 @@ contains
     integer :: ib,ie,jb,je
     integer :: idim, jdim
 
-    ib = iind(1) ; ie = iind(2)
-    jb = jind(1) ; je = jind(2)
-    idim = (ie - ib) + 1
-    jdim = (je - jb) + 1
+    !ib = iind(1) ; ie = iind(2)
+    !jb = jind(1) ; je = jind(2)
+    !idim = (ie - ib) + 1
+    !jdim = (je - jb) + 1
 
+    ib = 1; ie = ni
+    jb = 1; je = nj
+    idim = ni; jdim = nj
     !---------------------------------------------------------------------
     ! create the netcdf file
     !---------------------------------------------------------------------

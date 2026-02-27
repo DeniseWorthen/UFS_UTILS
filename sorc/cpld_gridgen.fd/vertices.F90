@@ -44,13 +44,16 @@ contains
 
     ib = lbound(lat,1); ie = ubound(lat,1)
     jb = lbound(lat,2); je = ubound(lat,2)
-
+    print *,'XX ',ib,ie,jb,je
+    print *,ivert
+    print *,jvert
     do j = jb,je
        do i = ib,ie
           do n = 1,nv
              ii = i + iVert(n); jj = j + jVert(n)
              if(ii .eq.    0)ii = ie
              if(ii .eq. ie+1)ii = 1
+             if (i.eq. 3.and.j.eq.2)print '(5i5,2f8.2)',n,i,j,ii,jj,lon(ii,jj),lat(ii,jj)
              if(jj .eq.    0) then
                 latvert(i,j,n)   = latbot(ii)
                 lonvert(i,j,n)   = lonbot(ii)

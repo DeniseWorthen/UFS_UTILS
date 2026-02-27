@@ -6,6 +6,18 @@
 !! @author Denise.Worthen@noaa.gov
 
 module grdvars
+  ! Derived types for grid locations
+  type :: GridLoc2D
+    real(dbl_kind), allocatable :: lat(:,:)
+    real(dbl_kind), allocatable :: lon(:,:)
+    real(dbl_kind), allocatable :: lat_vert(:,:,:)
+    real(dbl_kind), allocatable :: lon_vert(:,:,:)
+    real(dbl_kind), allocatable :: xlat(:)
+    real(dbl_kind), allocatable :: xlon(:)
+  end type GridLoc2D
+
+  ! Instances for each grid location
+  type(GridLoc2D) :: Ct, Cu, Cv, Bu
 
   use gengrid_kinds, only : dbl_kind, real_kind, int_kind
 
@@ -85,58 +97,7 @@ module grdvars
                                                                    !! on the C-grid
   real(dbl_kind), allocatable, dimension(:,:) :: lonCt             !< The longitude of the center (tracer) grid
                                                                    !! points on the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latCv             !< The latitude of the v-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonCv             !< The longitude of the v-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latCu             !< The latitude of the u-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonCu             !< The longitude of the u-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latBu             !< The latitude of the corner points on the C-grid.
-                                                                   !! These are equivalent to u,v velocity grid
-                                                                   !! points on the B-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonBu             !< The longitude of the corner points on the
-                                                                   !! C-grid. These are equivalent to u,v velocity
-                                                                   !! grid points on the B-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: areaCt            !< The grid areas of the Ct grid cell in m2
-  real(dbl_kind), allocatable, dimension(:,:) :: anglet            !< The rotation angle on Ct points (opposite sense
-                                                                   !! from angle)
-  real(dbl_kind), allocatable, dimension(:,:) :: angle             !< The rotation angle on Bu points
-  real(dbl_kind), allocatable, dimension(:,:) :: angchk            !< The rotation angle on Ct points, as calculated by
-                                                                   !! CICE internally using angle on Bu
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCt_vert      !< The latitudes of the 4 vertices of each Ct grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCt_vert      !< The longitudes of the 4 vertices of each Ct
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCv_vert      !< The latitudes of the 4 vertices of each Cv grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCv_vert      !< The longitudes of the 4 vertices of each Cv
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCu_vert      !< The latitudes of the 4 vertices of each Cu grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCu_vert      !< The longitudes of the 4 vertices of each Cu
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latBu_vert      !< The latitudes of the 4 vertices of each Bu grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonBu_vert      !< The longitudes of the 4 vertices of each Bu
-                                                                   !! grid point
-
-
-  real(dbl_kind), allocatable, dimension(:) :: xlonCt              !< The longitude of the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: xlatCt              !< The latitude of the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: xangCt              !< The rotation angle on the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
-
-  real(dbl_kind), allocatable, dimension(:) :: xlonCu              !< The longitude of the Cu grid points on the
-                                                                   !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: xlatCu              !< The latitude of the Cu grid points on the
+  ! See derived types above for grid variables
                                                                    !! opposite side of the tripole seam
 
   real(dbl_kind), allocatable, dimension(:) :: xlatBu              !< The latitude of the Bu grid points at the
@@ -194,22 +155,19 @@ contains
     allocate( x(0:nx,0:ny),  y(0:nx,0:ny) )
     allocate(  dx(nx,0:ny), dy(0:nx,ny) )
 
-    allocate( latCt(ni,nj), lonCt(ni,nj) )
-    allocate( latCv(ni,nj), lonCv(ni,nj) )
-    allocate( latCu(ni,nj), lonCu(ni,nj) )
-    allocate( latBu(ni,nj), lonBu(ni,nj) )
-
-    allocate( areaCt(ni,nj), anglet(ni,nj), angle(ni,nj), angchk(ni,nj))
-
-    allocate( latCt_vert(ni,nj,nv), lonCt_vert(ni,nj,nv) )
-    allocate( latCv_vert(ni,nj,nv), lonCv_vert(ni,nj,nv) )
-    allocate( latCu_vert(ni,nj,nv), lonCu_vert(ni,nj,nv) )
-    allocate( latBu_vert(ni,nj,nv), lonBu_vert(ni,nj,nv) )
-
-    allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
-    allocate( xlonCu(ni), xlatCu(ni) )
-    allocate( xlatBu(ni), xlonBu(ni) )
-    allocate( xlatCv(ni), xlonCv(ni) )
+    allocate( Ct%lat(ni,nj), Ct%lon(ni,nj) )
+    allocate( Ct%lat_vert(ni,nj,nv), Ct%lon_vert(ni,nj,nv) )
+    allocate( Ct%xlat(ni), Ct%xlon(ni) )
+    allocate( Cu%lat(ni,nj), Cu%lon(ni,nj) )
+    allocate( Cu%lat_vert(ni,nj,nv), Cu%lon_vert(ni,nj,nv) )
+    allocate( Cu%xlat(ni), Cu%xlon(ni) )
+    allocate( Cv%lat(ni,nj), Cv%lon(ni,nj) )
+    allocate( Cv%lat_vert(ni,nj,nv), Cv%lon_vert(ni,nj,nv) )
+    allocate( Cv%xlat(ni), Cv%xlon(ni) )
+    allocate( Bu%lat(ni,nj), Bu%lon(ni,nj) )
+    allocate( Bu%lat_vert(ni,nj,nv), Bu%lon_vert(ni,nj,nv) )
+    allocate( Bu%xlat(ni), Bu%xlon(ni) )
+    allocate( xangCt(ni) )
 
     allocate( wet4(ni,nj) )
     allocate( wet8(ni,nj) )

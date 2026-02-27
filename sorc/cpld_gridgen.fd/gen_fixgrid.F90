@@ -416,11 +416,12 @@ program gen_fixgrid
 
      ! write fix grid
      fdst = trim(dirout)//'tripole.mx'//trim(res)//'.nc'
-     call write_tripolegrid(trim(fdst),(/1,ni/),(/1,nj/), wet, areaCt, angleT, dp, angle, angchk, &
-          lonCt,latCt,lonCt_vert,latCt_vert, &
-          lonCu,latCu,lonCu_vert,latCu_vert, &
-          lonCv,latCv,lonCv_vert,latCv_vert, &
-          lonBu,latBu,lonBu_vert,latBu_vert))
+     call write_tripolegrid(trim(fdst))
+     !call write_tripolegrid(trim(fdst),(/1,ni/),(/1,nj/), wet, areaCt, angleT, dp, angle, angchk, &
+     !     lonCt,latCt,lonCt_vert,latCt_vert, &
+     !     lonCu,latCu,lonCu_vert,latCu_vert, &
+     !     lonCv,latCv,lonCv_vert,latCv_vert, &
+     !     lonBu,latBu,lonBu_vert,latBu_vert))
 
      ! write cice grid
      fdst = trim(dirout)//'grid_cice_NEMS_mx'//trim(res)//'.nc'
@@ -453,11 +454,11 @@ program gen_fixgrid
         call write_staggers(trim(fdst),(/ib,ie/),(/jb,je/),lonCt,latCt,lonCt_vert,latCt_vert,imask=int(wet4))
 
         fdst = trim(dirout)//'tripole.mx'//trim(res)//'regional.nc'
-        call write_tripolegrid(trim(fdst),(/ib,ie/),(/ib,ie/), wet, areaCt, angleT, dp, angle, angchk, &
-             lonCt,latCt,lonCt_vert,latCt_vert, &
-             lonCu,latCu,lonCu_vert,latCu_vert, &
-             lonCv,latCv,lonCv_vert,latCv_vert, &
-             lonBu,latBu,lonBu_vert,latBu_vert))
+        !call write_tripolegrid(trim(fdst),(/ib,ie/),(/ib,ie/), wet, areaCt, angleT, dp, angle, angchk, &
+        !     lonCt,latCt,lonCt_vert,latCt_vert, &
+        !     lonCu,latCu,lonCu_vert,latCu_vert, &
+        !     lonCv,latCv,lonCv_vert,latCv_vert, &
+        !     lonBu,latBu,lonBu_vert,latBu_vert))
      end if
 
      deallocate(latCt_vert, lonCt_vert)
