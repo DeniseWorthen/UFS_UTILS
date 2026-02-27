@@ -11,6 +11,18 @@ module grdvars
 
   implicit none
 
+  type :: grid
+    real(dbl_kind), allocatable :: lat(:,:)
+    real(dbl_kind), allocatable :: lon(:,:)
+    real(dbl_kind), allocatable :: latvert(:,:,:)
+    real(dbl_kind), allocatable :: lonvert(:,:,:)
+    real(dbl_kind), allocatable :: xlat(:)
+    real(dbl_kind), allocatable :: xlon(:)
+    integer, allocatable        :: iVert(:)
+    integer, allocatable        :: jVert(:)
+  end type grid
+  type(grid) :: Ct, Cu, Cv, Bu
+
   real(kind=dbl_kind), parameter ::      pi = 3.14159265358979323846_dbl_kind  !< the value of PI
   real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind                !< degree to radian conversion
   real(kind=dbl_kind), parameter ::  rearth = 6371.0_dbl_kind                  !< earth radius (km)
@@ -51,22 +63,22 @@ module grdvars
   integer, parameter, dimension(nv) :: jVertCt = (/0,  0, -1, -1/) !< The j-offsets of the Bu grid at each Ct(i,j)
                                                                    !! which determine the 4 vertices of each Ct
                                                                    !! grid point in j
-  integer, dimension(nv) :: iVertCv                                !< The i-offsets of the Cu grid at each Cv(i,j)
+  !integer, dimension(nv) :: iVertCv                                !< The i-offsets of the Cu grid at each Cv(i,j)
                                                                    !! which determine the 4 vertices of each Cv
                                                                    !! grid point in i
-  integer, dimension(nv) :: jVertCv                                !< The j-offsets of the Cu grid at each Cv(i,j)
+  !integer, dimension(nv) :: jVertCv                                !< The j-offsets of the Cu grid at each Cv(i,j)
                                                                    !! which determine the 4 vertices of each Cv
                                                                    !! grid point in j
-  integer, dimension(nv) :: iVertCu                                !< The i-offsets of the Cv grid at each Cu(i,j)
+  !integer, dimension(nv) :: iVertCu                                !< The i-offsets of the Cv grid at each Cu(i,j)
                                                                    !! which determine the 4 vertices of each Cu
                                                                    !! grid point in i
-  integer, dimension(nv) :: jVertCu                                !< The j-offsets of the Cv grid at each Cu(i,j)
+  !integer, dimension(nv) :: jVertCu                                !< The j-offsets of the Cv grid at each Cu(i,j)
                                                                    !! which determine the 4 vertices of each Cu
                                                                    !! grid point in j
-  integer, dimension(nv) :: iVertBu                                !< The i-offsets of the Ct grid at each Bu(i,j)
+  !integer, dimension(nv) :: iVertBu                                !< The i-offsets of the Ct grid at each Bu(i,j)
                                                                    !! which determine the 4 vertices of each Bu
                                                                    !! grid point in i
-  integer, dimension(nv) :: jVertBu                                !< The j-offsets of the Ct grid at each Bu(i,j)
+  !integer, dimension(nv) :: jVertBu                                !< The j-offsets of the Ct grid at each Bu(i,j)
                                                                    !! which determine the 4 vertices of each Bu
                                                                    !! grid point in j
   ! Super-grid source grid variables
@@ -78,24 +90,6 @@ module grdvars
                                                                    !! in the y-direction (j-dimension)
 
   ! Output grid variables
-  real(dbl_kind), allocatable, dimension(:,:) :: latCt             !< The latitude of the center (tracer) grid points
-                                                                   !! on the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonCt             !< The longitude of the center (tracer) grid
-                                                                   !! points on the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latCv             !< The latitude of the v-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonCv             !< The longitude of the v-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latCu             !< The latitude of the u-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonCu             !< The longitude of the u-velocity grid points on
-                                                                   !! the C-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: latBu             !< The latitude of the corner points on the C-grid.
-                                                                   !! These are equivalent to u,v velocity grid
-                                                                   !! points on the B-grid
-  real(dbl_kind), allocatable, dimension(:,:) :: lonBu             !< The longitude of the corner points on the
-                                                                   !! C-grid. These are equivalent to u,v velocity
-                                                                   !! grid points on the B-grid
   real(dbl_kind), allocatable, dimension(:,:) :: areaCt            !< The grid areas of the Ct grid cell in m2
   real(dbl_kind), allocatable, dimension(:,:) :: anglet            !< The rotation angle on Ct points (opposite sense
                                                                    !! from angle)
@@ -103,47 +97,9 @@ module grdvars
   real(dbl_kind), allocatable, dimension(:,:) :: angchk            !< The rotation angle on Ct points, as calculated by
                                                                    !! CICE internally using angle on Bu
 
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCt_vert      !< The latitudes of the 4 vertices of each Ct grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCt_vert      !< The longitudes of the 4 vertices of each Ct
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCv_vert      !< The latitudes of the 4 vertices of each Cv grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCv_vert      !< The longitudes of the 4 vertices of each Cv
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latCu_vert      !< The latitudes of the 4 vertices of each Cu grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonCu_vert      !< The longitudes of the 4 vertices of each Cu
-                                                                   !! grid point
-
-  real(dbl_kind), allocatable, dimension(:,:,:) :: latBu_vert      !< The latitudes of the 4 vertices of each Bu grid
-                                                                   !! point
-  real(dbl_kind), allocatable, dimension(:,:,:) :: lonBu_vert      !< The longitudes of the 4 vertices of each Bu
-                                                                   !! grid point
-
-
-  real(dbl_kind), allocatable, dimension(:) :: xlonCt              !< The longitude of the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: xlatCt              !< The latitude of the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
   real(dbl_kind), allocatable, dimension(:) :: xangCt              !< The rotation angle on the Ct grid points on the
                                                                    !! opposite side of the tripole seam
 
-  real(dbl_kind), allocatable, dimension(:) :: xlonCu              !< The longitude of the Cu grid points on the
-                                                                   !! opposite side of the tripole seam
-  real(dbl_kind), allocatable, dimension(:) :: xlatCu              !< The latitude of the Cu grid points on the
-                                                                   !! opposite side of the tripole seam
-
-  real(dbl_kind), allocatable, dimension(:) :: xlatBu              !< The latitude of the Bu grid points at the
-                                                                   !! grid bottom
-  real(dbl_kind), allocatable, dimension(:) :: xlonBu              !< The longitude of the Bu grid points at the
-                                                                   !! grid bottom
-  real(dbl_kind), allocatable, dimension(:) :: xlatCv              !< The latitude of the Cv grid points at the
-                                                                   !! grid bottom
-  real(dbl_kind), allocatable, dimension(:) :: xlonCv              !< The longitude of the Cv grid points  at the
-                                                                   !! grid bottom
   ! MOM6 fix fields
   real(real_kind), allocatable, dimension(:,:) :: wet4             !< The ocean mask from a MOM6 mask file, stored as
                                                                    !! real*4 (nd)
@@ -186,22 +142,28 @@ contains
     allocate( x(0:nx,0:ny),  y(0:nx,0:ny) )
     allocate(  dx(nx,0:ny), dy(0:nx,ny) )
 
-    allocate( latCt(ni,nj), lonCt(ni,nj) )
-    allocate( latCv(ni,nj), lonCv(ni,nj) )
-    allocate( latCu(ni,nj), lonCu(ni,nj) )
-    allocate( latBu(ni,nj), lonBu(ni,nj) )
+    allocate(Ct%lat(ni,nj), Ct%lon(ni,nj))
+    allocate(Cu%lat(ni,nj), Cu%lon(ni,nj))
+    allocate(Cv%lat(ni,nj), Cv%lon(ni,nj))
+    allocate(Bu%lat(ni,nj), Bu%lon(ni,nj))
 
-    allocate( areaCt(ni,nj), anglet(ni,nj), angle(ni,nj), angchk(ni,nj))
+    allocate(Ct%iVert(nv), Ct%jVert(nv))
+    allocate(Cu%iVert(nv), Cu%jVert(nv))
+    allocate(Cv%iVert(nv), Cv%jVert(nv))
+    allocate(Bu%iVert(nv), Bu%jVert(nv))
 
-    allocate( latCt_vert(ni,nj,nv), lonCt_vert(ni,nj,nv) )
-    allocate( latCv_vert(ni,nj,nv), lonCv_vert(ni,nj,nv) )
-    allocate( latCu_vert(ni,nj,nv), lonCu_vert(ni,nj,nv) )
-    allocate( latBu_vert(ni,nj,nv), lonBu_vert(ni,nj,nv) )
+    allocate(areaCt(ni,nj), anglet(ni,nj), angle(ni,nj), angchk(ni,nj))
 
-    allocate( xlonCt(ni), xlatCt(ni), xangCt(ni) )
-    allocate( xlonCu(ni), xlatCu(ni) )
-    allocate( xlatBu(ni), xlonBu(ni) )
-    allocate( xlatCv(ni), xlonCv(ni) )
+    allocate(Ct%latvert(ni,nj,nv), Ct%lonvert(ni,nj,nv))
+    allocate(Cu%latvert(ni,nj,nv), Cu%lonvert(ni,nj,nv))
+    allocate(Cv%latvert(ni,nj,nv), Cv%lonvert(ni,nj,nv))
+    allocate(Bu%latvert(ni,nj,nv), Bu%lonvert(ni,nj,nv))
+
+    allocate(Ct%xlon(ni), Ct%xlat(ni))
+    allocate(Cu%xlon(ni), Cu%xlat(ni))
+    allocate(Cv%xlon(ni), Cv%xlat(ni))
+    allocate(Bu%xlon(ni), Bu%xlat(ni))
+    allocate(xangCt(ni))
 
     allocate( wet4(ni,nj) )
     allocate( wet8(ni,nj) )

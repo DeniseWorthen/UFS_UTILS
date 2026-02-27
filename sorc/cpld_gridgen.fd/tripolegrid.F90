@@ -9,10 +9,11 @@ module tripolegrid
 
   use gengrid_kinds, only: dbl_kind,int_kind,CM
   use grdvars,       only: ni,nj,nv,nverts,ncoord
-  use grdvars,       only: lonCt,latCt,lonCt_vert,latCt_vert
-  use grdvars,       only: lonCu,latCu,lonCu_vert,latCu_vert
-  use grdvars,       only: lonCv,latCv,lonCv_vert,latCv_vert
-  use grdvars,       only: lonBu,latBu,lonBu_vert,latBu_vert
+  use grdvars,       only: Ct, Cv, Cu, Bu
+  !use grdvars,       only: lonCt,latCt,lonCt_vert,latCt_vert
+  !use grdvars,       only: lonCu,latCu,lonCu_vert,latCu_vert
+  !use grdvars,       only: lonCv,latCv,lonCv_vert,latCv_vert
+  !use grdvars,       only: lonBu,latBu,lonBu_vert,latBu_vert
   use grdvars,       only: wet4,areaCt,angleT,dp4,angle,angchk
   use charstrings,   only: logmsg,history
   use vartypedefs,   only: maxvars, fixvars, fixvars_typedefine
@@ -118,53 +119,53 @@ contains
     rc = nf90_put_var(ncid,        id,     dp4)
 
     rc = nf90_inq_varid(ncid,  'lonCt',     id)
-    rc = nf90_put_var(ncid,        id,   lonCt)
+    rc = nf90_put_var(ncid,        id,  Ct%lon)
 
     rc = nf90_inq_varid(ncid,  'latCt',     id)
-    rc = nf90_put_var(ncid,        id,   latCt)
+    rc = nf90_put_var(ncid,        id,  Ct%lat)
 
     rc = nf90_inq_varid(ncid, 'lonCv',      id)
-    rc = nf90_put_var(ncid,        id,   lonCv)
+    rc = nf90_put_var(ncid,        id,  Cv%lon)
 
     rc = nf90_inq_varid(ncid, 'latCv',      id)
-    rc = nf90_put_var(ncid,        id,   latCv)
+    rc = nf90_put_var(ncid,        id,  Cv%lat)
 
     rc = nf90_inq_varid(ncid, 'lonCu',      id)
-    rc = nf90_put_var(ncid,        id,   lonCu)
+    rc = nf90_put_var(ncid,        id,  Cu%lon)
 
     rc = nf90_inq_varid(ncid, 'latCu',      id)
-    rc = nf90_put_var(ncid,        id,   latCu)
+    rc = nf90_put_var(ncid,        id,  Cu%lat)
 
     rc = nf90_inq_varid(ncid, 'lonBu',      id)
-    rc = nf90_put_var(ncid,        id,   lonBu)
+    rc = nf90_put_var(ncid,        id,  Bu%lon)
 
     rc = nf90_inq_varid(ncid, 'latBu',      id)
-    rc = nf90_put_var(ncid,        id,   latBu)
+    rc = nf90_put_var(ncid,        id,  Bu%lat)
 
     ! vertices
     rc = nf90_inq_varid(ncid,  'lonCt_vert',     id)
-    rc = nf90_put_var(ncid,         id,  lonCt_vert)
+    rc = nf90_put_var(ncid,         id,  Ct%lonvert)
 
     rc = nf90_inq_varid(ncid,  'latCt_vert',     id)
-    rc = nf90_put_var(ncid,         id,  latCt_vert)
+    rc = nf90_put_var(ncid,         id,  Ct%latvert)
 
     rc = nf90_inq_varid(ncid, 'lonCv_vert',      id)
-    rc = nf90_put_var(ncid,        id,   lonCv_vert)
+    rc = nf90_put_var(ncid,        id,   Cv%lonvert)
 
     rc = nf90_inq_varid(ncid, 'latCv_vert',      id)
-    rc = nf90_put_var(ncid,        id,   latCv_vert)
+    rc = nf90_put_var(ncid,        id,   Cv%latvert)
 
     rc = nf90_inq_varid(ncid, 'lonCu_vert',      id)
-    rc = nf90_put_var(ncid,        id,   lonCu_vert)
+    rc = nf90_put_var(ncid,        id,   Cu%lonvert)
 
     rc = nf90_inq_varid(ncid, 'latCu_vert',      id)
-    rc = nf90_put_var(ncid,        id,   latCu_vert)
+    rc = nf90_put_var(ncid,        id,   Cu%latvert)
 
     rc = nf90_inq_varid(ncid, 'lonBu_vert',      id)
-    rc = nf90_put_var(ncid,        id,   lonBu_vert)
+    rc = nf90_put_var(ncid,        id,   Bu%lonvert)
 
     rc = nf90_inq_varid(ncid, 'latBu_vert',      id)
-    rc = nf90_put_var(ncid,        id,   latBu_vert)
+    rc = nf90_put_var(ncid,        id,   Bu%latvert)
 
     rc = nf90_close(ncid)
 

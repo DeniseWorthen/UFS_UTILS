@@ -7,7 +7,6 @@ set(lib_src
     angles.F90
     charstrings.F90
     cicegrid.F90
-    debugprint.F90
     gengrid_kinds.F90
     grdvars.F90
     gengrid_utils.F90
