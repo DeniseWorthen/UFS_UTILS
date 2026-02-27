@@ -23,6 +23,28 @@ module grdvars
   end type grid
   type(grid) :: Ct, Cu, Cv, Bu
 
+  type :: tstatic
+    real(dbl_kind),  allocatable, dimension(:,:) :: areaCt !< The grid areas of the Ct grid cell in m2
+    real(dbl_kind),  allocatable, dimension(:,:) :: anglet !< The rotation angle on Ct points (opposite sense from angle)
+    real(dbl_kind),  allocatable, dimension(:,:) :: angle  !< The rotation angle on Bu points
+    real(dbl_kind),  allocatable, dimension(:,:) :: angchk !< The rotation angle on Ct points, as calculated by CICE
+                                                           !! internally using angle on Bu
+    real(dbl_kind),  allocatable, dimension(:) :: xangCt   !< The rotation angle on the Ct grid points on the opposite
+                                                           !! side of the tripole seam
+    real(real_kind), allocatable, dimension(:,:) :: wet4   !< The ocean mask from a MOM6 mask file, stored as real*4 (nd)
+    real(dbl_kind),  allocatable, dimension(:,:) :: wet8   !< The ocean mask from a MOM6 mask file, stored as real*8 (nd)
+    real(real_kind), allocatable, dimension(:,:) :: dp4    !< The ocean depth from a MOM6 topog file, stored as real*4 (m)
+    real(dbl_kind),  allocatable, dimension(:,:) :: dp8    !< The ocean depth from a MOM6 topog file, stored as real*8 (m)
+    real(dbl_kind),  allocatable, dimension(:,:) :: ulon   !< The longitude points (on the Bu grid) for CICE6
+                                                           !! (radians)
+    real(dbl_kind),  allocatable, dimension(:,:) :: ulat   !< The latitude points (on the Bu grid) for CICE6
+                                                           !! (radians)
+    real(dbl_kind),  allocatable, dimension(:,:) ::  htn   !< The grid cell width in centimeters of the CICE6
+                                                           !! grid in the x-direction (i-dimension)
+    real(dbl_kind),  allocatable, dimension(:,:) ::  hte   !< The grid cell width in centimeters of the CICE6
+                                                           !! grid in the y-direction (j-dimension)
+end type tstatic
+
   real(kind=dbl_kind), parameter ::      pi = 3.14159265358979323846_dbl_kind  !< the value of PI
   real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind                !< degree to radian conversion
   real(kind=dbl_kind), parameter ::  rearth = 6371.0_dbl_kind                  !< earth radius (km)
@@ -89,27 +111,26 @@ module grdvars
   real(dbl_kind), allocatable, dimension(:,:)   :: dy              !< The grid cell width in meters of the supergrid
                                                                    !! in the y-direction (j-dimension)
 
-  ! Output grid variables
-  real(dbl_kind), allocatable, dimension(:,:) :: areaCt            !< The grid areas of the Ct grid cell in m2
-  real(dbl_kind), allocatable, dimension(:,:) :: anglet            !< The rotation angle on Ct points (opposite sense
-                                                                   !! from angle)
-  real(dbl_kind), allocatable, dimension(:,:) :: angle             !< The rotation angle on Bu points
-  real(dbl_kind), allocatable, dimension(:,:) :: angchk            !< The rotation angle on Ct points, as calculated by
-                                                                   !! CICE internally using angle on Bu
+  ! ! Output grid variables
+  ! real(dbl_kind), allocatable, dimension(:,:) :: areaCt            !< The grid areas of the Ct grid cell in m2
+  ! real(dbl_kind), allocatable, dimension(:,:) :: anglet            !< The rotation angle on Ct points (opposite sense
+  !                                                                  !! from angle)
+  ! real(dbl_kind), allocatable, dimension(:,:) :: angle             !< The rotation angle on Bu points
+  ! real(dbl_kind), allocatable, dimension(:,:) :: angchk            !< The rotation angle on Ct points, as calculated by
+  !                                                                  !! CICE internally using angle on Bu
+  ! real(dbl_kind), allocatable, dimension(:) :: xangCt              !< The rotation angle on the Ct grid points on the
+  !                                                                  !! opposite side of the tripole seam
 
-  real(dbl_kind), allocatable, dimension(:) :: xangCt              !< The rotation angle on the Ct grid points on the
-                                                                   !! opposite side of the tripole seam
+  ! ! MOM6 fix fields
+  ! real(real_kind), allocatable, dimension(:,:) :: wet4             !< The ocean mask from a MOM6 mask file, stored as
+  !                                                                  !! real*4 (nd)
+  ! real(dbl_kind),  allocatable, dimension(:,:) :: wet8             !< The ocean mask from a MOM6 mask file, stored as
+  !                                                                  !! real*8 (nd)
 
-  ! MOM6 fix fields
-  real(real_kind), allocatable, dimension(:,:) :: wet4             !< The ocean mask from a MOM6 mask file, stored as
-                                                                   !! real*4 (nd)
-  real(dbl_kind),  allocatable, dimension(:,:) :: wet8             !< The ocean mask from a MOM6 mask file, stored as
-                                                                   !! real*8 (nd)
-
-  real(real_kind), allocatable, dimension(:,:) :: dp4              !< The ocean depth from a MOM6 topog file, stored
-                                                                   !! as real*4 (m)
-  real(dbl_kind),  allocatable, dimension(:,:) :: dp8              !< The ocean depth from a MOM6 topog file, stored
-                                                                   !! as real*8 (m)
+  ! real(real_kind), allocatable, dimension(:,:) :: dp4              !< The ocean depth from a MOM6 topog file, stored
+  !                                                                  !! as real*4 (m)
+  ! real(dbl_kind),  allocatable, dimension(:,:) :: dp8              !< The ocean depth from a MOM6 topog file, stored
+  !                                                                  !! as real*8 (m)
 
   ! CICE6 fields
   real(dbl_kind), allocatable, dimension(:,:) :: ulon              !< The longitude points (on the Bu grid) for CICE6
@@ -152,7 +173,7 @@ contains
     allocate(Cv%iVert(nv), Cv%jVert(nv))
     allocate(Bu%iVert(nv), Bu%jVert(nv))
 
-    allocate(areaCt(ni,nj), anglet(ni,nj), angle(ni,nj), angchk(ni,nj))
+    allocate(tstatic%areaCt(ni,nj), tstatic%anglet(ni,nj), tstatic%angle(ni,nj), tstatic%angchk(ni,nj))
 
     allocate(Ct%latvert(ni,nj,nv), Ct%lonvert(ni,nj,nv))
     allocate(Cu%latvert(ni,nj,nv), Cu%lonvert(ni,nj,nv))
@@ -163,13 +184,13 @@ contains
     allocate(Cu%xlon(ni), Cu%xlat(ni))
     allocate(Cv%xlon(ni), Cv%xlat(ni))
     allocate(Bu%xlon(ni), Bu%xlat(ni))
-    allocate(xangCt(ni))
+    allocate(tstatic%xangCt(ni))
 
-    allocate( wet4(ni,nj) )
-    allocate( wet8(ni,nj) )
+    allocate(tstatic%wet4(ni,nj))
+    allocate(tstatic%wet8(ni,nj))
 
-    allocate(  dp4(ni,nj) )
-    allocate(  dp8(ni,nj) )
+    allocate(tstatic%dp4(ni,nj))
+    allocate(tstatic%dp8(ni,nj))
 
     allocate( ulon(ni,nj), ulat(ni,nj) )
     allocate(  htn(ni,nj),  hte(ni,nj) )
