@@ -10,6 +10,7 @@ set(lib_src
     debugprint.F90
     gengrid_kinds.F90
     grdvars.F90
+    gengrid_utils.F90
     inputnml.F90
     mapped_mask.F90
     postwgts.F90

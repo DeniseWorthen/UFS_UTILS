@@ -40,8 +40,6 @@ program gen_fixgrid
   type(MPI_Comm) :: mpic  ! mpi_f08
   real(dbl_kind) :: dxT, dyT
 
-  real(kind=dbl_kind), parameter :: pi = 3.14159265358979323846_dbl_kind
-  real(kind=dbl_kind), parameter :: deg2rad = pi/180.0_dbl_kind
 
   real(real_kind),   allocatable, dimension(:,:) :: ww3dpth
   integer(int_kind), allocatable, dimension(:,:) :: ww3mask
@@ -101,7 +99,7 @@ program gen_fixgrid
      print *,'do_postwgts flag ',do_postwgts
      print *
 
-     call allocate_all
+     call allocate_all()
 
      call ESMF_LogWrite("Starting gen_fixgrid", ESMF_LOGMSG_INFO)
      !---------------------------------------------------------------------
