@@ -105,29 +105,28 @@ program gen_fixgrid
      ! set up the arrays to retrieve the vertices
      !---------------------------------------------------------------------
 
-     Ct%iVert = iVertCt     ; Ct%jVert = jVertCt
-     Cu%iVert = Ct%iVert + 1; Cu%jVert = Ct%jvert + 0
-     Cv%iVert = Ct%iVert + 0; Cv%jVert = Ct%jVert + 1
-     Bu%iVert = Ct%iVert + 1; Bu%jVert = Ct%jVert + 1
+     grid%Ct%iVert = iVertNE     ; grid%Ct%jVert = jVertNE
+     grid%Cu%iVert = grid%Ct%iVert + 1; grid%Cu%jVert = grid%Ct%jvert + 0
+     grid%Cv%iVert = grid%Ct%iVert + 0; grid%Cv%jVert = grid%Ct%jVert + 1
+     grid%Bu%iVert = grid%Ct%iVert + 1; grid%Bu%jVert = grid%Ct%jVert + 1
 
+     print '(a8,4i6)','iVertCt ',(grid%Ct%iVert(i),i=1,4)
+     print '(a8,4i6)','jVertCt ',(grid%Ct%jVert(i),i=1,4)
+     print *
+     print '(a8,4i6)','iVertCu ',(grid%Cu%iVert(i),i=1,4)
+     print '(a8,4i6)','jVertCu ',(grid%Cu%jVert(i),i=1,4)
+     print *
+     print '(a8,4i6)','iVertCv ',(grid%Cv%iVert(i),i=1,4)
+     print '(a8,4i6)','jVertCv ',(grid%Cv%jVert(i),i=1,4)
+     print *
+     print '(a8,4i6)','iVertBu ',(grid%Bu%iVert(i),i=1,4)
+     print '(a8,4i6)','jVertBu ',(grid%Bu%jVert(i),i=1,4)
+     print *
 
-     print '(a8,4i6)','iVertCt ',(Ct%iVert(i),i=1,4)
-     print '(a8,4i6)','jVertCt ',(Ct%jVert(i),i=1,4)
-     print *
-     print '(a8,4i6)','iVertCu ',(Cu%iVert(i),i=1,4)
-     print '(a8,4i6)','jVertCu ',(Cu%jVert(i),i=1,4)
-     print *
-     print '(a8,4i6)','iVertCv ',(Cv%iVert(i),i=1,4)
-     print '(a8,4i6)','jVertCv ',(Cv%jVert(i),i=1,4)
-     print *
-     print '(a8,4i6)','iVertBu ',(Bu%iVert(i),i=1,4)
-     print '(a8,4i6)','jVertBu ',(Bu%jVert(i),i=1,4)
-     print *
-
-     Ct%latvert = -9999.0; Ct%lonvert = -9999.0
-     Cu%latvert = -9999.0; Cu%lonvert = -9999.0
-     Cv%latvert = -9999.0; Cv%lonvert = -9999.0
-     Bu%latvert = -9999.0; Bu%lonvert = -9999.0
+     grid%Ct%latvert = -9999.0; grid%Ct%lonvert = -9999.0
+     grid%Cu%latvert = -9999.0; grid%Cu%lonvert = -9999.0
+     grid%Cv%latvert = -9999.0; grid%Cv%lonvert = -9999.0
+     grid%Bu%latvert = -9999.0; grid%Bu%lonvert = -9999.0
 
      !---------------------------------------------------------------------
      ! read the MOM6 land mask
@@ -139,14 +138,14 @@ program gen_fixgrid
      print '(a)', 'reading ocean mask from '//trim(fsrc)
      if(rc .ne. 0)print '(a)', 'nf90_open = '//trim(nf90_strerror(rc))
 
-   static%wet4 = 0.0; static%wet8 = 0.0
+     static%wet4 = 0.0; static%wet8 = 0.0
      rc = nf90_inq_varid(ncid,  trim(maskname), id)
      rc = nf90_inquire_variable(ncid, id, xtype=xtype)
-   if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  static%wet4)
-   if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  static%wet8)
+     if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  static%wet4)
+     if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  static%wet8)
      rc = nf90_close(ncid)
 
-   if(xtype.eq. 6)static%wet4 = real(static%wet8,4)
+     if(xtype.eq. 6)static%wet4 = real(static%wet8,4)
 
      !---------------------------------------------------------------------
      ! read the MOM6 depth file
@@ -158,14 +157,14 @@ program gen_fixgrid
      print '(a)', 'reading ocean topography from '//trim(fsrc)
      if(rc .ne. 0)print '(a)', 'nf90_open = '//trim(nf90_strerror(rc))
 
-   static%dp4 = 0.0; static%dp8 = 0.0
+     static%dp4 = 0.0; static%dp8 = 0.0
      rc = nf90_inq_varid(ncid,  trim(toponame), id)
      rc = nf90_inquire_variable(ncid, id, xtype=xtype)
-   if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  static%dp4)
-   if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  static%dp8)
+     if(xtype .eq. 5)rc = nf90_get_var(ncid,      id,  static%dp4)
+     if(xtype .eq. 6)rc = nf90_get_var(ncid,      id,  static%dp8)
      rc = nf90_close(ncid)
 
-   if(xtype.eq. 6)static%dp4 = real(static%dp8,4)
+     if(xtype.eq. 6)static%dp4 = real(static%dp8,4)
 
      if(editmask)then
         !---------------------------------------------------------------------
@@ -290,39 +289,39 @@ program gen_fixgrid
      ! find the angle on centers using the same procedure as MOM6
      !---------------------------------------------------------------------
 
-   call find_ang((/1,ni/),(/1,nj/),Bu%lon,Bu%lat,Ct%lon,static%anglet)
-   write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(static%anglet),maxval(static%anglet)
+     call find_ang((/1,ni/),(/1,nj/),Bu%lon,Bu%lat,Ct%lon,static%anglet)
+     write(logmsg,'(a,2f12.2)')'ANGLET min,max: ',minval(static%anglet),maxval(static%anglet)
      print '(a)',trim(logmsg)
-   write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',static%anglet(1,nj),static%anglet(ni,nj)
+     write(logmsg,'(a,2f12.2)')'ANGLET edges i=1,i=ni: ',static%anglet(1,nj),static%anglet(ni,nj)
      print '(a)',trim(logmsg)
 
-   static%xangCt(:) = 0.0
+     static%xangCt(:) = 0.0
      do i = 1,ni
         i2 = ipole(2)+(ipole(1)-i)+1
-      static%xangCt(i) = -static%anglet(i2,nj)       ! angle changes sign across seam
+        static%xangCt(i) = -static%anglet(i2,nj)       ! angle changes sign across seam
      end do
 
      !---------------------------------------------------------------------
      ! find the angle on corners using the same procedure as CICE6
      !---------------------------------------------------------------------
 
-   call find_angq((/1,ni/),(/1,nj/),static%xangCt,static%anglet,static%angle)
-   static%angle(ni,:) = -static%angle(1,:)
+     call find_angq((/1,ni/),(/1,nj/),static%xangCt,static%anglet,static%angle)
+     static%angle(ni,:) = -static%angle(1,:)
      ! reverse angle for CICE
-   static%angle = -static%angle
-   write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(static%angle),maxval(static%angle)
+     static%angle = -static%angle
+     write(logmsg,'(a,2f12.2)')'ANGLE min,max: ',minval(static%angle),maxval(static%angle)
      print '(a)',trim(logmsg)
-   write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',static%angle(1,nj),static%angle(ni,nj)
+     write(logmsg,'(a,2f12.2)')'ANGLE edges i=1,i=ni: ',static%angle(1,nj),static%angle(ni,nj)
      print '(a)',trim(logmsg)
 
      !---------------------------------------------------------------------
      ! check the Bu angle
      !---------------------------------------------------------------------
 
-   call find_angchk((/1,ni/),(/1,nj/),static%angle,static%angchk)
-   static%angchk(1,:) = -static%angchk(ni,:)
+     call find_angchk((/1,ni/),(/1,nj/),static%angle,static%angchk)
+     static%angchk(1,:) = -static%angchk(ni,:)
      ! reverse angle for MOM6
-   static%angchk = -static%angchk
+     static%angchk = -static%angchk
      write(logmsg,'(a,2f12.2)')'ANGCHK min,max: ',minval(angchk),maxval(angchk)
      print '(a)',trim(logmsg)
      write(logmsg,'(a,2f12.2)')'ANGCHK edges i=1,i=ni: ',angchk(1,nj),angchk(ni,nj)
@@ -407,11 +406,11 @@ program gen_fixgrid
 
      ! write fix grid
      fdst = trim(dirout)//'tripole.mx'//trim(res)//'.nc'
-     call write_tripolegrid(trim(fdst), Ct, Cu, Cv, Bu)
+     call write_tripolegrid(trim(fdst), G)
 
      ! write cice grid
      fdst = trim(dirout)//'grid_cice_NEMS_mx'//trim(res)//'.nc'
-     call write_cicegrid(trim(fdst))
+     call write_cicegrid(trim(fdst), G%ulon, G%ulat, G%htn, G%hte, )
      deallocate(ulon, ulat, htn, hte)
 
      ! write SCRIP files for generation of positional weights
