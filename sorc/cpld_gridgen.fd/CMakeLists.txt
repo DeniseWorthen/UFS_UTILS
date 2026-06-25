@@ -7,7 +7,6 @@ set(lib_src
     angles.F90
     charstrings.F90
     cicegrid.F90
-    debugprint.F90
     gengrid_kinds.F90
     grdvars.F90
     gengrid_utils.F90
@@ -18,8 +17,7 @@ set(lib_src
     topoedits.F90
     tripolegrid.F90
     vartypedefs.F90
-    vertices.F90
-    regional.F90)
+    vertices.F90)
 
 set(exe_src gen_fixgrid.F90)
 

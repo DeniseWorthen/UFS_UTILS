@@ -1,14 +1,16 @@
 module gengrid_utils
 
-  use gengrid_kinds, only : dbl_kind, int_kind
+  use gengrid_kinds, only : dbl_kind, int_kind, real_kind
   use grdvars      , only : deg2rad, rearth, nv
 
-implicit none
+  implicit none
 
-private
+  private
 
-public calc_dist
-public reshape_staggers
+  public calc_dist
+  public reshape_staggers
+  public allocate_all
+  public allocate_staggers
 
 contains
   !> Calculate the distance between two lat/lon points
@@ -18,6 +20,7 @@ contains
   function calc_dist(lat1, lon1, lat2, lon2) result(distance)
 
     real(dbl_kind), intent(in) :: lat1, lon1, lat2, lon2
+
     real(dbl_kind) :: distance
     real(dbl_kind) :: dlat, dlon, a, c, phi1, phi2
 
@@ -32,7 +35,7 @@ contains
 
     distance = rearth * c
   end function calc_dist
-    !> Get center and corner grid points for a given stagger location
+  !> Get center and corner grid points for a given stagger location
   !!
   !! @param[in]  iind                    the start/end index in the i-dimension
   !! @param[in]  jind                    the start/end index in the j-dimension
@@ -51,7 +54,7 @@ contains
     integer(int_kind), intent(out) :: cnmask(:)
     real(dbl_kind),    intent(out) :: crlons(:,:), crlats(:,:)
 
-    integer :: idim, jdim, n
+    integer :: idim, jdim
     integer :: ib, ie, jb, je
 
     ib = iind(1); ie = iind(2)
@@ -66,4 +69,65 @@ contains
     crlons = reshape(lonvert(ib:ie, jb:je, :), (/nv, idim*jdim/), order=(/2,1/))
 
   end subroutine reshape_staggers
+  !> Allocate grid variables
+  !!
+  !! @param[in]     idim, jdim    the domain size
+  !! @param[inout]  G             the domain type
+  !!
+  !! @author Denise Worthen
+  subroutine allocate_all(idim,jdim,G)
+
+    use grdvars, only: nv, grid_type
+
+    integer,            intent(in)    :: idim,jdim
+    type(grid_type),    intent(inout) :: G
+
+    call allocate_staggers(idim,jdim,G%Ct)
+    call allocate_staggers(idim,jdim,G%Cu)
+    call allocate_staggers(idim,jdim,G%Cv)
+    call allocate_staggers(idim,jdim,G%Bu)
+
+    allocate(G%areaCt(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%anglet(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%angle(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%angchk(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%xangCt(idim), source=0.0_dbl_kind)
+
+    allocate(G%wet4(idim,jdim), source=0.0_real_kind)
+    allocate(G%wet8(idim,jdim), source=0.0_dbl_kind)
+
+    allocate(G%dp4(idim,jdim), source=0.0_real_kind)
+    allocate(G%dp8(idim,jdim), source=0.0_dbl_kind)
+
+    allocate(G%ulon(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%ulat(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%htn(idim,jdim), source=0.0_dbl_kind)
+    allocate(G%hte(idim,jdim), source=0.0_dbl_kind)
+
+  end subroutine allocate_all
+  !> Allocate stagger type variables
+  !!
+  !! @param[in]     idim, jdim    the domain size
+  !! @param[inout]  Ct,Cu,Cv,Bu   the stagger grids
+  !!
+  !! @author Denise Worthen
+  subroutine allocate_staggers(idim,jdim,staggerloc)
+
+    use grdvars, only: nv, stagger_type
+
+    integer,            intent(in)    :: idim,jdim
+    type(stagger_type), intent(inout) :: staggerloc
+
+    allocate(staggerloc%lat(idim,jdim), source=0.0_dbl_kind)
+    allocate(staggerloc%lon(idim,jdim), source=0.0_dbl_kind)
+
+    allocate(staggerloc%iVert(nv), source=0)
+    allocate(staggerloc%jVert(nv), source=0)
+
+    allocate(staggerloc%latvert(idim,jdim,nv), source=0.0_dbl_kind)
+    allocate(staggerloc%lonvert(idim,jdim,nv), source=0.0_dbl_kind)
+
+    allocate(staggerloc%xlon(idim), source=0.0_dbl_kind)
+    allocate(staggerloc%xlat(idim), source=0.0_dbl_kind)
+  end subroutine allocate_staggers
 end module gengrid_utils

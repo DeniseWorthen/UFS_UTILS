@@ -8,7 +8,7 @@
 module inputnml
 
    use grdvars,     only : nx,ny,ni,nj,npx,maxatmres,catm
-   use grdvars,     only : editmask, debug, do_postwgts
+   use grdvars,     only : editmask, do_postwgts
    use grdvars,     only : do_regional
    use grdvars,     only : regional_lonbeg, regional_latbeg, regional_lon_extent, regional_lat_extent
    use charstrings, only : dirsrc, dirout, fv3dir, res, topofile, editsfile
